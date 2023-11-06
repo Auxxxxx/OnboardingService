@@ -3,7 +3,6 @@ package com.example.onboardingservice;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
@@ -35,7 +34,7 @@ public class OnboardingServiceApplication extends SpringBootServletInitializer {
         public void onApplicationEvent(ContextRefreshedEvent event) {
             ApplicationContext applicationContext = event.getApplicationContext();
             applicationContext.getBean(RequestMappingHandlerMapping.class).getHandlerMethods()
-                    .forEach((a, b) -> log.info(b.toString()));
+                    .forEach((a, b) -> log.info(b.toString() ));
         }
     }
 
