@@ -1,17 +1,21 @@
 package com.example.onboardingservice;
 
+import com.example.onboardingservice.model.Client;
+import com.example.onboardingservice.model.Manager;
+import com.example.onboardingservice.service.UserService;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 
 @SpringBootApplication
@@ -19,23 +23,42 @@ import java.net.UnknownHostException;
 public class OnboardingServiceApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        try {
-            log.info(InetAddress.getLocalHost().toString());
-        } catch (UnknownHostException e) {
-            log.info("unknown_host");
-        }
         SpringApplication.run(OnboardingServiceApplication.class, args);
     }
 
-    @Component
-    public class EndpointsListener implements ApplicationListener<ContextRefreshedEvent> {
-
-        @Override
-        public void onApplicationEvent(ContextRefreshedEvent event) {
+    @Bean
+    public ApplicationListener<ContextRefreshedEvent> applicationListener() {
+        return event -> {
             ApplicationContext applicationContext = event.getApplicationContext();
             applicationContext.getBean(RequestMappingHandlerMapping.class).getHandlerMethods()
-                    .forEach((a, b) -> log.info(b.toString() ));
-        }
+                    .forEach((a, b) -> log.info(b.toString()));
+        };
+    }
+
+    public @Bean OpenAPI noteAPI() {
+        return new OpenAPI()
+                .info(
+                        new Info()
+                                .title("OnboardingService API")
+                                .description("A CRUD API for the Onboarding Service")
+                );
+    }
+
+    @Bean
+    public CommandLineRunner commandLineRunner(UserService userService) {
+        return args -> {
+            userService.save(Client.builder()
+                    .email("asdf@gjaksdj.ru")
+                    .password("pass")
+                    .sex("male")
+                    .mobile("dfjasdf")
+                    .build());
+            userService.save(Manager.builder()
+                    .email("asdf@gjaksdj.ru")
+                    .password("pass")
+                    .status("cool")
+                    .build());
+        };
     }
 
 }

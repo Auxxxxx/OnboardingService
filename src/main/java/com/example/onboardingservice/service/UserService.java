@@ -1,6 +1,7 @@
 package com.example.onboardingservice.service;
 
 import com.example.onboardingservice.exception.UserNotFoundException;
+import com.example.onboardingservice.model.Role;
 import com.example.onboardingservice.model.User;
 import com.example.onboardingservice.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,10 @@ public class UserService {
 
     public List<User> listAll() {
         return userRepository.findAll();
+    }
+
+    public List<User> listClients() {
+        return userRepository.findByRole(Role.CLIENT);
     }
 
     public void save(User user) {
