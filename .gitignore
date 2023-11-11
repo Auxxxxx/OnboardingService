@@ -1,6 +1,10 @@
 HELP.md
 target/
+<<<<<<< HEAD
 !spring-boot-backend/.mvn/wrapper/maven-wrapper.jar
+=======
+!.mvn/wrapper/maven-wrapper.jar
+>>>>>>> 5ffb7ff1cc62c0ed0f5394db1a7f226e13d484e4
 !**/src/main/**/target/
 !**/src/test/**/target/
 
@@ -14,7 +18,11 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
+<<<<<<< HEAD
 spring-boot-backend/.idea
+=======
+.idea
+>>>>>>> 5ffb7ff1cc62c0ed0f5394db1a7f226e13d484e4
 *.iws
 *.iml
 *.ipr

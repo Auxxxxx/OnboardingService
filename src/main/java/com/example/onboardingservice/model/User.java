@@ -2,12 +2,12 @@ package com.example.onboardingservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
-import java.time.DayOfWeek;
-import java.util.SortedMap;
 
 @Entity
 @Inheritance
