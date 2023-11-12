@@ -34,6 +34,7 @@ docker-compose.yml
 Dockerfile
 ./postgres-data/
 
+#
 ### VS Code ###
 .vscode/
 
