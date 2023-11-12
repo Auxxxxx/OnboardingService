@@ -30,8 +30,8 @@ build/
 !**/src/test/**/build/
 
 # Docker
-!**/docker-compose.yml
-!**/Dockerfile
+docker-compose.yml
+Dockerfile
 ./postgres-data/
 
 ### VS Code ###
