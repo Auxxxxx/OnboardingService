@@ -1,5 +1,5 @@
 spring-boot-backend/HELP.md
-target/
+!**/target/
 !spring-boot-backend/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -32,6 +32,7 @@ build/
 # Docker
 !**/docker-compose.yml
 !**/Dockerfile
+./postgres-data/
 
 ### VS Code ###
 .vscode/
