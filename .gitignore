@@ -30,10 +30,9 @@ spring-boot-backend/HELP.md
 !**/spring-boot-backend/src/test/**/build/
 
 # Docker
-./docker-compose.yml
-./Dockerfile
 ./postgres-data/
 
+#
 ### VS Code ###
 .vscode/
 
