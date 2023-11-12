@@ -1,0 +1,13 @@
+server:
+  port: 8080
+springdoc:
+  swagger-ui:
+    version: 4.1.3
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/OnboardingService
+    username: postgres
+    password: "%Eo434Xd"
+  #jpa.hibernate.ddl-auto: update
+  jpa.hibernate.ddl-auto: create
