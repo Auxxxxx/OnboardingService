@@ -3,6 +3,7 @@ package com.example.onboardingservice.web.controller;
 import com.example.onboardingservice.exception.UserIsNotClientException;
 import com.example.onboardingservice.exception.UserNotFoundException;
 import com.example.onboardingservice.model.Client;
+import com.example.onboardingservice.model.Role;
 import com.example.onboardingservice.service.UserService;
 import com.example.onboardingservice.web.httpData.user.ClientDeleteRequest;
 import com.example.onboardingservice.web.httpData.user.ClientDeleteResponse;
@@ -38,7 +39,7 @@ public class ClientController {
     @GetMapping("/list")
     public ResponseEntity<ClientListResponse> list() {
         log.info("returning_clients_list");
-        var users = userService.listClients();
+        var users = userService.listByRole(Role.CLIENT);
         var response = ClientListResponse.builder()
                 .clients(users.stream().map(u -> (Client) u).collect(Collectors.toList()))
                 .build();
