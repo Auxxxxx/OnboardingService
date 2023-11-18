@@ -4,7 +4,6 @@ import com.example.onboardingservice.exception.UserAlreadyExistsException;
 import com.example.onboardingservice.exception.UserNotFoundException;
 import com.example.onboardingservice.exception.WrongPasswordException;
 import com.example.onboardingservice.model.Client;
-import com.example.onboardingservice.model.Role;
 import com.example.onboardingservice.model.User;
 import com.example.onboardingservice.repository.UserRepository;
 import lombok.AllArgsConstructor;

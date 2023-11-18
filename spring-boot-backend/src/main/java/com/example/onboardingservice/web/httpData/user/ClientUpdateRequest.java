@@ -9,12 +9,12 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 public class ClientUpdateRequest {
-    @Schema(name = "email", description = "Email of the client to update", example = "bill_edwards@gmail.com")
+    @Schema(example = "bill_edwards@gmail.com")
     private String email;
-    @Schema(name = "full name", description = "Client's full name", example = "Bill Edwards")
+    @Schema(example = "Bill Edwards")
     private String fullName;
-    @Schema(name = "gender", description = "Client's gender", example = "Male")
+    @Schema(example = "Male")
     private String gender;
-    @Schema(name = "mobile", description = "Client's mobile number", example = "+125552228844")
+    @Schema(example = "+125552228844")
     private String mobile;
 }

@@ -2,6 +2,7 @@ package com.example.onboardingservice;
 
 import com.example.onboardingservice.model.Client;
 import com.example.onboardingservice.model.Manager;
+import com.example.onboardingservice.service.AuthenticationService;
 import com.example.onboardingservice.service.UserService;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -44,18 +45,21 @@ public class OnboardingServiceApplication extends SpringBootServletInitializer {
     }
 
     @Bean
-    public CommandLineRunner commandLineRunner(UserService userService) {
+    public CommandLineRunner commandLineRunner(UserService userService,
+                                               AuthenticationService authenticationService) {
         return args -> {
-            userService.save(Client.builder()
-                    .email("asdf@gjaksdj.ru")
-                    .password("pass")
-                    .gender("male")
-                    .mobile("dfjasdf")
-                    .build());
             userService.save(Manager.builder()
                     .email("asdf@gjaksdj.ru")
                     .password("pass")
                     .status("cool")
+                    .build());
+            //authenticationService.signIn("bill_edwards@gmail.com", "cookie123");
+            authenticationService.register("Bill Edwards", "bill_edwards@gmail.com", "cookie123");
+            authenticationService.signIn("bill_edwards@gmail.com", "cookie123");
+            userService.updateClient(Client.builder()
+                    .email("bill_edwards@gmail.com")
+                    .gender("male")
+                    .fullName("Bob edwards")
                     .build());
         };
     }

@@ -3,13 +3,10 @@ package com.example.onboardingservice.web.controller;
 import com.example.onboardingservice.exception.UserAlreadyExistsException;
 import com.example.onboardingservice.exception.UserNotFoundException;
 import com.example.onboardingservice.exception.WrongPasswordException;
-import com.example.onboardingservice.model.Client;
 import com.example.onboardingservice.service.AuthenticationService;
-import com.example.onboardingservice.service.UserService;
 import com.example.onboardingservice.web.httpData.authentication.AuthenticationRegisterRequest;
 import com.example.onboardingservice.web.httpData.authentication.AuthenticationSignInRequest;
 import com.example.onboardingservice.web.httpData.authentication.AuthenticationSignInResponse;
-import com.example.onboardingservice.web.httpData.user.*;
 import com.example.onboardingservice.web.util.RequestData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -21,9 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)

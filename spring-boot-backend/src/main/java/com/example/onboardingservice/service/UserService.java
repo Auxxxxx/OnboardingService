@@ -17,12 +17,8 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
 
-    public List<User> listAll() {
-        return userRepository.findAll();
-    }
-
-    public List<User> listClients() {
-        return userRepository.findByRole(Role.CLIENT);
+    public List<User> listByRole(Role role) {
+        return userRepository.findByRole(role);
     }
 
     public void save(User user) {
@@ -44,13 +40,9 @@ public class UserService {
         return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
-    public User get(Long id) throws UserNotFoundException {
-        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
-    }
-
     @Transactional
     public List<User> deleteByEmail(String email) {
         userRepository.deleteByEmail(email);
-        return listClients();
+        return listByRole(Role.CLIENT);
     }
 }

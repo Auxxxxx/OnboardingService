@@ -9,8 +9,8 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 public class AuthenticationSignInRequest {
-    @Schema(name = "email", description = "Client's email")
+    @Schema(example = "bill_edwards@gmail.com")
     private String email;
-    @Schema(name = "password", description = "Client's password")
+    @Schema(example = "cookie123")
     private String password;
 }

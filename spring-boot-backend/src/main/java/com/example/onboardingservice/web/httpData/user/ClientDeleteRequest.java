@@ -9,6 +9,6 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 public class ClientDeleteRequest {
-    @Schema(name = "email", description = "Email of the client to delete", example = "bill_edwards@gmail.com")
+    @Schema(example = "bill_edwards@gmail.com")
     private String email;
 }
