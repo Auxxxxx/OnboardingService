@@ -1,6 +1,7 @@
 package com.example.onboardingservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,9 @@ public abstract class User implements Serializable {
     @JsonIgnore
     @ToString.Include
     private Long id;
+    @Schema(example = "bill_edwards@gmail.com")
     private String email;
+    @JsonIgnore
     private String password;
     private Role role;
 }
