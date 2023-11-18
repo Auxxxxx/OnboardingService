@@ -1,6 +1,8 @@
 package com.example.onboardingservice.service;
 
+import com.example.onboardingservice.exception.UserIsNotClientException;
 import com.example.onboardingservice.exception.UserNotFoundException;
+import com.example.onboardingservice.model.Client;
 import com.example.onboardingservice.model.Role;
 import com.example.onboardingservice.model.User;
 import com.example.onboardingservice.repository.UserRepository;
@@ -27,7 +29,18 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User getByEmail(String email) throws UserNotFoundException {
+    public void updateClient(Client client) throws UserNotFoundException, UserIsNotClientException {
+        User user = findByEmail(client.getEmail());
+        if (!(user instanceof Client existing)) {
+            throw new UserIsNotClientException();
+        }
+        existing.setGender(client.getGender());
+        existing.setMobile(client.getMobile());
+        existing.setFullName(client.getFullName());
+        save(existing);
+    }
+
+    public User findByEmail(String email) throws UserNotFoundException {
         return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
@@ -36,7 +49,8 @@ public class UserService {
     }
 
     @Transactional
-    public void delete(Long id) {
-        userRepository.deleteById(id);
+    public List<User> deleteByEmail(String email) {
+        userRepository.deleteByEmail(email);
+        return listClients();
     }
 }

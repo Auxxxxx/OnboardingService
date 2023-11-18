@@ -12,7 +12,8 @@ import lombok.experimental.SuperBuilder;
 @ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(callSuper = true)
 public class Client extends User {
-    private String sex;
+    private String fullName;
+    private String gender;
     private String mobile;
 
     {

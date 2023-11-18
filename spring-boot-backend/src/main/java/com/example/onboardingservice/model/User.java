@@ -23,6 +23,7 @@ public abstract class User implements Serializable {
     @ToString.Include
     private Long id;
     private String email;
+    @JsonIgnore
     private String password;
     private Role role;
 }

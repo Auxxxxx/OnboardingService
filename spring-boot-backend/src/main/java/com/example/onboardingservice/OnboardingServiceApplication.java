@@ -49,7 +49,7 @@ public class OnboardingServiceApplication extends SpringBootServletInitializer {
             userService.save(Client.builder()
                     .email("asdf@gjaksdj.ru")
                     .password("pass")
-                    .sex("male")
+                    .gender("male")
                     .mobile("dfjasdf")
                     .build());
             userService.save(Manager.builder()
