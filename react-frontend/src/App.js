@@ -1,61 +1,49 @@
-import React, { useState } from 'react';
-import './Forms.css';
+import React from 'react'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import './App.css'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
-function Form() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [gender, setGender] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
+import Login from './components/login.component'
+import SignUp from './components/signup.component'
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Обработка данных формы
-    console.log('Отправленная форма:', { firstName, lastName, gender, dateOfBirth });
-    // Сброс значений полей формы
-    setFirstName('');
-    setLastName('');
-    setGender('');
-    setDateOfBirth('');
-  };
-
-  const handleLogin = () => {
-    // Логика для кнопки “Войти”
-    console.log(`Вход выполнен: ${firstName} ${lastName}`);
-  };
-
+function App() {
   return (
-    <form className="form-container" onSubmit={handleSubmit}>
-      <img src="./logo.png" alt="logo"></img>
-          <div>
-<label>
-First Name:  
-          <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-        </label>
+    <Router>
+      <div className="App">
+        <nav className="navbar navbar-expand-lg navbar-light fixed-top">
+          <div className="container">
+            <Link className="navbar-brand" to={'/sign-in'}>
+              GLASFLAIR
+            </Link>
+            <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+              <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <Link className="nav-link" to={'/sign-in'}>
+                    LOGIN
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to={'/sign-up'}>
+                    SIGN UP
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div className="auth-wrapper">
+          <div className="auth-inner">
+            <Routes>
+              <Route exact path="/" element={<Login />} />
+              <Route path="/sign-in" element={<Login />} />
+              <Route path="/sign-up" element={<SignUp />} />
+            </Routes>
+          </div>
+        </div>
       </div>
-      <div>
-        <label>
-          Second Name:  
-          <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Gender:  
-          <select value={gender} onChange={(e) => setGender(e.target.value)}>
-            <option value="">Choose Gender</option>
-            <option value="male">Man</option>
-            <option value="female">Woman</option>
-            <option value="other">Unnamed</option>
-        </select>
-      </label>
-    </div><div>
-        <label>
-          Birthday:
-          <input type="date" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
-        </label>
-      </div><button type submit>Отправить</button><button type button onClick={handleLogin}>Войти</button>
-    </form>
-  );
+    </Router>
+  )
 }
 
-export default Form;
+export default App
