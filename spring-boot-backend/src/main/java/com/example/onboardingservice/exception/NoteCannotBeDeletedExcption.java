@@ -3,8 +3,8 @@ package com.example.onboardingservice.exception;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class UserAlreadyExistsException extends Exception {
-    public UserAlreadyExistsException(String message) {
+public class NoteCannotBeDeletedExcption extends Exception {
+    public NoteCannotBeDeletedExcption(String message) {
         super(message);
     }
 }

@@ -1,9 +1,13 @@
 package com.example.onboardingservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,4 +27,10 @@ public class Client extends User {
     {
         setRole(Role.CLIENT);
     }
+
+    @JsonIgnore
+    @Builder.Default
+    @OneToMany(mappedBy = "recipient", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Note> notes = new ArrayList<>();
+
 }
