@@ -4,25 +4,25 @@ import Tagline from './tagline.component';
 
 
 const Profile = () => {
-    const [showNavBar, setShowNavBar] = useState(false);
+    const [showNavbar, setShowNavbar] = useState(false);
   
-    const handleShowNavBar = () => {
-      setShowNavBar(!showNavBar);
+    const handleShowNavbar = () => {
+      setShowNavbar(!showNavbar);
     };
 
      return(
         <>
         <header>
-            <img NameClass = "prf-img" src="/footerProfile.svg" alt= "logo"></img>
+            <img className = "prf-img" src="/footerProfile.svg" alt= "logo"></img>
         </header>
         <main className = "main prf-main">
             <h1>New User</h1>
             <img src="/profileAvatar.svg" alt="profile image"></img>
             <Tagline className = "tagline" text= "Insert tagline here"></Tagline>
-            <button className ="get-nav" onClick={handleShowNavBar}></button>
-            {showNavBar &&
-             <Navigation />}
-        
+            <button className ="get-nav" onClick={handleShowNavbar}></button>
+            {showNavbar &&
+             <Navigation showNavbar = {showNavbar} setShowNavbar = {setShowNavbar}/>}
+            
             <p>Welcome! Using this page toy can access all required tools needed for onboarding. You can also<br /> access any notes from our meetings together and even access a record of advertissing reports.</p>
             <h2>The Roadmap</h2>
             <button class="prf-btn prf-btn-1"></button>
