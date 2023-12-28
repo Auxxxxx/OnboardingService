@@ -7,6 +7,22 @@ const Login = () => {
       // alert("OnClick!");  //без этого не присходи переход на новую страницу
     }
 
+    function handleSubmit(e) {
+      // Prevent the browser from reloading the page
+      e.preventDefault();
+    
+      // Read the form data
+      const form = e.target;
+      const formData = new FormData(form);
+  
+      // You can pass formData as a fetch body directly:
+      fetch('http://localhost:8080/auth/sign-in', { method: form.method, body: formData });
+
+      const formJson = Object.fromEntries(formData.entries());
+      console.log(formJson);
+      window.location.assign('/profile');
+      
+    }
     return (
       <div>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
@@ -39,7 +55,7 @@ const Login = () => {
     <div className="auth-wrapper">
       <div className="auth-inner">
       {/* <form method = "Post" onSubmit = {handleSubmit}> */}
-      <form className = "logReg-form">
+      <form className = "logReg-form" method="post" onSubmit={handleSubmit}>
         <h3>SIGN IN</h3>
 
         <div className="mb-3">
@@ -74,7 +90,7 @@ const Login = () => {
         </div>
 
         <div className="d-grid">
-          <button type="submit" className="btn btn-primary" onClick = {handleClick}>
+          <button type="submit" className="btn btn-primary">
             Login
           </button>
         </div>
