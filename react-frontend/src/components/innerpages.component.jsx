@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Navigation from './navbar.component';
 import NotesList from './noteList.component';
 import MediaList from './mediaList';
+import OnboardingList from './onboardingList';
+import ContactList from './contactList.component';
 
 const InnerPage = (props) => {
   const [showNavbar, setShowNavbar] = useState(false);
@@ -12,10 +14,13 @@ const InnerPage = (props) => {
 
 
   const [userData, setUserData] = useState([]);
+  const email = props.email;
+
+
 
   // useEffect(() => {
   //   // Выполнение запроса при монтировании компонента
-  //   fetch('http://localhost:8080/note/useful-info')
+  //   fetch(`http://localhost:8080/note/useful-info?email=${email}`)
   //     .then(response => response.json())
   //     .then(data => {
   //        setUserData(data);
@@ -24,7 +29,6 @@ const InnerPage = (props) => {
   //       console.error('Ошибка получения данных:', error);
   //     });
   // }, []);
-  const userDataList = ['1 строка', 'джакузи', 'одеяло'];
 
   return (
 
@@ -44,13 +48,22 @@ const InnerPage = (props) => {
           </li> */}
         {/* ))}
       </ul> */}
-    if(props.class === "notes"){
-     <NotesList class = {props.class} list = {props.list}></NotesList>
+    {props.class === "notes" &&
+     <NotesList class = {props.class} list = {props.list}/>
     }
-      elif(props.class === "media"){
-      <MediaList class = {props.class} list = {props.list}></MediaList>
-    } else
-       return {null}
+    {props.class === "media" &&
+      <MediaList class = {props.class} list = {props.list}/>
+    }
+    {props.class === "onboarding" &&
+      <OnboardingList />
+    }
+    {props.class == "contacts" && <ContactList class = {props.class} list = {props.list}>
+
+    </ContactList>
+
+    }
+     {props.class == "info" && <ContactList class = {props.class} list = {props.list}></ContactList>
+    }
 
       </div>
     </main>

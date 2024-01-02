@@ -11,13 +11,14 @@ const SignUp = () => {
     const formData = new FormData(form);
 
     // You can pass formData as a fetch body directly:
-    fetch('http://localhost:8080/client/data', { method: form.method, body: formData });
+    fetch('http://localhost:8080//auth/register', { method: form.method, body: formData });
     
     const formJson = Object.fromEntries(formData.entries());
     console.log(formJson);
     window.location.assign('/profile');
   
-
+  }
+   
     //Second way^
 //     // Prevent the browser from reloading the page
 // e.preventDefault();
@@ -42,7 +43,6 @@ const SignUp = () => {
 // alert('Error in sending data');
 // });
 
-  }
     return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">

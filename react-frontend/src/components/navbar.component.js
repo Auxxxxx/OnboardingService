@@ -29,13 +29,13 @@ const Navigation = (props) => {
           <ul className="nav-ul">
             <li class = "prf-ul">
             <img class= "nav-li-img mar-l" src="/onboarding.svg" al="contact"></img>
-              <a class = "nav-li ob1" href="/">OnBoarding</a></li>
+              <a class = "nav-li ob1" href="/onboarding">OnBoarding</a></li>
             <li>
             <img class= "nav-li-img mar-l" src="/mediaAssert.svg" al="contact"></img>
               <a class = "nav-li ob1" href="/media">Media Asserts</a></li>
             <li>
-              <img class= "nav-li-img mar-l" src="/PainAdvertisingRemotes.svg" al="contact"></img>
-              <a class = "nav-li ob2" href="/">Paid Advertising Reports</a></li>
+              <img class= "nav-li-img mar-l" src="/reports.svg" al="contact"></img>
+              <a class = "nav-li ob2" href="/reports">Paid Advertising Reports</a></li>
             <li>
               <img class= "nav-li-img" src="/meetingNotes.svg" al="contact"></img>
               <a class = "nav-li ob3" href="/notes">Meeting Notes</a></li>

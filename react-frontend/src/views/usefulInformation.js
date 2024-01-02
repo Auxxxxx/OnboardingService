@@ -1,4 +1,4 @@
-import InnerPage from '../components/innerpages.component.js'
+import InnerPage from '../components/innerpages.component.jsx'
 import React, { useEffect, useState } from 'react';
 
 const UsefulInfoPage = () => {
@@ -8,7 +8,10 @@ const UsefulInfoPage = () => {
       setShowNavBar(!showNavBar);
     };
   
-  
+    const InfoList = ["bla bla bla", "rsfa4aeerrrrrrfsfrssssssss", "ewaaaaaaaaaaaaaaafeerrrrrrrrrrrrrrrrrr", "eawwwwwwwwwwwwewffew",
+    "bla bla bla", "rsfa4aeerrrrrrfsfrssssssss", "ewaaaaaaaaaaaaaaafeerrrrrrrrrrrrrrrrrr", "eawwwwwwwwwwwwewffew",
+    "bla bla bla", "rsfa4aeerrrrrrfsfrssssssss", "ewaaaaaaaaaaaaaaafeerrrrrrrrrrrrrrrrrr", "eawwwwwwwwwwwwewffew"
+  ]
     const [userData, setUserData] = useState([]);
   
     useEffect(() => {
@@ -25,7 +28,7 @@ const UsefulInfoPage = () => {
   
     return (
       <>
-       <InnerPage hed = "Useful Information" logoimg = "/usefulinfo.svg" p = "Notes from meetingRefer to this page for key insights into the business for Media Buying purposes" /> 
+       <InnerPage hed = "Useful Information" logoimg = "/usefulinfo.svg" p = "Notes from meetingRefer to this page for key insights into the business for Media Buying purposes" class = "info" list = {InfoList}/> 
       </>
     );
   };

@@ -64,6 +64,7 @@ const Login = () => {
             type="email"
             className="form-control"
             placeholder="Enter email"
+            name = "email"
           />
         </div>
 
@@ -73,6 +74,7 @@ const Login = () => {
             type="password"
             className="form-control"
             placeholder="Enter password"
+            name = "password"
           />
         </div>
 

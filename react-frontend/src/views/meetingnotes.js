@@ -1,4 +1,4 @@
-import InnerPage from '../components/innerpages.component.js'
+import InnerPage from '../components/innerpages.component.jsx'
 import React, { useEffect, useState } from 'react';
 
 const MeetingNotesPage = () => {
@@ -10,7 +10,25 @@ const MeetingNotesPage = () => {
   
   
     const [userData, setUserData] = useState([]);
-  
+      const ExampleData = [{
+        "date": "14.12.23",
+        "name": "Call designer",
+        "text": "Call tomorrow designer"
+      },
+        {
+          "date": "10.12.23",
+          "name": "Goals",
+          "text": "make notes about your business goals"
+        },
+        {
+          "date": "08.12.23",
+          "name": "General tags",
+          "text": "make general ideas for post"
+        },
+      ]
+    const ExampleData2 = ["hello", "5", "bye"]
+
+
     useEffect(() => {
       // Выполнение запроса при монтировании компонента
       fetch('http://localhost:8080/note/useful-info')
@@ -25,7 +43,7 @@ const MeetingNotesPage = () => {
   
     return (
       <>
-       <InnerPage hed = "Meeting Notes" logoimg = "/meetingNotes.svg" p = "Notes from meeting" /> 
+       <InnerPage hed = "Meeting Notes" logoimg = "/meetingNotes.svg" p = "Notes from meeting" class = "notes" list = {ExampleData} /> 
       </>
     );
   };

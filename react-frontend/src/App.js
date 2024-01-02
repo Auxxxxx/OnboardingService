@@ -6,19 +6,20 @@ import { PrivateRoute } from './components/privateRoute.component';
 import Profile from './components/profile.component'
 import Login from './components/login.component'
 import SignUp from './components/signup.component'
-import NotesList from './components/innerpages.component.js'
+// import NotesList from './components/innerpages.component.jsx'
 import ContactList from './views/contacts.js'
 import ManagerList from './views/managerView.js'
 import ContactPage from './views/contacts.js'
-import InnerPage from './components/innerpages.component.js'
+// import InnerPage from './components/innerpages.component.jsx'
 import MeetingNotesPage from './views/meetingnotes.js'
 import UsefulInfoPage from './views/usefulInformation.js'
 import MediaPage from './views/mediaassert.js'
-import useRoutes from './routes/routes.jsx'
+import Onboarding from './views/onboarding.js';
+import ReportPage from './views/reports.js';
 
 
 function App() {
-  // const routes = useRoutes()
+
 
   return (
     // <Router>
@@ -27,20 +28,29 @@ function App() {
     //   </div>
     // </Router>
 
-
-     <Routes>
+<Router>   
+  <Routes>
       <Route exact path='/' element={<Login />} />
+      <Route exact path='/sign-in' element={<Login />} />
       <Route path="/sign-up" element={<SignUp />} />
       <Route path ="/contacts" element = {<ContactPage />} />
       <Route path="/usefulinfo" element={<UsefulInfoPage />} />
-      <Route path="/usefulinfo" element={<MeetingNotesPage />} />
+      <Route path="/notes" element={<MeetingNotesPage />} />
       <Route path ="/media" element = {<MediaPage />} />
+      <Route path ="/onboarding" element = {<Onboarding />} />
+      <Route path ="/reports" element = {<ReportPage />} />
+
+      {/* <Route path ="/reports" element = {<ReportsPage />} /> */}
+
 
       {/* <Route element = {<PrivateRoute />}> */}
-        <Route exact path='/sign-in' element={<Login />} />
+        {/* <Route exact path='/sign-in' element={<Login />} /> */}
         <Route path='/profile' element={<Profile />} />
       {/* </Route> */}
-     </Routes> );
+     </Routes> 
+</Router>
+ 
+     );
 }
 
 export default App;
