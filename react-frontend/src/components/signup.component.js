@@ -11,37 +11,16 @@ const SignUp = () => {
     const formData = new FormData(form);
 
     // You can pass formData as a fetch body directly:
-    fetch('http://localhost:8080//auth/register', { method: form.method, body: formData });
+    fetch('http://localhost:8080//auth/register', { method: form.method, body: formData })
+        .then(responce => { 
+          if(responce.ok)  { window.location.assign('/profile');}
+          else {console.log("Error")}
+        }
+          )
     
     const formJson = Object.fromEntries(formData.entries());
     console.log(formJson);
-    window.location.assign('/profile');
-  
   }
-   
-    //Second way^
-//     // Prevent the browser from reloading the page
-// e.preventDefault();
-
-// // Read the form data
-// const form = e.target;
-// const formData = new FormData(form);
-
-// // You can pass formData as a fetch body directly:
-// fetch('http://localhost:8080/client/data', { method: form.method, body: formData })
-// .then(response => {
-// if (!response.ok) {
-// throw new Error('Error in sending data');
-// }
-// const formJson = Object.fromEntries(formData.entries());
-// console.log(formJson);
-// window.location.assign('/profile');
-// })
-// .catch(error => {
-// console.error(error);
-// // Display error message to the user
-// alert('Error in sending data');
-// });
 
     return (
     <div>

@@ -16,6 +16,7 @@ import UsefulInfoPage from './views/usefulInformation.js'
 import MediaPage from './views/mediaassert.js'
 import Onboarding from './views/onboarding.js';
 import ReportPage from './views/reports.js';
+import AppPag from './components/AppPAgination.js';
 
 
 function App() {
@@ -40,13 +41,9 @@ function App() {
       <Route path ="/onboarding" element = {<Onboarding />} />
       <Route path ="/reports" element = {<ReportPage />} />
 
-      {/* <Route path ="/reports" element = {<ReportsPage />} /> */}
+      <Route path="/pagination" element = {<AppPag/>}/>
 
-
-      {/* <Route element = {<PrivateRoute />}> */}
-        {/* <Route exact path='/sign-in' element={<Login />} /> */}
-        <Route path='/profile' element={<Profile />} />
-      {/* </Route> */}
+      <Route path='/profile' element={<Profile />} />
      </Routes> 
 </Router>
  

@@ -16,11 +16,19 @@ const Login = () => {
       const formData = new FormData(form);
   
       // You can pass formData as a fetch body directly:
-      fetch('http://localhost:8080/auth/sign-in', { method: form.method, body: formData });
-
+      fetch('http://localhost:8080/auth/sign-in', { method: form.method, body: formData })
+      .then(responce => {
+        if(responce.ok){
+          console.log("yes");
+          window.location.assign('/profile');
+        } else{
+          console.log("no");
+          return(<div>Unright password!</div>);
+        }
+      })
       const formJson = Object.fromEntries(formData.entries());
       console.log(formJson);
-      window.location.assign('/profile');
+      //window.location.assign('/profile');
       
     }
     return (

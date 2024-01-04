@@ -9,7 +9,10 @@ import com.example.onboardingservice.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+// import org.springframework.web.bind.annotation;
+//добавила неработающие строчки
 
+// @RestController
 @Service
 @AllArgsConstructor
 public class AuthenticationService {

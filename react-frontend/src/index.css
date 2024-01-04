@@ -377,9 +377,9 @@ li::marker{
 
 .media-li{
   display: inline-block;
-  width: 10em;
-  height: 6em;
-  margin-bottom: 1em;
+  width: 20vw;
+  height: 10vw;
+  margin-bottom: 1rem;
   margin-left: 1em;
 
 
@@ -388,6 +388,7 @@ li::marker{
 .media-img{
     width: 100%;
     height: 100%;
+    border-radius: 0.25rem;
 }
 
 
