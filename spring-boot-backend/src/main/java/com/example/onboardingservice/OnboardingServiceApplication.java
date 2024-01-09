@@ -2,6 +2,7 @@ package com.example.onboardingservice;
 
 import com.example.onboardingservice.model.Client;
 import com.example.onboardingservice.model.Manager;
+import com.example.onboardingservice.model.Note;
 import com.example.onboardingservice.service.AuthenticationService;
 import com.example.onboardingservice.service.UserService;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -16,6 +17,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
+import java.util.List;
 
 
 @SpringBootApplication
@@ -59,6 +62,9 @@ public class OnboardingServiceApplication extends SpringBootServletInitializer {
             userService.updateClient(Client.builder()
                     .email("bill_edwards@gmail.com")
                     .fullName("Bob edwards")
+                    .formAnswers(List.of("default1, default2, default3, default4, default5, default6"))
+                    .onboardingStages(List.of("first steps", "common client", "partner"))
+                    .activeStage(1L)
                     .build());
         };
     }

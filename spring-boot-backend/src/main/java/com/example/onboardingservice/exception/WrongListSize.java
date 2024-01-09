@@ -3,8 +3,8 @@ package com.example.onboardingservice.exception;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class NoteCannotBeDeletedExcption extends Exception {
-    public NoteCannotBeDeletedExcption(String message) {
+public class WrongListSize extends Exception {
+    public WrongListSize(String message) {
         super(message);
     }
 }

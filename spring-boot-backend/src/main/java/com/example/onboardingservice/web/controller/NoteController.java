@@ -1,15 +1,10 @@
 package com.example.onboardingservice.web.controller;
 
-import com.example.onboardingservice.exception.NoteCannotBeDeletedExcption;
+import com.example.onboardingservice.exception.WrongListSize;
 import com.example.onboardingservice.exception.NoteNotFoundException;
 import com.example.onboardingservice.exception.UserNotFoundException;
-import com.example.onboardingservice.model.Client;
-import com.example.onboardingservice.model.Note;
-import com.example.onboardingservice.model.NoteType;
 import com.example.onboardingservice.service.NoteService;
-import com.example.onboardingservice.service.UserService;
 import com.example.onboardingservice.web.httpData.note.*;
-import com.example.onboardingservice.web.httpData.user.ClientDeleteResponse;
 import com.example.onboardingservice.web.util.RequestData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -23,7 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/note", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -32,15 +27,19 @@ import java.time.LocalDate;
 @Tag(name = "Note", description = "Endpoints for CRUD operations on notes")
 public class NoteController {
     private final NoteService noteService;
-    private final UserService userService;
 
     @Operation(summary = "Get meeting notes", description = "Lists all meeting notes of the client")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Fetched successfully")
+            @ApiResponse(responseCode = "200", description = "Fetched successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null")
     })
     @GetMapping("/meeting-notes")
     public ResponseEntity<NoteGetMeetingNotesResponse> getMeetingNotes(
+            @RequestBody(description = "Client email", required = true)
             @RequestData NoteGetUsefulInfoRequest request) {
+        if (request.getEmail() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         log.info("returning_meeting_notes: " + request.getEmail());
         var meetingNotes = noteService.listMeetingNotes(request.getEmail());
         var response = NoteGetMeetingNotesResponse.builder()
@@ -52,11 +51,16 @@ public class NoteController {
     @Operation(summary = "Get useful info", description = "Gets useful info of the client")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fetched successfully"),
-            @ApiResponse(responseCode = "404", description = "Error. This client does not have useful info")
+            @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
+            @ApiResponse(responseCode = "404", description = "Not Found. This client does not have useful info")
     })
     @GetMapping("/useful-info")
     public ResponseEntity<NoteGetUsefulInfoResponse> getUsefulInfo(
+            @RequestBody(description = "Client email", required = true)
             @RequestData NoteGetUsefulInfoRequest request) {
+        if (request.getEmail() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         log.info("returning_useful_info: " + request.getEmail());
         try {
             var usefulInfo = noteService.getUsefulInfo(request.getEmail());
@@ -73,11 +77,16 @@ public class NoteController {
     @Operation(summary = "Get contact details", description = "Gets contact detail info of the client")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fetched successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
             @ApiResponse(responseCode = "404", description = "Error. This client does not have contact details")
     })
     @GetMapping("/contact-details")
     public ResponseEntity<NoteGetContactDetailsResponse> getContactDetails(
+            @RequestBody(description = "Client email", required = true)
             @RequestData NoteGetContactDetailsRequest request) {
+        if (request.getEmail() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         log.info("returning_contact_details: " + request.getEmail());
         try {
             var contactDetails = noteService.getContactDetails(request.getEmail());
@@ -94,28 +103,31 @@ public class NoteController {
     @Operation(summary = "Save a meeting note", description = "Saves the meeting note created or edited by the manager.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Saved successfully"),
-            @ApiResponse(responseCode = "404", description = "Error. The recipient client is not found")
+            @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
+            @ApiResponse(responseCode = "404", description = "Not Found. The recipient client is not found")
     })
     @PutMapping("/meeting-notes")
     public ResponseEntity<Void> putMeetingNote(
             @RequestBody(description = """
+                    Data of the note to be added
                     If noteId is specified - the note with this id is edited.
-                    If noteId is null - a new one is saved""", required = true)
+                    If noteId is null - a new one is saved
+                    Content strings must be not null
+                    """, required = true)
             @RequestData NotePutMeetingNoteRequest request) {
+        if (request.getRecipientEmail() == null ||
+                request.getHeader() == null ||
+                request.getContent() == null ||
+                request.getContent().stream().anyMatch(Objects::isNull)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         log.info("saving_meeting_note: " + request.getRecipientEmail());
         try {
-            var recipient = (Client) userService.findByEmail(request.getRecipientEmail());
-            var note = Note.builder()
-                    .recipient(recipient)
-                    .header(request.getHeader())
-                    .content(request.getContent())
-                    .date(LocalDate.now())
-                    .noteType(NoteType.MEETING_NOTES)
-                    .build();
-            if (request.getId() != null) {
-                note.setId(request.getId());
-            }
-            noteService.save(note);
+            noteService.saveMeetingNote(
+                    request.getId(),
+                    request.getContent(),
+                    request.getHeader(),
+                    request.getRecipientEmail());
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (UserNotFoundException e) {
             log.error("recipient_not_found: " + request.getRecipientEmail());
@@ -127,17 +139,24 @@ public class NoteController {
             description = "Saves the useful info edited by the manager")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Saved successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
             @ApiResponse(responseCode = "404", description = "Error. The recipient client is not found")
     })
     @PutMapping("/useful-info")
     public ResponseEntity<Void> putUsefulInfo(
+            @RequestBody(description = "Data of the note to be edited. " +
+                    "Content strings must be not null", required = true)
             @RequestData NotePutUsefulInfoRequest request) {
+        if (request.getRecipientEmail() == null ||
+                request.getContent() == null ||
+                request.getContent().stream().anyMatch(Objects::isNull)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         log.info("saving_useful_info: " + request.getRecipientEmail());
         try {
-            var recipient = (Client) userService.findByEmail(request.getRecipientEmail());
-            var note = noteService.buildDefaultNote(NoteType.USEFUL_INFO, recipient);
-            note.setContent(request.getContent());
-            noteService.save(note);
+            noteService.saveUsefulInfo(
+                    request.getRecipientEmail(),
+                    request.getContent());
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (UserNotFoundException e) {
             log.error("recipient_not_found: " + request.getRecipientEmail());
@@ -149,17 +168,24 @@ public class NoteController {
             description = "Saves the contact details edited by the manager")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Saved successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
             @ApiResponse(responseCode = "404", description = "Error. The recipient client is not found")
     })
     @PutMapping("/contact-details")
     public ResponseEntity<Void> putContactDetails(
+            @RequestBody(description = "Data of the note to be edited. " +
+                    "Content strings must be not null", required = true)
             @RequestData NotePutContactDetailsRequest request) {
+        if (request.getRecipientEmail() == null ||
+                request.getContent() == null ||
+                request.getContent().stream().anyMatch(Objects::isNull)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         log.info("saving_contact_details: " + request.getRecipientEmail());
         try {
-            var recipient = (Client) userService.findByEmail(request.getRecipientEmail());
-            var note = noteService.buildDefaultNote(NoteType.CONTACT_DETAILS, recipient);
-            note.setContent(request.getContent());
-            noteService.save(note);
+            noteService.saveContactDetails(
+                    request.getRecipientEmail(),
+                    request.getContent());
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (UserNotFoundException e) {
             log.error("recipient_not_found: " + request.getRecipientEmail());
@@ -170,7 +196,9 @@ public class NoteController {
     @Operation(summary = "Delete meeting note", description = "Deletes the meeting note by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Deleted successfully"),
-            @ApiResponse(responseCode = "400", description = "Error. This type of note cannot be deleted"),
+            @ApiResponse(responseCode = "400", description = "Error. " +
+                    "This type of note cannot be deleted " +
+                    "or a request field is null"),
             @ApiResponse(responseCode = "404", description = "Error. The note to delete is not found")
 
     })
@@ -178,6 +206,9 @@ public class NoteController {
     public ResponseEntity<NoteDeleteMeetingNoteResponse> deleteMeetingNote(
             @RequestBody(description = "Id of the meeting note to delete", required = true)
             @RequestData NoteDeleteMeetingNoteRequest request) {
+        if (request.getId() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         log.info("deleting_meeting_note: " + request.getId());
         try {
             var meetingNotes = noteService.deleteMeetingNoteById(request.getId());
@@ -188,7 +219,7 @@ public class NoteController {
         } catch (NoteNotFoundException e) {
             log.error("meeting_note_not_found: " + request.getId());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (NoteCannotBeDeletedExcption e) {
+        } catch (WrongListSize e) {
             log.error("note_cannot_be_deleted: " + request.getId());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

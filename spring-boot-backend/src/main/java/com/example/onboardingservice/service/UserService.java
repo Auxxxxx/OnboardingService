@@ -2,6 +2,7 @@ package com.example.onboardingservice.service;
 
 import com.example.onboardingservice.exception.UserIsNotClientException;
 import com.example.onboardingservice.exception.UserNotFoundException;
+import com.example.onboardingservice.exception.WrongListSize;
 import com.example.onboardingservice.model.Client;
 import com.example.onboardingservice.model.Role;
 import com.example.onboardingservice.model.User;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -25,13 +27,37 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void updateClient(Client client) throws UserNotFoundException, UserIsNotClientException {
-        User user = findByEmail(client.getEmail());
+    public void updateClient(
+            String email,
+            String fullName,
+            List<String> formAnswers,
+            List<String> onboardingStages,
+            Long activeStage
+    ) throws UserNotFoundException, UserIsNotClientException, WrongListSize {
+        User user = findByEmail(email);
         if (!(user instanceof Client existing)) {
             throw new UserIsNotClientException();
         }
-        existing.setFullName(client.getFullName());
+        if (formAnswers != null && formAnswers.size() != 6) {
+            throw new WrongListSize();
+        }
+        if (onboardingStages != null && onboardingStages.size() != 3) {
+            throw new WrongListSize();
+        }
+        if (fullName != null) existing.setFullName(fullName);
+        if (formAnswers != null) existing.setFormAnswers(formAnswers);
+        if (onboardingStages != null) existing.setOnboardingStages(onboardingStages);
+        if (activeStage != null) existing.setActiveStage(activeStage);
         save(existing);
+    }
+
+    public Boolean isFormFilled(String email)
+            throws UserNotFoundException, UserIsNotClientException {
+        User user = findByEmail(email);
+        if (!(user instanceof Client existing)) {
+            throw new UserIsNotClientException();
+        }
+        return existing.getFormAnswers().stream().noneMatch(Objects::isNull);
     }
 
     public User findByEmail(String email) throws UserNotFoundException {

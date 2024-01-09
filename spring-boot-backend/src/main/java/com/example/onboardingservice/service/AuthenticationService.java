@@ -32,7 +32,12 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(password))
                 .build();
         userRepository.save(client);
-        noteService.addDefaultNotes(client);
+
+        try {
+            noteService.addDefaultNotes(client);
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public User signIn(String email, String password) throws UserNotFoundException, WrongPasswordException {
