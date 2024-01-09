@@ -44,6 +44,35 @@ public class ClientController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Get client data", description = "Get client data by email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fetched successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
+            @ApiResponse(responseCode = "404", description = "Not Found. Client with such email not found")
+    })
+    @PostMapping("/get-data")
+    public ResponseEntity<ClientGetDataResponse> get(
+            @RequestBody(description = "Client email", required = true)
+            @RequestData ClientGetDataRequest request) {
+        if (request.getEmail() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        log.info("returning_client: " + request.getEmail());
+        try {
+            var client = userService.findClientByEmail(request.getEmail());
+            var response = ClientGetDataResponse.builder()
+                    .fullName(client.getFullName())
+                    .formAnswers(client.getFormAnswers())
+                    .onboardingStages(client.getOnboardingStages())
+                    .activeStage(client.getActiveStage())
+                    .build();
+            return ResponseEntity.ok(response);
+        } catch (UserNotFoundException e) {
+            log.error("user_not_found" + request.getEmail());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     @Operation(summary = "Save form", description = "Accepts client data from the form. " +
             "Only fields with a non-null value passed are updated")
     @ApiResponses(value = {

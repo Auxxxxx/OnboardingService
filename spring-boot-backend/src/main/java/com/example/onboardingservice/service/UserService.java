@@ -23,6 +23,11 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
+    public Client findClientByEmail(String email) throws UserNotFoundException {
+        return (Client) userRepository.findByRoleAndEmail(Role.CLIENT, email)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
     public void save(User user) {
         userRepository.save(user);
     }
