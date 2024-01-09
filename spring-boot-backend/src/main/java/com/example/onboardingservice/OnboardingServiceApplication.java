@@ -58,7 +58,6 @@ public class OnboardingServiceApplication extends SpringBootServletInitializer {
             authenticationService.signIn("bill_edwards@gmail.com", "cookie123");
             userService.updateClient(Client.builder()
                     .email("bill_edwards@gmail.com")
-                    .gender("male")
                     .fullName("Bob edwards")
                     .build());
         };

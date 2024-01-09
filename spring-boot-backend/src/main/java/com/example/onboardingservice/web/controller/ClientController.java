@@ -61,8 +61,6 @@ public class ClientController {
             var client = Client.builder()
                     .email(request.getEmail())
                     .fullName(request.getFullName())
-                    .mobile(request.getMobile())
-                    .gender(request.getGender())
                     .build();
             userService.updateClient(client);
             return ResponseEntity.status(HttpStatus.OK).build();

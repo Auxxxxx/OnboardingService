@@ -30,8 +30,6 @@ public class UserService {
         if (!(user instanceof Client existing)) {
             throw new UserIsNotClientException();
         }
-        existing.setGender(client.getGender());
-        existing.setMobile(client.getMobile());
         existing.setFullName(client.getFullName());
         save(existing);
     }
