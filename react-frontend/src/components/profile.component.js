@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import MotionNavigation from './navbar.component';
 import Navigation from './navbar.component';
 import Tagline from './tagline.component';
+import ButtonState from './stateButtons';
+import {motion, AnimatePresence} from 'framer-motion'
 
 
 const Profile = () => {
@@ -8,6 +11,7 @@ const Profile = () => {
   
     const handleShowNavbar = () => {
       setShowNavbar(!showNavbar);
+      console.log("Rerendering!")
     };
 
      return(
@@ -16,18 +20,33 @@ const Profile = () => {
             <img className = "prf-img" src="/footerProfile.svg" alt= "logo"></img>
         </header>
         <main className = "main prf-main">
-            <h1>New User</h1>
+            <h1>John Smith</h1>
             <img src="/profileAvatar.svg" alt="profile image"></img>
             <Tagline className = "tagline" text= "Insert tagline here"></Tagline>
             <button className ="get-nav" onClick={handleShowNavbar}></button>
+            {/* <AnimatePresence 
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}      
+            > */}
+            <AnimatePresence
+            initiate = {{x: 0, opacity: 0}}
+            animate= {{x: 180, opacity: 1}}
+            exit= {{x: 0, opacity: 0}}
+            transition = {{duration: 10}}
+            >
             {showNavbar &&
-             <Navigation showNavbar = {showNavbar} setShowNavbar = {setShowNavbar}/>}
+                <motion.div>
+                        <Navigation showNavbar = {showNavbar} setShowNavbar = {setShowNavbar}/>
+                </motion.div>
+            }
+            </AnimatePresence>
             
             <p>Welcome! Using this page toy can access all required tools needed for onboarding. You can also<br /> access any notes from our meetings together and even access a record of advertissing reports.</p>
             <h2>The Roadmap</h2>
-            <button class="prf-btn prf-btn-1"></button>
-            <button class="prf-btn prf-btn-2"></button>
-            <button class="prf-btn prf-btn-3"></button>
+            {/* <button class="prf-btn prf-btn-1"></button> */}
+            <ButtonState text = {"progress text"}></ButtonState>
+            {/* <button class="prf-btn prf-btn-2"></button>
+            <button class="prf-btn prf-btn-3"></button> */}
         </main>
         <footer></footer>
         </>

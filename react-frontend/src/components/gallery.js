@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 const PhotoPage = () => {
   const [photos, setPhotos] = useState([]);
 
+  
+
   const handleUpload = (event) => {
     const newPhoto = event.target.files[0];
     setPhotos([...photos, newPhoto]);
@@ -10,7 +12,7 @@ const PhotoPage = () => {
 
   const renderPhotos = () => {
     return photos.map((photo, index) => (
-      <img key={index} src={URL.createObjectURL(photo)} alt={`Photo ${index + 1}`} />
+      <img key={index} src={URL.createObjectURL(photo)} alt={`photo ${index + 1}`} />
     ));
   };
 

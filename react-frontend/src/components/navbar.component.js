@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import Profile from './profile.component';
+import {Link} from "react-router-dom"
+import {motion} from "framer-motion"
 
 
 const Navigation = (props) => {
-  //const [isOpen, setIsOpen] = useState(true);
-  // const [isExit, setExit] = useState(false);
 
-  // const toggleNavigation = () => {
-  //   setIsOpen(!isOpen);
-  // };
- 
   const email = props.email;
   let isOpen = props.showNavbar;
   let setOpen = props.setShowNavbar; 
 
-  return ( <>
+  return ( <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    // className=“navigation”
+  >
          {
         isOpen ? ( 
         <>
@@ -28,29 +29,39 @@ const Navigation = (props) => {
           </div>
           <ul className="nav-ul">
             <li class = "prf-ul">
-            <img class= "nav-li-img mar-l" src="/onboarding.svg" al="contact"></img>
-              <a class = "nav-li ob1" href="/onboarding">OnBoarding</a></li>
+            <img className= "nav-li-img mar-l" src="/onboarding.svg" alt="contact"></img>
+              {/* <a className = "nav-li ob1" href="/onboarding">OnBoarding</a></li> */}
+              <Link className = "nav-li ob1" to="/onboarding">OnBoarding</Link></li>
+
             <li>
-            <img class= "nav-li-img mar-l" src="/mediaAssert.svg" al="contact"></img>
-              <a class = "nav-li ob1" href="/media">Media Asserts</a></li>
+            <img className= "nav-li-img mar-l" src="/mediaAssert.svg" alt ="contact"></img>
+              {/* <a className = "nav-li ob1" href="/media">Media Asserts</a></li> */}
+              <Link className = "nav-li ob1" to="/media">Media Asserts</Link></li>
             <li>
-              <img class= "nav-li-img mar-l" src="/reports.svg" al="contact"></img>
-              <a class = "nav-li ob2" href="/reports">Paid Advertising Reports</a></li>
+              <img className = "nav-li-img mar-l" src="/reports.svg" alt ="contact"></img>
+              {/* <a className = "nav-li ob2" href="/reports">Paid Advertising Reports</a></li> */}
+              <Link className = "nav-li ob2" to="/reports">Paid Advertising Reports</Link></li>
             <li>
-              <img class= "nav-li-img" src="/meetingNotes.svg" al="contact"></img>
-              <a class = "nav-li ob3" href="/notes">Meeting Notes</a></li>
+              <img className = "nav-li-img" src="/meetingNotes.svg" alt ="contact"></img>
+              {/* <a className = "nav-li ob3" href="/notes">Meeting Notes</a></li> */}
+              <Link className = "nav-li ob3" to="/notes">Meeting Notes</Link></li>
             <li>
-              <img class= "nav-li-img usfinfo" src="/usefulinfo.svg" al="contact"></img>
-              <a class = "nav-li ob4" href="/usefulinfo">Useful Information</a></li>
+              <img className = "nav-li-img usfinfo" src="/usefulinfo.svg" alt ="contact"></img>
+              {/* <a className = "nav-li ob4" href="/usefulinfo">Useful Information</a></li> */}
+              <Link className = "nav-li ob4" to="/usefulinfo">Useful Information</Link></li>
             <li>
-              <img class= "nav-li-img" src="/clientContact.svg" al="contact"></img>
-              <a class = "nav-li ob5" href="/contacts">Client Contact Details</a></li>
+              <img className= "nav-li-img" src="/clientContact.svg" alt ="contact"></img>
+              {/* <a className = "nav-li ob5" href="/contacts">Client Contact Details</a></li> */}
+              <Link className = "nav-li ob5" to="/contacts">Client Contact Details</Link></li>
               </ul>
         </div>  
         </>) : null
      } 
-     </>
+     </motion.div>
   );
 };
 
+// const MotionNavigation = motion(Navigation);
+
+// export default MotionNavigation;
 export default Navigation;

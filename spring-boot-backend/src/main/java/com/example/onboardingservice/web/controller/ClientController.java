@@ -2,13 +2,11 @@ package com.example.onboardingservice.web.controller;
 
 import com.example.onboardingservice.exception.UserIsNotClientException;
 import com.example.onboardingservice.exception.UserNotFoundException;
+import com.example.onboardingservice.exception.WrongListSize;
 import com.example.onboardingservice.model.Client;
 import com.example.onboardingservice.model.Role;
 import com.example.onboardingservice.service.UserService;
-import com.example.onboardingservice.web.httpData.user.ClientDeleteRequest;
-import com.example.onboardingservice.web.httpData.user.ClientDeleteResponse;
-import com.example.onboardingservice.web.httpData.user.ClientListResponse;
-import com.example.onboardingservice.web.httpData.user.ClientUpdateRequest;
+import com.example.onboardingservice.web.httpData.user.*;
 import com.example.onboardingservice.web.util.RequestData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -46,26 +44,97 @@ public class ClientController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "Save form", description = "Accepts client data from the form")
+    @Operation(summary = "Get client data", description = "Get client data by email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fetched successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
+            @ApiResponse(responseCode = "404", description = "Not Found. Client with such email not found")
+    })
+    @PostMapping("/get-data")
+    public ResponseEntity<ClientGetDataResponse> get(
+            @RequestBody(description = "Client email", required = true)
+            @RequestData ClientGetDataRequest request) {
+        if (request.getEmail() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        log.info("returning_client: " + request.getEmail());
+        try {
+            var client = userService.findClientByEmail(request.getEmail());
+            var response = ClientGetDataResponse.builder()
+                    .fullName(client.getFullName())
+                    .formAnswers(client.getFormAnswers())
+                    .onboardingStages(client.getOnboardingStages())
+                    .activeStage(client.getActiveStage())
+                    .build();
+            return ResponseEntity.ok(response);
+        } catch (UserNotFoundException e) {
+            log.error("user_not_found" + request.getEmail());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @Operation(summary = "Save form", description = "Accepts client data from the form. " +
+            "Only fields with a non-null value passed are updated")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Saved successfully"),
-            @ApiResponse(responseCode = "400", description = "Error. User with such email is not a client"),
-            @ApiResponse(responseCode = "404", description = "Error. Client with such email not found")
+            @ApiResponse(responseCode = "400", description = "Bad Request. Either " +
+                    "the user with such email is not a client " +
+                    "or list size for answers/stages is wrong " +
+                    "or email field is null"),
+            @ApiResponse(responseCode = "404", description = "Not Found. Client with such email not found")
     })
     @PatchMapping
     public ResponseEntity<Void> update(
-            @RequestBody(description = "Client data from form", required = true)
-            @RequestData ClientUpdateRequest request) {
+            @RequestBody(description = "Client data from form " +
+                    "Only fields with a non-null value passed are updated", required = true)
+            @RequestData ClientPatchRequest request) {
+        if (request.getEmail() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         log.info("updating_client: " + request.getEmail());
         try {
-            var client = Client.builder()
-                    .email(request.getEmail())
-                    .fullName(request.getFullName())
-                    .mobile(request.getMobile())
-                    .gender(request.getGender())
-                    .build();
-            userService.updateClient(client);
+            userService.updateClient(
+                    request.getEmail(),
+                    request.getFullName(),
+                    request.getFormAnswers(),
+                    request.getOnboardingStages(),
+                    request.getActiveStage());
             return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (UserNotFoundException e) {
+            log.error("user_not_found" + request.getEmail());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (UserIsNotClientException e) {
+            log.error("user_is_not_client: " + request.getEmail());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } catch (WrongListSize e) {
+            log.error("wrong_list_size: " + request.getEmail());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @Operation(summary = "Is form filled", description = "Returns true if form has already " +
+            "been filled by this client, false otherwise")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fetched result successfully"),
+            @ApiResponse(responseCode = "400", description = "Error. " +
+                    "The user with such email is not a client " +
+                    "or email field is null"),
+            @ApiResponse(responseCode = "404", description = "Error. Client with such email not found")
+    })
+    @PostMapping("/is-form-filled")
+    public ResponseEntity<ClientIsFormFilledResponse> isFormFilled(
+            @RequestBody(description = "Client email", required = true)
+            @RequestData ClientIsFormFilledRequest request) {
+        if (request.getEmail() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        log.info("requesting_if_form_filled: " + request.getEmail());
+        try {
+            var isFormFilled = userService.isFormFilled(request.getEmail());
+            var response = ClientIsFormFilledResponse.builder()
+                    .isFormFilled(isFormFilled)
+                    .build();
+            return ResponseEntity.ok(response);
         } catch (UserNotFoundException e) {
             log.error("user_not_found" + request.getEmail());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -77,12 +146,16 @@ public class ClientController {
 
     @Operation(summary = "Delete client", description = "Deletes client by email")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Deleted successfully")
+            @ApiResponse(responseCode = "200", description = "Deleted successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
     })
     @DeleteMapping
     public ResponseEntity<ClientDeleteResponse> delete(
             @RequestBody(description = "Email of the client to delete", required = true)
             @RequestData ClientDeleteRequest request) {
+        if (request.getEmail() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         log.info("deleting_client: " + request.getEmail());
         var clients = userService.deleteByEmail(request.getEmail());
         var response = ClientDeleteResponse.builder()

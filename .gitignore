@@ -61,3 +61,4 @@ spring-boot-backend/!**/src/test/**/target/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+node_modules

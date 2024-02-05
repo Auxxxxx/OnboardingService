@@ -24,6 +24,7 @@ const Pagination = (props) => {
   const handlePrevPageClick = () => {
     onPrevPageClick();
   };
+  
 
   return (
     <div className={Styles.paginator}>

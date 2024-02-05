@@ -11,7 +11,7 @@ const RESPONSE_DATA = {
     list: [{name: "1"}, {name: "2"}, {name: "3"},{name: "4"}, {name: "5"}, {name: "6"}, {name: "7"}, {name: "8"}],
 };
 
-function AppPag() {
+function AppPage() {
   const [data, setData] = useState(RESPONSE_DATA);
   const [page, setPage] = useState(1);
   const [isLoading, setLoading] = useState(false);
@@ -55,7 +55,7 @@ function AppPag() {
 
   return (
     <div className='App'>
-      {data?.list ? (
+      {/* {data?.list ? (
         <ul>
           {data.list.map((item, index) => (
             <li className = "pag-li" key={index}>{`${item.name}`}</li>
@@ -63,7 +63,7 @@ function AppPag() {
         </ul>
       ) : (
         'no data'
-      )}
+      )} */}
       {data && (
         <Pagination
           onNextPageClick={handleNextPageClick}
@@ -79,4 +79,4 @@ function AppPag() {
   );
 }
 
-export default AppPag;
+export default AppPage;

@@ -1,36 +1,62 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {Router, Link} from 'react-router-dom';
+import useAuth from '../hooks/useAuth.js';
+import {useNavigate, useLocation} from 'react-router-dom';
 
 const Login = () => {
-    function handleClick() {
-      window.location.assign('/profile');
-      // alert("OnClick!");  //без этого не присходи переход на новую страницу
-    }
+    //function handleClick() {
+    //   window.location.assign('/profile');
+    //   // alert("OnClick!");  //без этого не присходи переход на новую страницу
+    // }
+    const { isAuthenticated, setAuth } = useAuth();
+    const navigate = useNavigate()
+    const location = useLocation()
+    const from = location.state?.from?.pathname || '/'
+
+    let form = {};
+    let formData = {};
 
     function handleSubmit(e) {
       // Prevent the browser from reloading the page
       e.preventDefault();
-    
       // Read the form data
-      const form = e.target;
-      const formData = new FormData(form);
-  
-      // You can pass formData as a fetch body directly:
-      fetch('http://localhost:8080/auth/sign-in', { method: form.method, body: formData })
+      form = e.target;
+      formData = new FormData(form);
+      console.log(form);
+
+      const formJson = Object.fromEntries(formData.entries());
+      //в кеше не успевает обновиться значение isAtherizated
+      console.log(formJson);
+      //обходной путь без логина, тестовая часть:
+      console.log("isAuthenticated: ", isAuthenticated, "setAuth()):", setAuth);
+      //navigate(from, { replace: true });
+      //navigate("/profile")
+      
+    }
+    function handleClick(){
+      try{
+        const response = fetch('http://localhost:8080/auth/sign-in', { method: form.method, body: formData })
       .then(responce => {
         if(responce.ok){
           console.log("yes");
-          window.location.assign('/profile');
+          //setAuth(true);
+          //navigate(from, { replace: true });
         } else{
-          console.log("no");
-          return(<div>Unright password!</div>);
+         throw new Error("ошибка в отправке данных")
+        }})
+        .catch(error => {
+          console.log("ошибка")
+          //обходной путь без логина, тестовая часть:
+          setAuth(true);
+          navigate(from, { replace: true });
+          navigate("/profile");
+        })
+       } 
+        catch (error){
+        console.log("ошибка")
         }
-      })
-      const formJson = Object.fromEntries(formData.entries());
-      console.log(formJson);
-      //window.location.assign('/profile');
-      
-    }
+      }
+
     return (
       <div>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
@@ -100,7 +126,7 @@ const Login = () => {
         </div>
 
         <div className="d-grid">
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" onClick={handleClick}  className="btn btn-primary">
             Login
           </button>
         </div>

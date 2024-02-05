@@ -1,25 +1,75 @@
 import React, { Component, useState } from 'react';
-import {Router, Link} from 'react-router-dom';
+import {Router, Link, useNavigate, useLocation} from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const SignUp = () => {
-  function handleSubmit(e) {
+  const { isAuthenticated, setAuth } = useAuth();
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from?.pathname || '/'
+  let form = {};
+  let formData = {};
+
+   function handleSubmit(e) {
     // Prevent the browser from reloading the page
     e.preventDefault();
-  
-    // Read the form data
-    const form = e.target;
-    const formData = new FormData(form);
-
-    // You can pass formData as a fetch body directly:
-    fetch('http://localhost:8080//auth/register', { method: form.method, body: formData })
-        .then(responce => { 
-          if(responce.ok)  { window.location.assign('/profile');}
-          else {console.log("Error")}
-        }
-          )
+    form = e.target;
+    formData = new FormData(form);
     
-    const formJson = Object.fromEntries(formData.entries());
-    console.log(formJson);
+    try {
+      const response = fetch('http://localhost:8080/auth/register', { 
+      method: form.method, 
+      body: formData 
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log("ок")
+            navigate(from, { replace: true });
+          } else {
+            throw new Error('Error occurred');
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          setAuth(true);
+          navigate(from, { replace: true });
+          // window.location.assign('/profile');
+        });
+    } catch (error) {
+      console.log("Ошибка");
+    }
+    //console.log(formJson);
+    setAuth(true);
+    console.log("isAuthenticated: ", isAuthenticated, "setAuth()):", setAuth);
+    navigate(from, { replace: true });
+  }
+
+  function handleClick() {
+    try{
+      const response = fetch('http://localhost:8080/auth/register', { method: form.method, body: formData })
+    .then(responce => {
+      if(responce.ok){
+        console.log("yes");
+        setAuth(true);
+        //console.log("isAuthenticated: ", isAuthenticated);
+        navigate(from, { replace: true });
+      } else{
+       throw new Error("ошибка в отправке данных")
+        console.log("no");
+      }})
+      .catch(error => {
+        //обходной путь без логина, тестовая часть:
+        setAuth(true);
+        //console.log("isAuthenticated: ", isAuthenticated);
+        navigate(from, { replace: true });
+      })
+     } 
+      catch (error){
+      console.log("ошибка")
+      setAuth(true);
+      navigate(from, { replace: true });
+      }
+
   }
 
     return (

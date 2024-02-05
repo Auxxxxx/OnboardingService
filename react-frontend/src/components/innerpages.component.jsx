@@ -4,6 +4,8 @@ import NotesList from './noteList.component';
 import MediaList from './mediaList';
 import OnboardingList from './onboardingList';
 import ContactList from './contactList.component';
+import UsefulInfoList from './usefullInfoList';
+import ManageL from './ListScroll.tsx'
 
 const InnerPage = (props) => {
   const [showNavbar, setShowNavbar] = useState(false);
@@ -33,40 +35,40 @@ const InnerPage = (props) => {
   return (
 
     <main className = "main inner-main">
-      <div class="inner-div">
-      <img class = "inner-img" src= {props.logoimg} ></img>
-      <h2 class = "pages-h2 inner-h2 " >{props.hed}</h2>
-      <button className ="inner-get-nav" onClick={handleShowNavbar}></button>
-            {showNavbar &&
-             <Navigation showNavbar = {showNavbar} setShowNavbar = {setShowNavbar} />}
+    <div class="inner-div">
+        <img class = "inner-img" src= {props.logoimg} ></img>
+        <h2 class = "pages-h2 inner-h2 " >{props.hed}</h2>
+        <button className ="inner-get-nav" onClick={handleShowNavbar}></button>
+              {showNavbar &&
+              <Navigation showNavbar = {showNavbar} setShowNavbar = {setShowNavbar} />}
 
-      <p class = "pages-p" >{props.p}</p>
-      {/* <ul class = "inner-ul info-ul">
-        {userDataList.map((userString) => (
-          <li class = "inner-li info-li" ><img className = "inner-li-img" src = "info-li.svg" alt ="point"></img>
-          {userString}
-          </li> */}
-        {/* ))}
-      </ul> */}
-    {props.class === "notes" &&
-     <NotesList class = {props.class} list = {props.list}/>
-    }
-    {props.class === "media" &&
-      <MediaList class = {props.class} list = {props.list}/>
-    }
-    {props.class === "onboarding" &&
-      <OnboardingList />
-    }
-    {props.class == "contacts" && <ContactList class = {props.class} list = {props.list}>
+        <p class = {"pages-p inner-p-" + props.class} >{props.p}</p>
+        {/* <ul class = "inner-ul info-ul">
+          {userDataList.map((userString) => (
+            <li class = "inner-li info-li" ><img className = "inner-li-img" src = "info-li.svg" alt ="point"></img>
+            {userString}
+            </li> */}
+          {/* ))}
+        </ul> */}
+      {props.class === "notes" &&
+      <NotesList class = {props.class} list = {props.list}/>
+      }
+      {props.class === "media" &&
+        <MediaList class = {props.class} list = {props.list}/>
+      }
+      {props.class === "onboarding" &&
+        <OnboardingList />
+      }
+      {props.class === "contacts" && <ContactList class = {props.class} list = {props.list}>
 
-    </ContactList>
+      </ContactList>
 
-    }
-     {props.class == "info" && <ContactList class = {props.class} list = {props.list}></ContactList>
-    }
+      }
+      {props.class === "info" && <UsefulInfoList class = {props.class} list = {props.list}></UsefulInfoList>
+      }
 
-      </div>
-    </main>
+  </div>
+  </main>
   );
 };
 
