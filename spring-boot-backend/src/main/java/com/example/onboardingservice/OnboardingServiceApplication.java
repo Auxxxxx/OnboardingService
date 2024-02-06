@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.config.oauth2.client.ClientRegistrationsBeanDefinitionParser;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.util.List;
@@ -59,13 +60,12 @@ public class OnboardingServiceApplication extends SpringBootServletInitializer {
             //authenticationService.signIn("bill_edwards@gmail.com", "cookie123");
             authenticationService.register("Bill Edwards", "bill_edwards@gmail.com", "cookie123");
             authenticationService.signIn("bill_edwards@gmail.com", "cookie123");
-            userService.updateClient(Client.builder()
-                    .email("bill_edwards@gmail.com")
-                    .fullName("Bob edwards")
-                    .formAnswers(List.of("default1, default2, default3, default4, default5, default6"))
-                    .onboardingStages(List.of("first steps", "common client", "partner"))
-                    .activeStage(1L)
-                    .build());
+            userService.updateClient(
+                    "bill_edwards@gmail.com",
+                    "Bob edwards",
+                    List.of("default1", "default2", "default3", "default4", "default5", "default6"),
+                    List.of("first steps", "common client", "partner"),
+                    1L);
         };
     }
 

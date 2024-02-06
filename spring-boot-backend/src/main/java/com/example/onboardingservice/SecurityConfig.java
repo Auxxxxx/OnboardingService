@@ -25,6 +25,8 @@ public class SecurityConfig {
         httpSecurity
                 .csrf()
                 .disable()
+                .cors()
+                .disable()
                 .authorizeHttpRequests()
                 .anyRequest()
                 .permitAll()
