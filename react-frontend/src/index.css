@@ -348,6 +348,16 @@ li::marker{
   top: 0.5vw; 
 }
 
+.p-loading{
+  display: inline-block;
+  margin-left: 3%;
+  margin: auto 0;
+  font-weight: 600;
+  font-family: "Inter";
+  color: #3873E9;
+}
+
+
 .info-h2{
    display: inline-block;
 
