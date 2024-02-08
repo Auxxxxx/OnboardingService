@@ -307,7 +307,7 @@ li::marker{
 .get-nav{
   position: absolute;
   right: 17%;
-  top: 0px;
+  top: 1%;
   width: 2vw;
   height: 2vw;
   border: none;
@@ -317,6 +317,23 @@ li::marker{
   
 }
 
+.media-ul{
+  margin-left: -4%;
+}
+.notes-ul{
+  margin-left: -1.6%;
+}
+
+.useful-ul{
+  margin-left: -1.6%;
+}
+
+.inner-wrapper{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .inner-img{
   /* width:4%;
   height: 4%; */
@@ -324,7 +341,7 @@ li::marker{
 
 .inner-h2{
   display: inline-block;
-  margin-left: 1vw;
+  margin-left: -2%;
   width: 40%;
   vertical-align: auto;
   position: relative;
@@ -384,6 +401,7 @@ li::marker{
 .inner-get-nav{
   position: relative;
   margin-left: 46%;
+  margin-right: -2%;
   vertical-align: center;
   width: 2vw;
   height: 2vw;
@@ -391,6 +409,10 @@ li::marker{
   background-color: #ffffff;
   background-image: url('../public/nav-get.svg');
   background-size: cover;
+}
+
+.inner-p{
+  margin-left: 2%;
 }
 
 .notes-li-zip{
@@ -434,11 +456,10 @@ li::marker{
 
 .media-li{
   display: inline-block;
-  width: 20vw;
-  height: 10vw;
+  width: 22.1vw;
+  height: 13vw;
+  margin-left: 2%;
   margin-bottom: 1rem;
-  margin-left: 1em;
-
 
 }
 
@@ -514,6 +535,9 @@ li::marker{
 }
 
 
+.contacts-ul{
+  margin-left: -1.8%;
+}
 
 .contacts-li{
     width: 100%;
