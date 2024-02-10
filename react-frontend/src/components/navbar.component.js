@@ -34,23 +34,23 @@ const Navigation = (props) => {
               <Link className = "nav-li ob1" to="/onboarding">OnBoarding</Link></li>
 
             <li>
-            <img className= "nav-li-img mar-l" src="/mediaAssert.svg" alt ="contact"></img>
+            <img className= "nav-li-img mar-l nav-li-media" src="/mediaAssert.svg" alt ="contact"></img>
               {/* <a className = "nav-li ob1" href="/media">Media Asserts</a></li> */}
               <Link className = "nav-li ob1" to="/media">Media Asserts</Link></li>
             <li>
-              <img className = "nav-li-img mar-l" src="/reports.svg" alt ="contact"></img>
+              <img className = "nav-li-img mar-l " src="/reports.svg" alt ="contact"></img>
               {/* <a className = "nav-li ob2" href="/reports">Paid Advertising Reports</a></li> */}
               <Link className = "nav-li ob2" to="/reports">Paid Advertising Reports</Link></li>
             <li>
-              <img className = "nav-li-img" src="/meetingNotes.svg" alt ="contact"></img>
+              <img className = "nav-li-img nav-li-useful" src="/meetingNotes.svg" alt ="contact"></img>
               {/* <a className = "nav-li ob3" href="/notes">Meeting Notes</a></li> */}
               <Link className = "nav-li ob3" to="/notes">Meeting Notes</Link></li>
             <li>
-              <img className = "nav-li-img usfinfo" src="/usefulinfo.svg" alt ="contact"></img>
+              <img className = "nav-li-meeting" src="/usefulinfo.svg" alt ="contact"></img>
               {/* <a className = "nav-li ob4" href="/usefulinfo">Useful Information</a></li> */}
               <Link className = "nav-li ob4" to="/usefulinfo">Useful Information</Link></li>
             <li>
-              <img className= "nav-li-img" src="/clientContact.svg" alt ="contact"></img>
+              <img className= "nav-li-img nav-li-useful" src="/clientContact.svg" alt ="contact"></img>
               {/* <a className = "nav-li ob5" href="/contacts">Client Contact Details</a></li> */}
               <Link className = "nav-li ob5" to="/contacts">Client Contact Details</Link></li>
               </ul>

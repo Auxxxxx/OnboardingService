@@ -20,9 +20,9 @@ const Profile = () => {
             <img className = "prf-img" src="/footerProfile.svg" alt= "logo"></img>
         </header>
         <main className = "main prf-main">
-            <h1>John Smith</h1>
             <img src="/profileAvatar.svg" alt="profile image"></img>
-            <Tagline className = "tagline" text= "Insert tagline here"></Tagline>
+            <h1 className="prf-h1">John Smith</h1>
+            {/* <Tagline className = "tagline" text= "Insert tagline here"></Tagline> */}
             <button className ="get-nav" onClick={handleShowNavbar}></button>
             {/* <AnimatePresence 
             animate={{ opacity: 1 }}

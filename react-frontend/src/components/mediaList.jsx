@@ -8,9 +8,11 @@ const MediaList = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     
     const [data, setData] = useState({data:  ["https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    , "https://unsplash.com/photos/person-holding-pencil-near-laptop-computer-5fNmWej4tAA"
+    , "https://plus.unsplash.com/premium_photo-1683980578016-a1f980719ec2?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     , "http://joomlavogue.com/web_designer_developer/wp-content/uploads/2013/08/dt-045.jpg"
     , "https://i.blogs.es/33f737/app_store/1366_2000.jpeg"
+    , "https://images.unsplash.com/photo-1547032175-7fc8c7bd15b3?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    , "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?q=80&w=1851&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
    ]
  });
     const [page, setPage] = useState(1);
@@ -73,7 +75,7 @@ const MediaList = (props) => {
         return <><p className = "p-loading">Loading...</p></>
 
     return(<>
-    <ul>
+    <ul className="media-ul">
         {viewNoteList}
     </ul>
     {data && (

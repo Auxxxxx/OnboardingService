@@ -59,7 +59,7 @@ const NotesList = (props) => {
     
 
     return(
-    <ul>
+    <ul className="notes-ul">
         {viewNoteList}
     </ul>
     );

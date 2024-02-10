@@ -11,6 +11,8 @@ body {
   font-weight: 400;
   font-family: "Inter";
   color: #3873E9;
+  padding: 0px;
+  margin: 0px;
 }
 
 h1,
@@ -178,12 +180,32 @@ html,
 }
 
 .nav-ul{
+  display: flex;
+  /* justify-content: left; */
+  flex-direction: column;
   padding-left: 0;
+  gap: 0.2rem;
 }
 
+.nav-li-media{
+  margin-left: -3px;
+}
+
+
+.nav-li-meeting{
+  margin-left: 4px;
+}
+
+
 .prf-img{
+  margin-top: -70px;
   width: 100%;
-  height: 10em;
+  height: 16em;
+  margin-bottom: -6%;
+}
+
+.prf-h1{
+  margin-top: 2%;
 }
 
 .overlay{
@@ -206,14 +228,20 @@ li::marker{
   content: "";
 }
 
+/* .nav-li-img{
+  height: 90%;
+}
+
 .usfinfo{
     margin-left: 0.7vw;
+    height: 90%;
 
 }
 
 .mar-l{
   margin-left: 0.3vw;
-}
+  height: 90%;
+} */
 
 .prf-btn{
   border: none;
@@ -271,7 +299,7 @@ li::marker{
   position: relative;
   margin-top: 1.5rem;
   background-color: #cfe2ff;
-  border-radius: 0.5rem;
+  border-radius: 0.15rem;
   padding: 0.8rem;
 }
 
@@ -306,8 +334,8 @@ li::marker{
 
 .get-nav{
   position: absolute;
-  right: 17%;
-  top: 1%;
+  right: 15%;
+  top: 20%;
   width: 2vw;
   height: 2vw;
   border: none;
@@ -318,8 +346,28 @@ li::marker{
 }
 
 .media-ul{
-  margin-left: -4%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  padding-left: 0px;
 }
+
+.media-ul, .notes-ul,  .useful-ul, .contacts-ul, .p-loading{
+  opacity: 0;
+  animation: ani 0.6s forwards;
+}
+
+/* .notes-ul,  .useful-ul, .contacts-ul{
+  opacity: 0;
+  animation: ani 0.3s forwards;
+} */
+
+@keyframes ani {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
 .notes-ul{
   margin-left: -1.6%;
 }
@@ -329,28 +377,35 @@ li::marker{
 }
 
 .inner-wrapper{
-  display: flex;
-  justify-content: space-around;
+   display: flex;
+  /*width: 100%;
+  box-sizing: border-box; */
+  
   align-items: center;
 }
 
-.inner-img{
-  /* width:4%;
-  height: 4%; */
+.p-loading{
+  display: inline-block;
+  /* margin-left: 10%; */
+  margin: auto 0;
+  margin-left: 40%;
+  margin-top: 20%;
+  font-weight: 500;
+  font-size: 32px;
+  font-family: "Inter";
+  color: #3873E9;
 }
 
 .inner-h2{
   display: inline-block;
-  margin-left: -2%;
-  width: 40%;
+  margin-left: 10px;
   vertical-align: auto;
   position: relative;
-  top: 0.5vw; 
+  margin-bottom: 0px;
 }
 
 .info-h2{
    display: inline-block;
-
 }
 
 
@@ -400,8 +455,7 @@ li::marker{
 
 .inner-get-nav{
   position: relative;
-  margin-left: 46%;
-  margin-right: -2%;
+  margin-left: auto;
   vertical-align: center;
   width: 2vw;
   height: 2vw;
@@ -413,6 +467,15 @@ li::marker{
 
 .inner-p{
   margin-left: 2%;
+}
+
+.notes-p{
+  display: block;
+  margin-top: 2%;
+  padding: 1%;
+  background-color: #81adef;
+  border-radius: 0.15rem;
+
 }
 
 .notes-li-zip{
@@ -429,7 +492,7 @@ li::marker{
 
 
 .notes-li-zip:hover{
-  background-color: #0d6efd;
+  background-color: #2d6ecf;
   opacity: 80%;
   cursor: pointer;
 }
@@ -456,11 +519,8 @@ li::marker{
 
 .media-li{
   display: inline-block;
-  width: 22.1vw;
+  width: 21.1vw;
   height: 13vw;
-  margin-left: 2%;
-  margin-bottom: 1rem;
-
 }
 
 .media-img{
@@ -750,4 +810,11 @@ li::marker{
 
 #root{
    background-image: url('../public/Navback.svg');
+}
+
+
+
+.inner-main li{
+  opacity: 1;
+  transition: opacity 5s;
 }

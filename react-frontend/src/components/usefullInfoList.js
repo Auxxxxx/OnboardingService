@@ -80,7 +80,7 @@ const UsefulInfoList = (props) => {
    return <><p className = "p-loading">Loading...</p></>
 
     return(<>
-        <ul>
+        <ul className="useful-ul">
         {viewNoteList}
     </ul>
     {data && (

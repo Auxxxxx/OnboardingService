@@ -36,20 +36,21 @@ const InnerPage = (props) => {
 
     <main className = "main inner-main">
     <div class="inner-div">
+      <div className="inner-wrapper">
         <img class = "inner-img" src= {props.logoimg} ></img>
         <h2 class = "pages-h2 inner-h2 " >{props.hed}</h2>
         <button className ="inner-get-nav" onClick={handleShowNavbar}></button>
               {showNavbar &&
               <Navigation showNavbar = {showNavbar} setShowNavbar = {setShowNavbar} />}
+        </div>
 
-        <p class = {"pages-p inner-p-" + props.class} >{props.p}</p>
-        {/* <ul class = "inner-ul info-ul">
-          {userDataList.map((userString) => (
-            <li class = "inner-li info-li" ><img className = "inner-li-img" src = "info-li.svg" alt ="point"></img>
-            {userString}
-            </li> */}
-          {/* ))}
-        </ul> */}
+      {props.class === "notes-" &&  <p class = "notes-p" >{props.p}</p>
+      }
+      {props.class !== "notes-" &&   <p class = "inner-p" >{props.p}</p>
+      }
+      
+{/* 
+        <p class = "inner-p" >{props.p}</p> */}
       {props.class === "notes" &&
       <NotesList class = {props.class} list = {props.list}/>
       }
@@ -66,6 +67,8 @@ const InnerPage = (props) => {
       }
       {props.class === "info" && <UsefulInfoList class = {props.class} list = {props.list}></UsefulInfoList>
       }
+       
+
 
   </div>
   </main>

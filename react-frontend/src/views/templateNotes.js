@@ -31,7 +31,7 @@ const TemplateNote = (props) => {
   
     return (
       <>
-       <InnerPage hed = "Notes" logoimg = "/Onboarding.svg" p = {props.text} class = {"notes-" + i} /> 
+       <InnerPage hed = "Notes" logoimg = "/Onboarding.svg" p = {longText} class = {"notes-"} /> 
       </>
     );
   };

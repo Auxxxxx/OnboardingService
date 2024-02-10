@@ -90,7 +90,7 @@ const ContactList = (props) => {
 
     return(
     <>
-    <ul>
+    <ul className="contacts-ul">
         {viewNoteList}
     </ul>
     {data && (
