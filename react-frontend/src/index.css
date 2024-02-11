@@ -207,7 +207,7 @@ html,
   background-color: #ffffff;
   background-image: url('../public/nav-exit.svg');
   background-size: cover;
-  margin-top: -10%;
+  margin-top: -7%;
   margin-right: -2%;
 }
 
@@ -435,7 +435,7 @@ li::marker{
 }
 
 .inner-img{
-  margin-top: -4%;
+  margin-top: -2%;
 }
 
 .p-loading{
@@ -868,12 +868,6 @@ li::marker{
   background-repeat: no-repeat;
   background-size: contain;
 }
-
-#root{
-   background-image: url('../public/Navback.svg');
-}
-
-
 
 .inner-main li{
   opacity: 1;

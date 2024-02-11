@@ -4,10 +4,7 @@ import useAuth from '../hooks/useAuth.js';
 import {useNavigate, useLocation} from 'react-router-dom';
 
 const Login = () => {
-    //function handleClick() {
-    //   window.location.assign('/profile');
-    //   // alert("OnClick!");  //без этого не присходи переход на новую страницу
-    // }
+ 
     const { isAuthenticated, setAuth } = useAuth();
     const navigate = useNavigate()
     const location = useLocation()
@@ -17,20 +14,16 @@ const Login = () => {
     let formData = {};
 
     function handleSubmit(e) {
-      // Prevent the browser from reloading the page
+      
       e.preventDefault();
-      // Read the form data
+      
       form = e.target;
       formData = new FormData(form);
       console.log(form);
-
       const formJson = Object.fromEntries(formData.entries());
-      //в кеше не успевает обновиться значение isAtherizated
       console.log(formJson);
-      //обходной путь без логина, тестовая часть:
       console.log("isAuthenticated: ", isAuthenticated, "setAuth()):", setAuth);
-      //navigate(from, { replace: true });
-      //navigate("/profile")
+      
       
     }
     function handleClick(){
@@ -39,14 +32,11 @@ const Login = () => {
       .then(responce => {
         if(responce.ok){
           console.log("yes");
-          //setAuth(true);
-          //navigate(from, { replace: true });
         } else{
          throw new Error("ошибка в отправке данных")
         }})
         .catch(error => {
           console.log("ошибка")
-          //обходной путь без логина, тестовая часть:
           setAuth(true);
           navigate(from, { replace: true });
           navigate("/profile");
@@ -130,9 +120,9 @@ const Login = () => {
             Login
           </button>
         </div>
-        <p className="forgot-password text-right">
+        {/* <p className="forgot-password text-right">
           Forgot <a href="#">password?</a>
-        </p>
+        </p> */}
       </form>
       </div>
     </div>
