@@ -1,6 +1,29 @@
 /* @import url("https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800"); */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 
+@font-face {
+  font-family: 'Inter regular';
+  src: url('../public/font/Inter-Regular.ttf');
+
+}
+
+@font-face {
+  font-family: 'Inter semibold';
+  src: url('../public/font/Inter-SemiBold.ttf');
+
+}
+
+@font-face {
+  font-family: 'Inter bold';
+  src: url('../public/font/Inter-Bold.ttf');
+
+}
+
+
+
+
+
+
 * {
   box-sizing: border-box;
 }
@@ -24,6 +47,14 @@ h6{
     font-weight: 600;
     font-family: "Inter";
     color: #3873E9;
+}
+
+h1{
+  font-family: "Inter bold";
+}
+
+h2{
+  font-family: "Inter semibold";
 }
 
 body,
@@ -159,6 +190,16 @@ html,
 
 }
 
+.nav-top{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2%;
+  margin-bottom: 7%;
+  margin-left: 10px;
+}
+
 .nav-exit{
   width: 1.6vw;
   height: 1.6vw;
@@ -166,11 +207,15 @@ html,
   background-color: #ffffff;
   background-image: url('../public/nav-exit.svg');
   background-size: cover;
+  margin-top: -10%;
+  margin-right: -2%;
 }
 
-.nav-h2{
+.nav-h3{
   display: inline;
-  margin-right: 43%;
+  /* font-weight: 500; */
+  /* margin-right: 43%; */
+  /* margin-top: 1%; */
 }
 
 .nav-li{
@@ -189,11 +234,6 @@ html,
 
 .nav-li-media{
   margin-left: -3px;
-}
-
-
-.nav-li-meeting{
-  margin-left: 4px;
 }
 
 
@@ -218,20 +258,21 @@ html,
   z-index: 10;
 }
 
-.prf-ul{   
-  margin-top: 3vw;
-  list-style-type: none;
-
-}
 
 li::marker{
   content: "";
 }
 
-/* .nav-li-img{
-  height: 90%;
+.nav-li-img{
+  height: 3vw;
 }
 
+.nav-li-meeting{
+  margin-left: 4px;
+  width: 3vw;
+}
+
+/* 
 .usfinfo{
     margin-left: 0.7vw;
     height: 90%;
@@ -242,6 +283,17 @@ li::marker{
   margin-left: 0.3vw;
   height: 90%;
 } */
+
+
+.nav-li-contact::before{
+  content: "";
+  position: relative;
+  background-image: url('/public/clientContact.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+
+}
+
 
 .prf-btn{
   border: none;
@@ -264,7 +316,7 @@ li::marker{
 
 .prf-btn-1{
   position: relative;
-  margin-top: 0.6em;
+  /* margin-top: 0.6em; */
   vertical-align: middle;
   background-image: url('../public/btn-state1.svg');
   background-size: cover;
@@ -278,14 +330,15 @@ li::marker{
   vertical-align: middle;
   width: 7.3vw;
   height: 7.3vw;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-color: #ffffff;
 }
 
 .prf-btn-3{
   margin-left: 2em;
   position: relative;
-  margin-top: 0.6em;
+  /* margin-top: 0.6em; */
   vertical-align: middle;
   background-image: url('../public/btn-state3.svg');
   background-size: cover;
@@ -337,11 +390,12 @@ li::marker{
   right: 15%;
   top: 20%;
   width: 2vw;
-  height: 2vw;
+  height: 1.4vw;
   border: none;
   background-color: #ffffff;
   background-image: url('../public/nav-get.svg');
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   
 }
 
@@ -378,10 +432,10 @@ li::marker{
 
 .inner-wrapper{
    display: flex;
-  /*width: 100%;
-  box-sizing: border-box; */
-  
-  align-items: center;
+}
+
+.inner-img{
+  margin-top: -4%;
 }
 
 .p-loading{
@@ -398,10 +452,15 @@ li::marker{
 
 .inner-h2{
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 20px;
   vertical-align: auto;
   position: relative;
   margin-bottom: 0px;
+  margin-top: 2%;
+}
+
+.inner-p{
+  margin-left: 20px;
 }
 
 .info-h2{
@@ -458,16 +517,15 @@ li::marker{
   margin-left: auto;
   vertical-align: center;
   width: 2vw;
-  height: 2vw;
+  height: 1.4vw;
   border: none;
   background-color: #ffffff;
   background-image: url('../public/nav-get.svg');
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-top: 3%;
 }
 
-.inner-p{
-  margin-left: 2%;
-}
 
 .notes-p{
   display: block;
@@ -479,7 +537,9 @@ li::marker{
 }
 
 .notes-li-zip{
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 4em;
     text-align: left;
@@ -492,27 +552,26 @@ li::marker{
 
 
 .notes-li-zip:hover{
-  background-color: #2d6ecf;
-  opacity: 80%;
+  /* background-color: #2d6ecf;
+  opacity: 80%; */
   cursor: pointer;
 }
 .notes-img{
   display: inline-block;
   width: 3em;
   height: 3em;
-  margin-right: 3%;
-  margin-left: 2%;
-  margin-bottom: 0.4em;
+  margin-left: 10px;
 }
+
 .notes-name{
   display: inline-block;
-    width: 10%;
-    height: 2em;
+  margin-left: 10px;
 }
 
 .notes-date{
-    margin-left: 72%;
     font-weight: 500;
+    margin-left: auto;
+    margin-right: 8px;
 
 }
 
@@ -627,6 +686,8 @@ li::marker{
     border-radius: 0.5rem;
     padding: 0.8rem;
 }
+
+
 
 /*Mnager Page */
 

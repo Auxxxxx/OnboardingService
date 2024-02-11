@@ -6,6 +6,7 @@ import OnboardingList from './onboardingList';
 import ContactList from './contactList.component';
 import UsefulInfoList from './usefullInfoList';
 import ManageL from './ListScroll.tsx'
+// import '../styles/navbar.css'
 
 const InnerPage = (props) => {
   const [showNavbar, setShowNavbar] = useState(false);
@@ -38,16 +39,18 @@ const InnerPage = (props) => {
     <div class="inner-div">
       <div className="inner-wrapper">
         <img class = "inner-img" src= {props.logoimg} ></img>
+        <div>
         <h2 class = "pages-h2 inner-h2 " >{props.hed}</h2>
+        {props.class !== "notes-" &&   <p class = "inner-p" >{props.p}</p>
+        }
+        </div>
         <button className ="inner-get-nav" onClick={handleShowNavbar}></button>
               {showNavbar &&
               <Navigation showNavbar = {showNavbar} setShowNavbar = {setShowNavbar} />}
         </div>
 
-      {props.class === "notes-" &&  <p class = "notes-p" >{props.p}</p>
-      }
-      {props.class !== "notes-" &&   <p class = "inner-p" >{props.p}</p>
-      }
+        {props.class === "notes-" &&  <p class = "notes-p" >{props.p}</p>
+        }
       
 {/* 
         <p class = "inner-p" >{props.p}</p> */}

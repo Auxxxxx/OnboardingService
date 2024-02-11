@@ -1,0 +1,76 @@
+.navigation{
+    overflow-y: hidden;
+    box-sizing: border-box;
+    position: fixed;
+    padding-right: 1%;
+    padding-left: 2%;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 26%;
+    background-color: #ffffff;
+    background-image: url('../public/Navback.svg');
+    background-size: cover;
+    background-position-y: bottom;
+    background-position-x: left;
+    text-align: left;
+    z-index: 1000;
+    transition: position 4s;
+  
+  }
+
+  .nav-exit{
+    width: 1.6vw;
+    height: 1.6vw;
+    border: none;
+    background-color: #ffffff;
+    background-image: url('../public/nav-exit.svg');
+    background-size: cover;
+  }
+  
+  .nav-h2{
+    display: inline;
+    margin-right: 43%;
+  }
+  
+  .nav-li{
+    text-decoration: none;
+    margin-left: 2vw;
+    margin-bottom: 0.8vw;
+  }
+  
+  .nav-ul{
+    display: flex;
+    /* justify-content: left; */
+    flex-direction: column;
+    padding-left: 0;
+    gap: 0.2rem;
+  }
+  
+  .nav-li-media{
+    margin-left: -3px;
+  }
+  
+  
+  .nav-li-meeting{
+    margin-left: 4px;
+  }
+  
+  .nav-li-useful{
+    margin-left: -2%;
+  }
+  
+
+  /* функционал. кнопки: */
+  .inner-get-nav{
+    position: relative;
+    margin-left: auto;
+    vertical-align: center;
+    width: 2vw;
+    height: 2vw;
+    border: none;
+    background-color: #ffffff;
+    background-image: url('../public/nav-get.svg');
+    background-size: cover;
+  }
+  

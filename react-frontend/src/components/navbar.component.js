@@ -19,38 +19,43 @@ const Navigation = (props) => {
          {
         isOpen ? ( 
         <>
-       <div className="overlay"></div>
+       <div className="overlay" onClick = {() => setOpen(prev => !prev)}></div>
       
         <div className="navigation">
-          <div class ="nav-top" >
-          <h2 class="nav-h2">Navigation</h2> 
+
+          <div className="nav-top" >
+          <h3 className ="nav-h3">Navigation</h3> 
           <button className = "nav-exit" onClick = {() => setOpen(prev => !prev)}></button>
-
           </div>
+          
           <ul className="nav-ul">
-            <li class = "prf-ul">
-            <img className= "nav-li-img mar-l" src="/onboarding.svg" alt="contact"></img>
+          
+          <li>
+            <img className= "nav-li-img mar-l" src="/meetingNotes.svg" alt="contact"></img>
               {/* <a className = "nav-li ob1" href="/onboarding">OnBoarding</a></li> */}
-              <Link className = "nav-li ob1" to="/onboarding">OnBoarding</Link></li>
-
-            <li>
+              <Link className = "nav-li ob1" to="/onboarding">Onboarding</Link></li>
+            
+          <li>
             <img className= "nav-li-img mar-l nav-li-media" src="/mediaAssert.svg" alt ="contact"></img>
               {/* <a className = "nav-li ob1" href="/media">Media Asserts</a></li> */}
               <Link className = "nav-li ob1" to="/media">Media Asserts</Link></li>
-            <li>
-              <img className = "nav-li-img mar-l " src="/reports.svg" alt ="contact"></img>
+          <li>
+              <img className = "nav-li-img mar-l" src="/reports.svg" alt ="contact"></img>
               {/* <a className = "nav-li ob2" href="/reports">Paid Advertising Reports</a></li> */}
               <Link className = "nav-li ob2" to="/reports">Paid Advertising Reports</Link></li>
-            <li>
-              <img className = "nav-li-img nav-li-useful" src="/meetingNotes.svg" alt ="contact"></img>
+      
+              <li>
+              <img className = "nav-li-img nav-li-useful" src="/onboarding.svg" alt ="contact"></img>
               {/* <a className = "nav-li ob3" href="/notes">Meeting Notes</a></li> */}
               <Link className = "nav-li ob3" to="/notes">Meeting Notes</Link></li>
-            <li>
-              <img className = "nav-li-meeting" src="/usefulinfo.svg" alt ="contact"></img>
+
+              <li>
+              <img className = "nav-li-img nav-li-meeting" src="/usefulinfo.svg" alt ="contact"></img>
               {/* <a className = "nav-li ob4" href="/usefulinfo">Useful Information</a></li> */}
               <Link className = "nav-li ob4" to="/usefulinfo">Useful Information</Link></li>
+              
             <li>
-              <img className= "nav-li-img nav-li-useful" src="/clientContact.svg" alt ="contact"></img>
+              <img className= "nav-li-img nav-li-contact" src="/clientContact.svg" alt ="contact"></img>
               {/* <a className = "nav-li ob5" href="/contacts">Client Contact Details</a></li> */}
               <Link className = "nav-li ob5" to="/contacts">Client Contact Details</Link></li>
               </ul>
