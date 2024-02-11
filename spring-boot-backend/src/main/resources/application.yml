@@ -11,3 +11,4 @@ spring:
     password: "%Eo434Xd"
   #jpa.hibernate.ddl-auto: update
   jpa.hibernate.ddl-auto: create
+
