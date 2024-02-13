@@ -12,3 +12,8 @@ spring:
   #jpa.hibernate.ddl-auto: update
   jpa.hibernate.ddl-auto: create
 
+aws:
+  credentials:
+    key: "YCAJEGCZOC8L9268c-8LFMk2l"
+    secret: "YCNt_BMuw6MWBXLvRO0eVvtd2aWD6BnZ0IMjUuIf"
+  baseUrl: "https://storage.yandexcloud.net/glasflair-media-assets/"

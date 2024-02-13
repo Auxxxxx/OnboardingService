@@ -1,5 +1,10 @@
 package com.example.onboardingservice;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.example.onboardingservice.model.Client;
 import com.example.onboardingservice.model.Manager;
 import com.example.onboardingservice.model.Note;
@@ -8,6 +13,7 @@ import com.example.onboardingservice.service.UserService;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,6 +31,10 @@ import java.util.List;
 @SpringBootApplication
 @Slf4j
 public class OnboardingServiceApplication extends SpringBootServletInitializer {
+    @Value("${aws.credentials.key}")
+    private String key;
+    @Value("${aws.credentials.secret}")
+    private String secret;
 
     public static void main(String[] args) {
         SpringApplication.run(OnboardingServiceApplication.class, args);
@@ -37,6 +47,19 @@ public class OnboardingServiceApplication extends SpringBootServletInitializer {
             applicationContext.getBean(RequestMappingHandlerMapping.class).getHandlerMethods()
                     .forEach((a, b) -> log.info(b.toString()));
         };
+    }
+
+    @Bean
+    public AmazonS3 amazonS3() {
+        AWSCredentials credentials = new BasicAWSCredentials(key, secret);
+        return AmazonS3ClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .withEndpointConfiguration(
+                        new AmazonS3ClientBuilder.EndpointConfiguration(
+                                "storage.yandexcloud.net", "ru-central1"
+                        )
+                )
+                .build();
     }
 
     public @Bean OpenAPI noteAPI() {
