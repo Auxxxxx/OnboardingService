@@ -74,3 +74,6 @@
     background-size: cover;
   }
   
+  .nav-li-click:hover{
+    cursor: pointer;
+  }

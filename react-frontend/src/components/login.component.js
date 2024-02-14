@@ -51,9 +51,9 @@ const Login = () => {
       <div>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
       <div className="container">
-        <Link className="navbar-brand" to={'/sign-in'}>
+        {/* <Link className="navbar-brand" to={'/sign-in'}>
           <img className = "logo" src = "/logo_bad.svg" alt = "logo"></img>
-        </Link>
+        </Link> */}
         <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
@@ -67,11 +67,13 @@ const Login = () => {
               </Link>
             </li>
             <li>
-              {/* <Link className = "nav-link" to={'/profile'}>
-                Profile
-              </Link> */}
+              
             </li>
           </ul>
+          
+        </div>
+        <div className="container-2">
+        <div class="h1-logo">GLASFAIR</div>
         </div>
       </div>
     </nav>
