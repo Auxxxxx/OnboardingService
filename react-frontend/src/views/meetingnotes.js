@@ -9,7 +9,7 @@ const MeetingNotesPage = () => {
     };
   
   
-    const [userData, setUserData] = useState([]);
+    
       const ExampleData = [{
         "date": "14.12.23",
         "name": "Call designer",
@@ -31,9 +31,8 @@ const MeetingNotesPage = () => {
           "id" : 2
         },
       ]
-    const ExampleData2 = ["hello", "5", "bye"]
 
-
+  const [userData, setUserData] = useState([]);
     useEffect(() => {
       // Выполнение запроса при монтировании компонента
       fetch('http://localhost:8080/note/useful-info')
@@ -44,11 +43,14 @@ const MeetingNotesPage = () => {
         .catch(error => {
           console.error('Ошибка получения данных:', error);
         });
+        setUserData(ExampleData);
     }, []);
   
+
+
     return (
       <>
-       <InnerPage hed = "Meeting Notes" logoimg = "/meetingNotes.svg" p = "Notes from meeting" class = "notes" list = {ExampleData} /> 
+       <InnerPage hed = "Meeting Notes" logoimg = "/meetingNotes.svg" p = "Notes from meeting" class = "notes" list = {userData} /> 
       </>
     );
   };

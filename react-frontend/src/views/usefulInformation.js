@@ -19,12 +19,13 @@ const UsefulInfoPage = () => {
   
     useEffect(() => {
       // Выполнение запроса при монтировании компонента
-      fetch('http://localhost:8080/note/useful-info')
+      fetch('http://localhost:8080/note/contact-details')
         .then(response => response.json())
         .then(data => {
            setUserData(data);
         })
         .catch(error => {
+          if(error.status === 404) {console.log("У пользователя нет данных")}
           console.error('Ошибка получения данных:', error);
         });
     }, []);

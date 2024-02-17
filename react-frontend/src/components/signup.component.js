@@ -56,10 +56,10 @@ const SignUp = () => {
         //navigate(from, { replace: true });
       })
     //console.log(formJson);
-    setAuth(true);
-    // console.log("isAuthenticated: ", isAuthenticated, "setAuth()):", setAuth);
-    navigate(from, { replace: true });
-    navigate("/profile");
+    // setAuth(true);
+    // // console.log("isAuthenticated: ", isAuthenticated, "setAuth()):", setAuth);
+    // navigate(from, { replace: true });
+    // navigate("/profile");
 
   }
 

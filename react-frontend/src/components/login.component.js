@@ -64,11 +64,11 @@ const Login = () => {
               console.log("Error in 404!")
           }  
   
-          setEmail(JSON.parse(formJson).email);
-          console.log(email);
-          setAuth(true);
-          navigate(from, { replace: true });
-          navigate("/profile");
+          // setEmail(JSON.parse(formJson).email);
+          // console.log(email);
+          // setAuth(true);
+          // navigate(from, { replace: true });
+          // navigate("/profile");
         })
        } 
 
