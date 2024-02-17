@@ -6,6 +6,11 @@ import {useNavigate, useLocation} from 'react-router-dom';
 const Login = () => {
  
     const { isAuthenticated, setAuth } = useAuth();
+    const { email, setEmail } = useAuth();
+    const [isErrorPassword, setErrorPassword] = useState(false);
+    const [isNotFound, setNotFound] = useState(false);
+
+
     const navigate = useNavigate()
     const location = useLocation()
     const from = location.state?.from?.pathname || '/'
@@ -20,32 +25,61 @@ const Login = () => {
       form = e.target;
       formData = new FormData(form);
       console.log(form);
-      const formJson = Object.fromEntries(formData.entries());
+      // const formJson = Object.fromEntries(formData.entries());
+      const formJson = JSON.stringify(Object.fromEntries(formData.entries()));
       console.log(formJson);
-      console.log("isAuthenticated: ", isAuthenticated, "setAuth()):", setAuth);
+      console.log(typeof(formData));
+
+        const response = fetch('http://localhost:8080/auth/sign-in', { 
+          // mode: 'no-cors',
+           method: form.method, 
+        body: formJson,
+        headers: {
+          // Accept: 'application/json',
+          "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*',
+        }
       
-      
-    }
-    function handleClick(){
-      try{
-        const response = fetch('http://localhost:8080/auth/sign-in', { method: form.method, body: formData })
+      })
       .then(responce => {
         if(responce.ok){
           console.log("yes");
-        } else{
+          setAuth(true);
+          
+          setEmail(JSON.parse(formJson).email);
+          console.log(email);
+
+          navigate(from, { replace: true });
+          navigate("/profile");
+        }
+        else{
          throw new Error("ошибка в отправке данных")
         }})
         .catch(error => {
           console.log("ошибка")
+          if (response.status === 401) {
+              setErrorPassword(true);
+          } else if (response.status === 404) {
+              setNotFound(true);
+              console.log("Error in 404!")
+          }  
+  
+          setEmail(JSON.parse(formJson).email);
+          console.log(email);
           setAuth(true);
           navigate(from, { replace: true });
           navigate("/profile");
         })
        } 
-        catch (error){
-        console.log("ошибка")
-        }
-      }
+
+
+      // setAuth(true);
+      // console.log("isAuthenticated: ", isAuthenticated, "setAuth()):", setAuth);
+      // navigate(from, { replace: true });
+      // navigate("/profile");
+      
+    // }
+
 
     return (
       <div>
@@ -73,7 +107,7 @@ const Login = () => {
           
         </div>
         <div className="container-2">
-        <div class="h1-logo">GLASFAIR</div>
+        <div className="h1-logo">GLASFAIR</div>
         </div>
       </div>
     </nav>
@@ -91,7 +125,10 @@ const Login = () => {
             className="form-control"
             placeholder="Enter email"
             name = "email"
+            autoComplete="username"
+            required
           />
+          {isNotFound && <p>User with such email is not found</p>}
         </div>
 
         <div className="mb-3">
@@ -101,7 +138,12 @@ const Login = () => {
             className="form-control"
             placeholder="Enter password"
             name = "password"
+            autoComplete="password"
+            required
+
           />
+          {isErrorPassword && <p>Wrong password</p>}
+
         </div>
 
         <div className="mb-3">
@@ -118,7 +160,7 @@ const Login = () => {
         </div>
 
         <div className="d-grid">
-          <button type="submit" onClick={handleClick}  className="btn btn-primary">
+          <button type="submit" className="btn btn-primary">
             Login
           </button>
         </div>

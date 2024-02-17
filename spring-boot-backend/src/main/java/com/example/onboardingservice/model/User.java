@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Inheritance
 @Data
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @ToString(onlyExplicitlyIncluded = true)
 @Table(name = "table_user")
 public abstract class User implements Serializable {

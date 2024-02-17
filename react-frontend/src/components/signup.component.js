@@ -4,73 +4,65 @@ import useAuth from '../hooks/useAuth';
 
 const SignUp = () => {
   const { isAuthenticated, setAuth } = useAuth();
+  const { email, setEmail } = useAuth();
+
   const navigate = useNavigate()
   const location = useLocation()
   const from = location.state?.from?.pathname || '/'
+
   let form = {};
   let formData = {};
+
+
+  const [isEmailAlreadyIs, setEmailAlreadyIs] = useState(false);
 
    function handleSubmit(e) {
     // Prevent the browser from reloading the page
     e.preventDefault();
     form = e.target;
     formData = new FormData(form);
+    const formJson = JSON.stringify(Object.fromEntries(formData.entries()));
     
-    try {
-      const response = fetch('http://localhost:8080/auth/register', { 
-      method: form.method, 
-      body: formData 
-      })
-        .then(response => {
-          if (response.ok) {
-            console.log("ок")
-            navigate(from, { replace: true });
-          } else {
-            throw new Error('Error occurred');
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          setAuth(true);
-          navigate(from, { replace: true });
-          // window.location.assign('/profile');
-        });
-    } catch (error) {
-      console.log("Ошибка");
-    }
-    //console.log(formJson);
-    setAuth(true);
-    console.log("isAuthenticated: ", isAuthenticated, "setAuth()):", setAuth);
-    navigate(from, { replace: true });
-  }
-
-  function handleClick() {
-    try{
-      const response = fetch('http://localhost:8080/auth/register', { method: form.method, body: formData })
+    const response = fetch('http://localhost:8080/auth/register', { 
+      // mode: 'no-cors', 
+      method: form.method,
+       body: formJson,
+       headers: {
+        // Accept: 'application/json',
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      }
+     })
     .then(responce => {
       if(responce.ok){
         console.log("yes");
+
+        setEmail(JSON.parse(formJson).email);
+        console.log(email);
+
         setAuth(true);
-        //console.log("isAuthenticated: ", isAuthenticated);
         navigate(from, { replace: true });
+        navigate("/profile");
+
       } else{
        throw new Error("ошибка в отправке данных")
-        console.log("no");
       }})
       .catch(error => {
-        //обходной путь без логина, тестовая часть:
-        setAuth(true);
+        if(error.status === 409) {setEmailAlreadyIs(true);}
+        
+        //обходной путь без логина:
+        //setAuth(true);
         //console.log("isAuthenticated: ", isAuthenticated);
-        navigate(from, { replace: true });
+        //navigate(from, { replace: true });
       })
-     } 
-      catch (error){
-      console.log("ошибка")
-      setAuth(true);
-      navigate(from, { replace: true });
-      }
+    //console.log(formJson);
+    setAuth(true);
+    // console.log("isAuthenticated: ", isAuthenticated, "setAuth()):", setAuth);
+    navigate(from, { replace: true });
+    navigate("/profile");
 
   }
+
 
     return (
     <div>
@@ -113,6 +105,7 @@ const SignUp = () => {
             className="form-control"
             placeholder="First name"
             name = "name"
+            autoComplete="first-name"
             required
           />
         </div>
@@ -122,6 +115,7 @@ const SignUp = () => {
           <input type="text" className="form-control"
            placeholder="Last name"
            name = "lastName"
+           autoComplete="second-name"
            required
              />
         </div>
@@ -136,6 +130,7 @@ const SignUp = () => {
             required
           />
         </div>
+        {isEmailAlreadyIs && <p>Account with this email already exit</p>}
 
         <div className="mb-3">
           <label>Password</label>
@@ -161,9 +156,9 @@ const SignUp = () => {
             <fieldset className = "genderList" >
               <legend>Gender</legend>
               <input type="radio" name="sex" value="mal" checked/>
-              <label className = "signup-label" for="huey">male</label>
+              <label className = "signup-label" htmlFor="huey">male</label>
               <input type="radio" name="sex" value="femal" />
-              <label for="dewey">female</label>
+              <label htmlFor="dewey">female</label>
 
             </fieldset>
 

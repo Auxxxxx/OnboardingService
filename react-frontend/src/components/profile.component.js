@@ -1,18 +1,47 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import MotionNavigation from './navbar.component';
 import Navigation from './navbar.component';
 import Tagline from './tagline.component';
 import ButtonState from './stateButtons';
 import {motion, AnimatePresence} from 'framer-motion'
+import useAuth from '../hooks/useAuth';
+
+
+// struct data{
+// email: string
+// role: string
+// gender: string
+// mobile: string
+// fullName: string
+// }
 
 
 const Profile = () => {
     const [showNavbar, setShowNavbar] = useState(false);
+    const [data, setData] = useState({});
+    const { email, setEmail } = useAuth();
+    const [name, setName] = useState("Good Day, user!");
   
     const handleShowNavbar = () => {
       setShowNavbar(!showNavbar);
       console.log("Rerendering!")
     };
+
+
+    useEffect(() =>{
+        const request = fetch("http://localhost:8080/client/list")
+        .then((response) => {
+            if(response.ok){
+               setData(response.json());
+                setName(data.find((item) => item.email === email).fullName);
+            }
+            else 
+                throw new Error("ошибка в получении данных")
+        })
+        .catch(err => console.log(err.status))
+    
+    }
+    , [])
 
      return(
         <>
@@ -21,7 +50,9 @@ const Profile = () => {
         </header>
         <main className = "main prf-main">
             <img src="/profileAvatar.svg" alt="profile image"></img>
-            <h1 className="prf-h1">John Smith</h1>
+            {/* <h1 className="prf-h1">John Smith</h1> */}
+            <h1 className="prf-h1">{name}</h1>
+
             {/* <Tagline className = "tagline" text= "Insert tagline here"></Tagline> */}
             <button className ="get-nav" onClick={handleShowNavbar}></button>
             {/* <AnimatePresence 

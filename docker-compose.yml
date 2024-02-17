@@ -2,7 +2,7 @@ version: '2'
 
 services:
   app:
-    image: 'auxxxxx/onboarding_service'
+    image: 'auxxxxx/onboarding_service:latest'
     build:
       context: .
     ports:
