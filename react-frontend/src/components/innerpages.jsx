@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Navigation from './navbar.component';
-import NotesList from './noteList.component';
-import MediaList from './mediaList';
-import OnboardingList from './onboardingList';
-import ContactList from './contactList.component';
-import UsefulInfoList from './usefullInfoList';
+import Navigation from './navbar.js';
+import NotesList from './noteLits.js';
+import MediaList from './mediaList.jsx';
+import OnboardingList from './onboardingList.js';
+import ContactList from './contactList.js';
+import UsefulInfoList from './usefullInfoList.js';
 import ManageL from './ListScroll.tsx'
 // import '../styles/navbar.css'
 

@@ -10,16 +10,16 @@ const NotesList = (props) => {
     const noteList = props.list; 
     
     useEffect(() =>{
-    try{
-    const responce = fetch('http://localhost:8080/note/meeting-notes')
-    if(responce.ok){
-        data = responce.json().parse();
-    } else{
-      throw new Error("ошибка в получении данных в noteList")
-    }
-    } catch(error){
-      console.log("ошибка в получении данных в noteList")
-    }
+    // try{
+    // const responce = fetch('http://localhost:8080/note/meeting-notes')
+    // if(responce.ok){
+    //     data = responce.json().parse();
+    // } else{
+    //   throw new Error("ошибка в получении данных в noteList")
+    // }
+    // } catch(error){
+    //   console.log("ошибка в получении данных в noteList")
+    // }
     setInterval(() =>{
       setIsLoading(false)}
       , 2000)

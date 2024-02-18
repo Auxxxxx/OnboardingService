@@ -2,8 +2,8 @@ import React from 'react'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
-import Profile from './components/profile.component'
-import Login from './components/login.component'
+import Profile from './components/profile'
+import Login from './components/login.js'
 import SignUp from './components/signup.component'
 // import NotesList from './components/innerpages.component.jsx'
 import ContactList from './views/contacts.js'
@@ -18,8 +18,9 @@ import ReportPage from './views/reports.js';
 import AppPage from './components/AppPAgination.js';
 import TemplateNote from './views/templateNotes.js';
 import ManagerPage from './views/managerView.js'
-import { PrivateRoute } from './components/privateRoute.component';
+import { PrivateRoute } from './components/privateRoute.js';
 import UserWievTemplate from './views/templateManageUser.js'
+import InnerNote from './components/templateNote.jsx'
 
 
 
@@ -41,7 +42,7 @@ function App() {
         <Route path ="/media" element = {<MediaPage />} />
         <Route path ="/onboarding" element = {<Onboarding />} />
         <Route path ="/reports" element = {<ReportPage />} />
-        <Route path ="/notes/1" element = {<TemplateNote />} />
+        <Route path ="/notes/1" element = {<InnerNote />} />
       </Route>
       
       <Route path="/pagination" element = {<AppPage/>}/>
@@ -50,7 +51,7 @@ function App() {
 
       {/* страницы пользователей, профилей, заметок */}
       <Route path='/user/:username' element={<UserWievTemplate/>} />
-      <Route path='/notes/:id' element={<TemplateNote />} />
+      <Route path='/notes/:id' element={<InnerNote />} />
 
 
      </Routes> 

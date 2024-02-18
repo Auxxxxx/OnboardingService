@@ -399,7 +399,7 @@ li::marker{
 
 .get-nav{
   position: absolute;
-  right: 15%;
+  left: 15%;
   top: 20%;
   width: 2vw;
   height: 1.4vw;
@@ -888,6 +888,8 @@ li::marker{
 
 .nav-li-click:hover{
   cursor: pointer;
+  background-color: #81adef;
+  color: #551A8B;
 }
 
 .h1-logo{

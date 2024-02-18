@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import MotionNavigation from './navbar.component';
-import Navigation from './navbar.component';
+import MotionNavigation from './navbar';
+import Navigation from './navbar';
 import Tagline from './tagline.component';
 import ButtonState from './stateButtons';
 import {motion, AnimatePresence} from 'framer-motion'

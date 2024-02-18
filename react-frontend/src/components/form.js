@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 
 export function Form(props) {
-    //0 - данные не отправлялись, нет ничего, 1 - данные отправлены, успешно, 2 - данные отправлены, не успешно
+    //0 - данные не отправлялись, нет ничего, 1 - данные отправлены, успешно, 2 - данные отправлены, не успешно,
+    //props.onClick - функция для отправки данных
     const [isSubmitted, setIsSubmitted] = useState(0); 
 
     const handleSubmit = async (e) =>{
@@ -10,24 +11,31 @@ export function Form(props) {
         console.log(form);
         let formData = new FormData(form);
         //отладка
-        const formJson = Object.fromEntries(formData.entries());
-        console.log(formJson);
-        setIsSubmitted(1);
-        console.log(setIsSubmitted);
+            const formJson = Object.fromEntries(formData.entries());
+            console.log(formJson);
+            // setIsSubmitted(1);
+            console.log(setIsSubmitted);
         //
-        let responce = fetch("/EXAMPLE/HTTP", {
-            method: "POST",
-            body: formData,
-        })
+        fetch('http://localhost:8080/note/contact-details', {
+        method: 'PUT',
+        body: JSON.stringify({ "content": [], recipientEmail: ""})
 
-        let result = responce.json();
-        if(responce.ok) 
-            setIsSubmitted(1);
-        else 
-            return(<p>Bad request, try again</p>);
+    })
+      .then(response => {
+        if(!response.ok){
+          throw new Error("error in sending data") 
+        }    
+        setIsSubmitted(1);   
+
+      })
+      .catch(err => {
+        setIsSubmitted(2);
+        if(err.status === 404) {console.log("Такого пользователя нет")}
+        else console.log("Ошибка в отправке данных")
+
+      })
 //  отладка метода:
     }
-
 
 
     return(<>
@@ -43,6 +51,7 @@ export function Form(props) {
         </div>
         </form>
         </>)
+
 }
 
 
@@ -56,25 +65,50 @@ export function FormTextarea(props) {
         console.log(form);
         let formData = new FormData(form);
         //отладка
-        const formJson = Object.fromEntries(formData.entries());
-        console.log(formJson);
-        setIsSubmitted(1);
-        console.log(setIsSubmitted);
+            const formJson = Object.fromEntries(formData.entries());
+            console.log(formJson);
+            // setIsSubmitted(1);
+            console.log(setIsSubmitted);
         //
-        let responce = fetch("/EXAMPLE/HTTP", {
-            method: "POST",
-            body: formData,
-        })
+        if(props.name === "meeting-notes"){
+            const request = fetch('http://localhost:8080/note/meeting-notes', {
+              method: 'PUT',
+              body: JSON.stringify({id: 0, "content": [], header: "", recipientEmail: ""})
+            })
+      .then(response => {
+        if(!response.ok){
+          setIsSubmitted(2);
+          throw new Error("error in sending data") 
+        }    
+        setIsSubmitted(1);   
+      })
+      .catch(err => {
+        setIsSubmitted(2);
+        if(err.status === 404) {console.log("Такого пользоватлея нет")}
+        else console.log("Ошибка в отправке данных")
 
-        let result = responce.json();
-        if(responce.ok) 
-            setIsSubmitted(1);
-        else 
-            return(<p>Bad request, try again</p>);
+      })
+
+    } else{
+        const request = fetch('http://localhost:8080/note/useful-info', {
+              method: 'PUT',
+              body: JSON.stringify({id: 0, "content": [], header: "", recipientEmail: ""})
+            })
+      .then(response => {
+        if(!response.ok){
+          throw new Error("error in sending data") 
+        }    
+        setIsSubmitted(1);   
+      })
+      .catch(err => {
+        setIsSubmitted(2);
+        if(err.status === 404) {console.log("Такого пользоватлея нет")}
+        else console.log("Ошибка в отправке данных")
+
+    })
+    }
 //  отладка метода:
     }
-
-
 
     return(<>
         <h2>{props.header}</h2>

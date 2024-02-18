@@ -1,9 +1,11 @@
-import InnerPage from '../components/innerpages.component.jsx'
+import InnerPage from '../components/innerpages.jsx'
 import React, { useEffect, useState } from 'react';
+
 
 const TemplateNote = (props) => {
     const [showNavBar, setShowNavBar] = useState(false);
     
+
     const handleShowNavBar = () => {
       setShowNavBar(!showNavBar);
     };

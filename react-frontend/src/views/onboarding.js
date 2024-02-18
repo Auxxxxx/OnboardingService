@@ -1,4 +1,4 @@
-import InnerPage from '../components/innerpages.component.jsx'
+import InnerPage from '../components/innerpages.jsx'
 import React, { useEffect, useState } from 'react';
 
 const UsefulInfoPage = () => {

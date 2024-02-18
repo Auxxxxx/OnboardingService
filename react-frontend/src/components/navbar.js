@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Profile from './profile.component';
+import Profile from './profile';
 import {Link, useNavigate} from "react-router-dom"
 import {motion} from "framer-motion"
 

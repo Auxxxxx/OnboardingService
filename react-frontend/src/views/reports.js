@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Navigation from '../components/navbar.component.js';
-import InnerPage from '../components/innerpages.component.jsx'
+import Navigation from '../components/navbar.js';
+import InnerPage from '../components/innerpages.jsx'
 import PhotoPage from '../components/gallery.js';
 
 const ReportPage = (props) => {

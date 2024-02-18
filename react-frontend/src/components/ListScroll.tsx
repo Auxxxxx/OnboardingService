@@ -8,17 +8,17 @@ import {Link} from 'react-router-dom'
 const ManageL: React.FC = () => {
   interface DataType {
     gender: string;
-    userName: {
-      title: string;
-      first: string;
-      last: string;
-    };
+    // userName: {
+    //   title: string;
+    //   first: string;
+    //   last: string;
+    fullName: string;
     email: string;
-    picture: {
-      large: string;
-      medium: string;
-      thumbnail: string;
-    };
+    // picture: {
+    //   large: string;
+    //   medium: string;
+    //   thumbnail: string;
+    // };
     nat: string;
   }
 
@@ -30,6 +30,7 @@ const ManageL: React.FC = () => {
       return;
     }
     setLoading(true);
+    // fetch('http://localhost:8080/client/list')
     fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
       .then((res) => res.json())
       .then((body) => {
@@ -68,12 +69,11 @@ const ManageL: React.FC = () => {
           renderItem={(item) => (
             <List.Item key={item.email}>
               <List.Item.Meta
-                avatar={<Avatar src={item.picture.large} />}
-                title={<a href="https://ant.design">{item.userName?.last + item.userName?.first}</a>}
+                title={<Link to="/user">{item?.fullName}</Link>}
                 description={item.email}
               />
-              <div><a href="/user">Profile</a>
-                <Link to={`/user/${item.email}`}>Link</Link>
+              <div>
+                <Link to={`/user/${item.email}`}>Profile</Link>
               </div>
             </List.Item>
           )}

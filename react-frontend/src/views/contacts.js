@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import Navigation from '../components/navbar.component.js';
-import InnerPage from '../components/innerpages.component.jsx'
+import Navigation from '../components/navbar.js';
+import InnerPage from '../components/innerpages.jsx'
 import PhotoPage from '../components/gallery.js';
+import useAuth from '../hooks/useAuth.js';
 
 const ContactPage = (props) => {
   const [showNavBar, setShowNavBar] = useState(false);
-  
+  const email = useAuth();
+
   const handleShowNavBar = () => {
     setShowNavBar(!showNavBar);
   };
   
-  const email = props.email; 
   const [userData, setUserData] = useState([]);
 
   
@@ -30,7 +31,7 @@ const ContactPage = (props) => {
 
   useEffect(() => {
     // Выполнение запроса при монтировании компонента
-    fetch(`http://localhost:8080/note/useful-info?email=${encodeURIComponent(email)}`, )
+    fetch(`http://localhost:8080/note/contact-details?email=${encodeURIComponent(email)}`, )
       .then(response => response.json())
       .then(data => {
          setUserData(data);

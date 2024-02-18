@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Divider, List, Skeleton } from 'antd';
-import ManageList from '../components/manageList';
 import Collapas from '../components/collapase';
 //type data: {data: []}
 import ManageL from '../components/ListScroll.tsx';
-import InnerPage from '../components/innerpages.component.jsx';
+import InnerPage from '../components/innerpages.jsx';
 
 const ManagerPage = () => {
   //  const [data, setData] = useState({data: [{name: "Jonh Adamster", email: "email@gmail.com", lastName: "Smith"},

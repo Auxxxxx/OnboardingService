@@ -1,8 +1,12 @@
-import InnerPage from '../components/innerpages.component.jsx'
+import InnerPage from '../components/innerpages.jsx'
 import React, { useEffect, useState } from 'react';
+import useAuth from '../hooks/useAuth.js';
+import InnerNote from '../components/templateNote.jsx';
 
 const MeetingNotesPage = () => {
     const [showNavBar, setShowNavBar] = useState(false);
+    const email = useAuth();
+
     
     const handleShowNavBar = () => {
       setShowNavBar(!showNavBar);
@@ -35,7 +39,7 @@ const MeetingNotesPage = () => {
   const [userData, setUserData] = useState([]);
     useEffect(() => {
       // Выполнение запроса при монтировании компонента
-      fetch('http://localhost:8080/note/useful-info')
+      fetch(`http://localhost:8080/note/meeting-notes?email=${encodeURIComponent(email)}`)
         .then(response => response.json())
         .then(data => {
            setUserData(data);
