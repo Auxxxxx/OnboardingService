@@ -81,7 +81,7 @@ const UploadFile = () => {
         {fileList.length < 5 && '+ Upload'}
       </Upload>
     </ImgCrop>
-    <button className="" onClick={onClick}>Send to server</button>
+    <button className="collapse-btn" onClick={onClick}>Send to server</button>
     {(isSucess === 1) && <p className="form-scsf">Succesful</p>}
     {(isSucess === 2) && <p className="form-bad">Unsuccesful, send data again</p>}
     </>

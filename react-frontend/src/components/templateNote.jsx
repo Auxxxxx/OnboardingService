@@ -8,6 +8,7 @@ import UsefulInfoList from './usefullInfoList';
 import ManageL from './ListScroll.tsx'
 // import '../styles/navbar.css'
 import {useNavigate, useParams} from "react-router-dom"
+import useNotes from '../hooks/useNotes.js';
 
 
 // type note{
@@ -18,7 +19,19 @@ import {useNavigate, useParams} from "react-router-dom"
 
 const InnerNote = (props) => {
   const [showNavbar, setShowNavbar] = useState(false);
+  const {data, setData} = useNotes();
+  const id = useParams();
+  const [text, setText] = useState("");
   
+  useEffect(()=>{
+    console.log(id);
+    console.log(data);
+    const temp = data.find((item) => (item.id === id)).content
+    setText(temp.join(""))
+  }, [])
+
+
+
   const handleShowNavbar = () => {
     setShowNavbar(!showNavbar);
   };
@@ -45,7 +58,7 @@ const InnerNote = (props) => {
               <Navigation showNavbar = {showNavbar} setShowNavbar = {setShowNavbar} />}
         </div>
 
-        {props.class === "notes-" &&  <p class = "notes-p" >{props.p}</p>
+        {props.class === "notes-" &&  <p class = "notes-p" >{text}</p>
         }
        
 

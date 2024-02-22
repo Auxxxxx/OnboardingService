@@ -1,13 +1,25 @@
 import React from 'react';
 import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
+import useNotes from '../hooks/useNotes';
+
 
 const NotesList = (props) => {
     // получение данных с innerPages
     const [isLoading, setIsLoading] = useState(true);
-    let data = {}
+    const {data, setData} = useNotes();
+    // let data = {}
     const navigate = useNavigate();
-    const noteList = props.list; 
+    // const noteList = props.list; 
+    const noteList = [{id: 0, content: ["Hello", " Good Bye!"] , header: "Design"},
+    {id: 1, content: ["Hello", " Good Bye!"] , header: "Artist"}]; 
+
+
+    setData([{id: 0, content: ["Hello", " Good Bye!"] , header: "Design", date: "12.04.23"},
+    {id: 1, content: ["Hello", " Good Bye!"] , header: "Artist", date: "01.03.23"}]
+  );
+  console.log(data);
+
     
     useEffect(() =>{
     // try{
@@ -36,7 +48,7 @@ const NotesList = (props) => {
    
 
     const viewNoteList = noteList.map((item, index) => 
-    { console.log(item)
+    { console.log(item.id)
       if (
         typeof(item) == "string" &&
         item.length <= 255){
@@ -48,7 +60,7 @@ const NotesList = (props) => {
     } else {
       return <li className = {props.class + "-li-zip"} key = {index} onClick = {handleLi}>
        <img className = {props.class + "-img"} src = "/onboarding.svg" alt = "notes"></img>
-        <span className = "notes-name">{item.name}</span> 
+        <span className = "notes-name">{item.header}</span> 
         <span className = "notes-date">
         {item.date}
         </span>

@@ -42,7 +42,17 @@ const Login = () => {
       
       })
       .then(responce => {
-        if(responce.ok){
+        if(responce.status === 404){
+          console.log('Ошибка 404: Ресурс не найден');
+          setNotFound(true);
+
+        }else if(responce.status === 401){
+          console.log('Ошибка 401: Неверный пароль');
+          setErrorPassword(true);
+        }
+
+
+        else if(responce.ok){
           console.log("yes");
           setAuth(true);
           
@@ -51,32 +61,28 @@ const Login = () => {
 
           navigate(from, { replace: true });
           navigate("/profile");
+        
         }
+        
         else{
          throw new Error("ошибка в отправке данных")
         }})
         .catch(error => {
-          console.log("ошибка")
-          if (response.status === 401) {
-              setErrorPassword(true);
-          } else if (response.status === 404) {
-              setNotFound(true);
-              console.log("Error in 404!")
-          }  
-  
-          setEmail(JSON.parse(formJson).email);
-          console.log(email);
-          setAuth(true);
-          navigate(from, { replace: true });
-          navigate("/profile");
+          console.error('Произошла ошибка: ' + error.message);
+
+          // setEmail(JSON.parse(formJson).email);
+          // console.log(email);
+          // setAuth(true);
+          // navigate(from, { replace: true });
+          // navigate("/profile");
         })
       //  } 
 
 
-      setAuth(true);
-      console.log("isAuthenticated: ", isAuthenticated, "setAuth()):", setAuth);
-      navigate(from, { replace: true });
-      navigate("/profile");
+      // setAuth(true);
+      // console.log("isAuthenticated: ", isAuthenticated, "setAuth()):", setAuth);
+      // navigate(from, { replace: true });
+      // navigate("/profile");
       
     }
 
@@ -128,7 +134,7 @@ const Login = () => {
             autoComplete="username"
             required
           />
-          {isNotFound && <p>User with such email is not found</p>}
+          {isNotFound && <p class="auth-error">User with such email is not found</p>}
         </div>
 
         <div className="mb-3">
@@ -142,7 +148,7 @@ const Login = () => {
             required
 
           />
-          {isErrorPassword && <p>Wrong password</p>}
+          {isErrorPassword && <p class="auth-error">Wrong password</p>}
 
         </div>
 

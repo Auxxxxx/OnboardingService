@@ -22,11 +22,17 @@ const SignUp = () => {
     form = e.target;
     formData = new FormData(form);
     const formJson = JSON.stringify(Object.fromEntries(formData.entries()));
+
+    const requestData = { email: formData.get('email'),
+      password: formData.get('password'),
+      fullName: formData.get('name') + formData.get('lastName')
+    };
+     console.log(JSON.stringify(requestData))
     
     const response = fetch('http://localhost:8080/auth/register', { 
       // mode: 'no-cors', 
       method: form.method,
-       body: formJson,
+       body: JSON.stringify(requestData),
        headers: {
         // Accept: 'application/json',
         "Content-Type": "application/json",
@@ -34,7 +40,8 @@ const SignUp = () => {
       }
      })
     .then(responce => {
-      if(responce.ok){
+      if(responce.status === 409) {setEmailAlreadyIs(true);}
+      else if(responce.ok){
         console.log("yes");
 
         setEmail(JSON.parse(formJson).email);
@@ -48,8 +55,7 @@ const SignUp = () => {
        throw new Error("ошибка в отправке данных")
       }})
       .catch(error => {
-        if(error.status === 409) {setEmailAlreadyIs(true);}
-        
+
         //обходной путь без логина:
         //setAuth(true);
         //console.log("isAuthenticated: ", isAuthenticated);
@@ -91,7 +97,10 @@ const SignUp = () => {
           </ul>
         </div>
         <div className="container-2">
-        <div className="h1-logo">GLASFLAIR</div>
+        <div className="h1-logo">
+          GLASFLAIR
+          {/* <img src="/public/logo/logo_tint_white.svg" alt="logo"/> */}
+        </div>
         </div>
       </div>
     </nav>
@@ -126,6 +135,8 @@ const SignUp = () => {
         <div className="mb-3">
           <label>Email address</label>
           <input
+
+
             type="email"
             className="form-control"
             placeholder="Enter email"
@@ -133,7 +144,7 @@ const SignUp = () => {
             required
           />
         </div>
-        {isEmailAlreadyIs && <p>Account with this email already exit</p>}
+        {isEmailAlreadyIs && <p class="auth-error-padding">Account with this email already exit</p>}
 
         <div className="mb-3">
           <label>Password</label>
@@ -141,6 +152,7 @@ const SignUp = () => {
             type="password"
             className="form-control"
             placeholder="Enter password"
+            name="password"
             required
           />
         </div>

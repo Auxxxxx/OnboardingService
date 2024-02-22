@@ -54,9 +54,34 @@ const MediaList = (props) => {
     ); 
 
     useEffect(() =>{
+        async function getData(){
+          try{
+            const responce = await fetch('http://localhost:8080/note/API_FOR_MEDIA', {
+              method: "GET",
+              headers: {
+                'content-type': '',
+              }
+            });
+            if(responce.ok){
+             const json = await responce.json();
+              setData({data: json});
+              setTotal(Math.ceil(data['data'].length / ITEMS_PER_PAGE));
+            } else{
+             throw new Error("ошибка в получении данных в mediaList");
+            }
+           } catch(error){
+             console.log("ошибка в получении данных в mediaList")
+           }
+            setTotal(Math.ceil(data['data'].length / ITEMS_PER_PAGE));
+            setInterval(() => {
+             setIsLoading(false)
+            }, 2000)
+        }
+
         try{
          const responce = fetch('http://localhost:8080/note/API_FOR_MEDIA');
          if(responce.ok){
+          const json = responce.json();
            setData({data: responce.json().parse()});
            setTotal(Math.ceil(data['data'].length / ITEMS_PER_PAGE));
          } else{
