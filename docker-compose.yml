@@ -2,11 +2,7 @@ version: '2'
 
 services:
   app:
-<<<<<<< HEAD
-    image: 'auxxxxx/onboarding_service:latest'
-=======
     image: 'auxxxxx/onboarding_service:202402172330'
->>>>>>> backend
     build:
       context: ./spring-boot-backend
     ports:
