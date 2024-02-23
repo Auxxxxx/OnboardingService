@@ -1,6 +1,16 @@
 version: '2'
 
 services:
+  front:
+    image: 'auxxxxx/onboarding_service_front:latest'
+    build:
+      context: ./react-frontend
+    ports:
+      - "3000:3000"
+    container_name: reactfront
+    depends_on:
+      - app
+    restart: always
   app:
     image: 'auxxxxx/onboarding_service:202402172330'
     build:
