@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RestController
 @RequestMapping(path = "/image", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
