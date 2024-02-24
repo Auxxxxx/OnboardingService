@@ -12,7 +12,7 @@ services:
       - app
     restart: always
   app:
-    image: 'auxxxxx/onboarding_service:202402172330'
+    image: 'auxxxxx/onboarding_service:202402241341'
     build:
       context: ./spring-boot-backend
     ports:

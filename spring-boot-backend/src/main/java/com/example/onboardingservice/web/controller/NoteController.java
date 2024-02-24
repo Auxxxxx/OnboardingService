@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
-@CrossOrigin(maxAge = 3600)
+@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RestController
 @RequestMapping(path = "/note", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
