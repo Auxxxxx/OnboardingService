@@ -2,7 +2,7 @@ version: '2'
 
 services:
   front:
-    image: 'auxxxxx/onboarding_service_front:latest'
+    image: 'auxxxxx/onboarding_service_front:202402241312'
     build:
       context: ./react-frontend
     ports:
