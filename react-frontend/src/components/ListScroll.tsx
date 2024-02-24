@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Avatar, Divider, List, Skeleton } from 'antd';
 import {Link} from 'react-router-dom'
-
+import {URL} from "../constants.js"
 
 const ManageL: React.FC = () => {
   interface DataType {
@@ -30,8 +30,8 @@ const ManageL: React.FC = () => {
       return;
     }
     setLoading(true);
-    // fetch('http://localhost:8080/client/list')
-    fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
+    fetch(`http://${URL}/client/list`)
+    // fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
       .then((res) => res.json())
       .then((body) => {
         setData([...data, ...body.results]);

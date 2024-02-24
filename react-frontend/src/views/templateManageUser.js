@@ -5,6 +5,7 @@ import '../index.css'
 import { OmitProps } from 'antd/es/transfer/ListBody.js';
 import {Typography } from 'antd';
 import {useNavigate, useParams} from "react-router-dom"
+import {URL} from "../constants.js"
 
 //изначальное состояние приходит из БД, далее слушаем клики и меняем их с стайте
 //type data{
@@ -17,15 +18,20 @@ function UserWievTemplate(props){
      const navigate = useNavigate();
      const email = useParams();
      const [data, setData] = useState({steps: "", name: "", lastName: ""});
+     const [step, setStep] = useState(test.step);
+     const [text, setText] = useState(test.text);
 
     //для получения данных при первом рендеринге
-    // useEffect(() =>{
-    //     let request = fetch(`EXAMPLE/${email}`)
-    //     .then((reponse) => responce.json())
-    //     .catch(err => console.log(err));
-    //     .then((backData) => setData(backData)); //!!!изм. записать данные в нужные поля
-    // }, 
-    // [])
+    useEffect(() =>{
+        let request = fetch(`http://${URL}/client/get-data?email=${email}`)
+        .then((response) => setData(response.json()))
+        .catch(err => console.log(err));
+       
+        setData(JSON.parse(data))
+        setStep(data.activeStage)
+        setText(data.onboardingStages[data.activeStage-1])
+    }, 
+    [])
 
 
      //тестовые данные:
@@ -37,8 +43,6 @@ function UserWievTemplate(props){
      test.text = "second result";
 
 
-     const [step, setStep] = useState(test.step);
-     const [text, setText] = useState(test.text);
 
      const handleClick = (e) => {
         e.preventDefault();
@@ -80,7 +84,7 @@ function UserWievTemplate(props){
                     const state = index + 1;
                     return (
                         <div key={state}>
-                            <input className = "user-radio" type="radio" name="state" value={state} id={"state"+ state} disabled={!isChange? true:false} onChange={(e) => setStep(e.target.value)} />
+                            <input className = "user-radio" type="radio" name="state" value={state} id={"state"+ state} disabled={!isChange? true:false} onChange={(e) => setStep(e.target.value)} checked={state === step} />
                             <label htmlFor={"state"+ state}>State {state}</label>
                         </div>
                     )

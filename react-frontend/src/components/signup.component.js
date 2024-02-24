@@ -1,6 +1,7 @@
 import React, { Component, useState } from 'react';
 import {Router, Link, useNavigate, useLocation} from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import {URL} from "../constants.js"
 
 const SignUp = () => {
   const { isAuthenticated, setAuth } = useAuth();
@@ -29,7 +30,7 @@ const SignUp = () => {
     };
      console.log(JSON.stringify(requestData))
     
-    const response = fetch('http://localhost:8080/auth/register', { 
+    const response = fetch(`http://${URL}/auth/register`, { 
       // mode: 'no-cors', 
       method: form.method,
        body: JSON.stringify(requestData),

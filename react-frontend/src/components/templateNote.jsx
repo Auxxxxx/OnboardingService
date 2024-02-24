@@ -20,14 +20,16 @@ import useNotes from '../hooks/useNotes.js';
 const InnerNote = (props) => {
   const [showNavbar, setShowNavbar] = useState(false);
   const {data, setData} = useNotes();
-  const id = useParams();
+  // const id = useParams();
+  const id = 1;
   const [text, setText] = useState("");
   
   useEffect(()=>{
     console.log(id);
     console.log(data);
-    const temp = data.find((item) => (item.id === id)).content
-    setText(temp.join(""))
+    const temp = data.find((item) => (item.id === id))
+    setData(temp);
+    setText((temp.content).join(""))
   }, [])
 
 
@@ -48,7 +50,7 @@ const InnerNote = (props) => {
     <div class="inner-div">
       <div className="inner-wrapper">
         <div>
-        <h2 class = "pages-h2 inner-h2 " >{props.header}</h2>
+        <h2 class = "pages-h2 inner-h2 " >{data.header}</h2>
         {props.class !== "notes-" &&   <p class = "inner-p" >{props.p}</p>
         }
         </div>

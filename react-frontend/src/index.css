@@ -968,3 +968,13 @@ li::marker{
   color: red;
   margin-top: -16px;
 }
+
+.notFind-div{
+  margin: 16rem auto;
+  text-align: center;
+}
+
+.notFind-h1{
+  display: block;
+}
+

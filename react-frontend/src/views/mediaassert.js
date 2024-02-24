@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Navigation from '../components/navbar.js';
 import InnerPage from '../components/innerpages.jsx'
+import {URL} from "../constants.js"
+import useAuth from '../hooks/useAuth.js';
 
 const MediaPage = () => {
   const [showNavBar, setShowNavBar] = useState(false);
-  
+  const email = useAuth();
+
   const handleShowNavBar = () => {
     setShowNavBar(!showNavBar);
   };
@@ -14,7 +17,7 @@ const MediaPage = () => {
 
   useEffect(() => {
     // Выполнение запроса при монтировании компонента
-    fetch('http://localhost:8080/note/useful-info')
+    fetch(`http://${URL}/note/media?email=${email}`)
       .then(response => response.json())
       .then(data => {
          setUserData(data);

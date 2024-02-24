@@ -5,6 +5,7 @@ import Collapas from '../components/collapase';
 //type data: {data: []}
 import ManageL from '../components/ListScroll.tsx';
 import InnerPage from '../components/innerpages.jsx';
+import {URL} from "../constants.js"
 
 const ManagerPage = () => {
   //  const [data, setData] = useState({data: [{name: "Jonh Adamster", email: "email@gmail.com", lastName: "Smith"},
@@ -16,7 +17,7 @@ const ManagerPage = () => {
 
    useEffect(() =>{
     try{
-     const responce = fetch('http://localhost:8080/note/useful-info');
+     const responce = fetch(`http://${URL}/note/useful-info`);
      if(responce.ok){
         //  setData({data: responce.json().parse()});
      } else{

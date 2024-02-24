@@ -21,6 +21,7 @@ import ManagerPage from './views/managerView.js'
 import { PrivateRoute } from './components/privateRoute.js';
 import UserWievTemplate from './views/templateManageUser.js'
 import InnerNote from './components/templateNote.jsx'
+import ErrorFindPage from './views/404.js'
 
 
 
@@ -50,10 +51,11 @@ function App() {
       <Route path="/user" element={<UserWievTemplate></UserWievTemplate>} />
 
       {/* страницы пользователей, профилей, заметок */}
-      <Route path='/user/:username' element={<UserWievTemplate/>} />
-      <Route path='/notes/:id' element={<InnerNote />} />
 
+        <Route path='/user/:username' element={<UserWievTemplate/>} />
+        <Route path='/notes/:id' element={<InnerNote />} />
 
+        <Route path="*" element={<ErrorFindPage/>} />
      </Routes> 
 </Router>
  
