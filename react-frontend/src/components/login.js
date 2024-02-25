@@ -31,7 +31,7 @@ const Login = () => {
       console.log(formJson);
       console.log(typeof(formData));
 
-        const response = fetch(`http://${URL}/auth/sign-in`, { 
+      const response = fetch(`http://${URL}/auth/sign-in`, { 
           // mode: 'no-cors',
            method: form.method, 
         body: formJson,
@@ -113,7 +113,7 @@ const Login = () => {
           
         </div>
         <div className="container-2">
-        <div className="h1-logo">GLASFLAIR</div>
+          <div className="h1-logo">GLASFLAIR</div>
         </div>
       </div>
     </nav>
