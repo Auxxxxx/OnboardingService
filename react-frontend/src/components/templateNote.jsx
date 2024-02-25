@@ -20,8 +20,9 @@ import useNotes from '../hooks/useNotes.js';
 const InnerNote = (props) => {
   const [showNavbar, setShowNavbar] = useState(false);
   const {data, setData} = useNotes();
-  // const id = useParams();
-  const id = 1;
+  const id = useParams();
+  console.log("note id:" + id)
+  // const id = 1;
   const [text, setText] = useState("");
   const [note, setNote] = useState("");
 
