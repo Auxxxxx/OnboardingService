@@ -41,28 +41,28 @@ const NotesList = (props) => {
     if(isLoading) 
     return <><p className = "p-loading">Loading...</p></>
     
-    const handleLi = (id) => {
-      //window.location.assign('/notes/1');
-      console.log("id" + id)
-      navigate(`/notes/${`${id}`}`);
-    }
+    // const handleLi = (id) => {
+    //   //window.location.assign('/notes/1');
+    //   console.log("id" + id)
+    //   navigate(`/notes/${`${id}`}`);
+    // }
    
 
     const viewNoteList = noteList.map((item, index) => 
     { 
       let id = item.id
-      // console.log(item.id)
-      // console.log(id)
+      console.log(id)
+      let url = `/notes/${`${id}`}`
       if (
         typeof(item) == "string" &&
         item.length <= 255){
-     return <li className = {props.class + "-li"} key = {index} noteId = {id} onClick = {() => navigate(`/notes/${`${this.id}`}`)}>
+     return <li className = {props.class + "-li"} key = {index} onClick = {() => {navigate(url); console.log(url); }}>
         <img className = {props.class + "-img"} src = "/meetingNotes.svg" alt = "notes"></img>
         {item.name}     
         {item.date}
      </li>
     } else {
-      return <li className = {props.class + "-li-zip"} key = {index} onClick = {handleLi}>
+      return <li className = {props.class + "-li-zip"} key = {index} onClick = {() => navigate(url)}>
        <img className = {props.class + "-img"} src = "/onboarding.svg" alt = "notes"></img>
         <span className = "notes-name">{item.header}</span> 
         <span className = "notes-date">
