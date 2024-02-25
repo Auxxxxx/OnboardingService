@@ -16,11 +16,6 @@ public class WebConfig implements WebMvcConfigurer {
     private final JsonParserService jsonParserService;
 
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
-    }
-
-    @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new RequestDataArgumentResolver(jsonParserService));
         argumentResolvers.add(new VersionArgumentResolver());
