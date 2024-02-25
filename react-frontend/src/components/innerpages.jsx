@@ -5,7 +5,7 @@ import MediaList from './mediaList.jsx';
 import OnboardingList from './onboardingList.js';
 import ContactList from './contactList.js';
 import UsefulInfoList from './usefullInfoList.js';
-import ManageL from './ListScroll.tsx'
+import ManageL from './ListScroll.js'
 // import '../styles/navbar.css'
 
 const InnerPage = (props) => {

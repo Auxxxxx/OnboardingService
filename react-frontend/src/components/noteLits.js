@@ -18,7 +18,7 @@ const NotesList = (props) => {
     setData([{id: 0, content: ["Hello", " Good Bye!"] , header: "Design", date: "12.04.23"},
     {id: 1, content: ["Hello", " Good Bye!"] , header: "Artist", date: "01.03.23"}]
   );
-  console.log(data);
+  // console.log(data);
 
     
     useEffect(() =>{
@@ -43,16 +43,20 @@ const NotesList = (props) => {
     
     const handleLi = (id) => {
       //window.location.assign('/notes/1');
-      navigate(`/notes/${id}`);
+      console.log("id" + id)
+      navigate(`/notes/${`${id}`}`);
     }
    
 
     const viewNoteList = noteList.map((item, index) => 
-    { console.log(item.id)
+    { 
+      let id = item.id
+      // console.log(item.id)
+      // console.log(id)
       if (
         typeof(item) == "string" &&
         item.length <= 255){
-     return <li className = {props.class + "-li"} key = {index} onClick = {() => handleLi(item.id)}>
+     return <li className = {props.class + "-li"} key = {index} noteId = {id} onClick = {() => navigate(`/notes/${`${this.id}`}`)}>
         <img className = {props.class + "-img"} src = "/meetingNotes.svg" alt = "notes"></img>
         {item.name}     
         {item.date}

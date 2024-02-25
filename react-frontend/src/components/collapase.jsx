@@ -4,6 +4,8 @@ import React from "react";
 import { Collapse } from "antd";
 import {Form, FormTextarea} from "./form";
 import Upload from './Upload'
+import useAuth from '../hooks/useAuth.js';
+import {URL} from "../constants.js"
 
 const Meetingtext = (
   <>
@@ -48,12 +50,12 @@ const ContactText = (
 
 
 const Collapas = () => {
-
+  const email = useAuth();
 
   const handleMeetingNotes = () =>{
-      const request = fetch('http://localhost:8080/note/meeting-notes', {
+      const request = fetch(`http://${URL}/note/meeting-notes`, {
         method: 'PUT',
-        body: JSON.stringify({id: 0, "content": [], header: "", recipientEmail: ""})
+        body: JSON.stringify({id: 0, "content": [], header: "", recipientEmail: email})
       })
       .then(response => {
         if(!response.ok)
@@ -68,9 +70,9 @@ const Collapas = () => {
   }
 
   const handleUsefulNotes = () =>{
-    const request = fetch('http://localhost:8080/note/useful-info', {
+    const request = fetch(`http://${URL}/note/useful-info`, {
       method: 'PUT',
-      body: JSON.stringify({id: 0, "content": [], header: "", recipientEmail: ""})
+      body: JSON.stringify({id: 0, "content": [], header: "", recipientEmail: email})
     })
     .then(response => {
       if(!response.ok)
@@ -85,9 +87,9 @@ const Collapas = () => {
 
 
 const handleContact = () =>{
-  const request = fetch('http://localhost:8080/note/contact-details', {
+  const request = fetch(`http://${URL}/note/contact-details`, {
     method: 'PUT',
-    body: JSON.stringify({ "content": [], recipientEmail: ""})
+    body: JSON.stringify({ "content": [], recipientEmail: email})
   })
   .then(response => {
     if(!response.ok)

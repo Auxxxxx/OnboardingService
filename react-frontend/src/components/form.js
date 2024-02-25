@@ -1,9 +1,13 @@
 import React, {useState} from 'react';
+import {URL} from "../constants.js"
+import useAuth from '../hooks/useAuth.js';
+
 
 export function Form(props) {
     //0 - данные не отправлялись, нет ничего, 1 - данные отправлены, успешно, 2 - данные отправлены, не успешно,
     //props.onClick - функция для отправки данных
-    const [isSubmitted, setIsSubmitted] = useState(0); 
+    const [isSubmitted, setIsSubmitted] = useState(0);
+    const email = useAuth() 
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
@@ -16,9 +20,9 @@ export function Form(props) {
             // setIsSubmitted(1);
             console.log(setIsSubmitted);
         //
-        fetch('http://localhost:8080/note/contact-details', {
+        fetch(`http://${URL}/note/contact-details`, {
         method: 'PUT',
-        body: JSON.stringify({ "content": [], recipientEmail: ""})
+        body: JSON.stringify({ "content": [], recipientEmail: email})
 
     })
       .then(response => {
@@ -58,12 +62,14 @@ export function Form(props) {
 export function FormTextarea(props) {
     //0 - данные не отправлялись, нет ничего, 1 - данные отправлены, успешно, 2 - данные отправлены, не успешно
     const [isSubmitted, setIsSubmitted] = useState(0); 
+    const email = useAuth()
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
         let form = e.target;
         console.log(form);
         let formData = new FormData(form);
+        formData.add("header", "")
         //отладка
             const formJson = Object.fromEntries(formData.entries());
             console.log(formJson);
@@ -71,9 +77,9 @@ export function FormTextarea(props) {
             console.log(setIsSubmitted);
         //
         if(props.name === "meeting-notes"){
-            const request = fetch('http://localhost:8080/note/meeting-notes', {
+            const request = fetch(`http://${URL}/note/meeting-notes`, {
               method: 'PUT',
-              body: JSON.stringify({id: 0, "content": [], header: "", recipientEmail: ""})
+              body: JSON.stringify({id: 0, "content": [], header: "", recipientEmail: email})
             })
       .then(response => {
         if(!response.ok){
@@ -90,9 +96,9 @@ export function FormTextarea(props) {
       })
 
     } else{
-        const request = fetch('http://localhost:8080/note/useful-info', {
+        const request = fetch(`http://${URL}/note/useful-info`, {
               method: 'PUT',
-              body: JSON.stringify({id: 0, "content": [], header: "", recipientEmail: ""})
+              body: JSON.stringify({id: 0, "content": [], header: "", recipientEmail: email})
             })
       .then(response => {
         if(!response.ok){

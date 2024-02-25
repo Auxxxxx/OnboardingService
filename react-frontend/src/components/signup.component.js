@@ -26,7 +26,7 @@ const SignUp = () => {
 
     const requestData = { email: formData.get('email'),
       password: formData.get('password'),
-      fullName: formData.get('name') + formData.get('lastName')
+      fullName: formData.get('name') + " " + formData.get('lastName')
     };
      console.log(JSON.stringify(requestData))
     
