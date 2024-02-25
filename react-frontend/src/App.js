@@ -43,7 +43,7 @@ function App() {
         <Route path ="/media" element = {<MediaPage />} />
         <Route path ="/onboarding" element = {<Onboarding />} />
         <Route path ="/reports" element = {<ReportPage />} />
-        <Route path ="/notes/1" element = {<InnerNote />} />
+        {/* <Route path ="/notes/1" element = {<InnerNote />} /> */}
       </Route>
       
       <Route path="/pagination" element = {<AppPage/>}/>

@@ -19,7 +19,7 @@ function UserWievTemplate(props){
      const [client, setClient] = useState({})
      const navigate = useNavigate();
      const email = useParams();
-     console.log(email)
+    //  console.log(email)
      const [step, setStep] = useState(1);
      const [text, setText] = useState();
      const {clients, setClients} = useUsers()

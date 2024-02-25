@@ -6,7 +6,8 @@ import {URL} from "../constants.js"
 
 const MeetingNotesPage = () => {
     const [showNavBar, setShowNavBar] = useState(false);
-    const email = useAuth();
+    const {email} = useAuth();
+    console.log(email)
 
     
     const handleShowNavBar = () => {
@@ -40,8 +41,23 @@ const MeetingNotesPage = () => {
   const [userData, setUserData] = useState([]);
     useEffect(() => {
       // Выполнение запроса при монтировании компонента
-      fetch(`http://${URL}/note/meeting-notes?email=${email}`)
-        .then(response => response.json())
+      // fetch(`http://${URL}/note/meeting-notes?email=${email}`)
+      fetch(`http://${URL}/note/meeting-notes/${email}`, {
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        // body: JSON.stringify({'email': email})
+      })
+
+        .then(response => 
+          {if(response.code === 404)
+                console.log("404: у пользователя нет даных")
+          
+          
+          
+            else if(response.ok) response.json()
+          }
+          )
         .then(data => {
            setUserData(data);
         })

@@ -13,7 +13,7 @@ const UsefulInfoList = (props) => {
     const [total, setTotal] = useState(1);
     
     const [userData, setUserData] = useState([]);
-    const email = useAuth();
+    const email = useAuth().email;
 
 
     const ITEMS_PER_PAGE = 10;
@@ -37,7 +37,7 @@ const UsefulInfoList = (props) => {
       }, [page]);
 
 
-      const InfoList = ["bla bla bla", "rsfa4aeerrrrrrfsfrssssssss", "ewaaaaaaaaaaaaaaafeerrrrrrrrrrrrrrrrrr", "eawwwwwwwwwwwwewffew",
+      const InfoList = ["Lorem ipsum dolor sit amet,", "consectetur adipiscing elit, sed do eius", "modo consequat. Duis a", "emo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, conse",
       "bla bla bla", "rsfa4aeerrrrrrfsfrssssssss", "ewaaaaaaaaaaaaaaafeerrrrrrrrrrrrrrrrrr", "eawwwwwwwwwwwwewffew",
       "bla bla bla", "rsfa4aeerrrrrrfsfrssssssss", "ewaaaaaaaaaaaaaaafeerrrrrrrrrrrrrrrrrr", "eawwwwwwwwwwwwewffew", 
       "Князь Василий говорил всегда лениво, как актер говорит роль старой пиесы. Анна Павловна Шерер, напротив, несмотря на свои сорок лет, была преисполнена оживления и порывов. \
@@ -48,7 +48,7 @@ const UsefulInfoList = (props) => {
 
       useEffect(() => {
         // Выполнение запроса при монтировании компонента
-        fetch(`http://localhost:8080/note/useful-info?email=${encodeURIComponent(email)}`)
+        fetch(`http://localhost:8080/note/useful-info/${email}`)
           .then(response => response.json())
           .then(data => {
              setUserData(data);

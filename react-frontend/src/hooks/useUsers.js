@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import UserContext from '../context/NotesProvider'
+import UserContext from '../context/UserProvider'
 
 const useUsers = () =>{
     return useContext(UserContext)

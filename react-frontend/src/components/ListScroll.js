@@ -7,26 +7,10 @@ import {URL} from "../constants.js"
 import useUsers from '../hooks/useUsers.js';
 
 const ManageL = () => {
-//   interface DataType {
-//     gender: string;
-//     // userName: {
-//     //   title: string;
-//     //   first: string;
-//     //   last: string;
-//     fullName: string;
-//     email: string;
-//     // picture: {
-//     //   large: string;
-//     //   medium: string;
-//     //   thumbnail: string;
-//     // };
-//     nat: string;
-//   }
 
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  let {clients, setClients} = useUsers()
-  console.log(clients)
+  const {clients, setClients} = useUsers();
   const loadMoreData = () => {
     if (loading) {
       return;
@@ -36,10 +20,11 @@ const ManageL = () => {
     // fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
       .then((res) => res.json())
       .then((body) => {
-        console.log(body)
-        setData([...data, ...body.clients]);
-        // setClients([...clients, data]);
-        // console.log(clients)
+        // console.log(body)
+        setData(body.clients);
+        setClients(["123"]);
+        // setClients(prev => [...prev, ...body.clients]);
+        console.log(data)
         setLoading(false);
       })
       .catch(() => {
@@ -47,11 +32,19 @@ const ManageL = () => {
       });
   };
 
-  console.log(clients)
+  // console.log(data)
+  // console.log(clients)
+  useEffect(() =>{setClients(prev => [...prev, ...data]); console.log("Changed data:"); console.log(clients)}, [data])
+  useEffect(() =>{console.log("Changed clients:"); console.log(clients)}, [clients])
 
   useEffect(() => {
     loadMoreData();
   }, []);
+
+  setClients(prev => [...prev, ...data]);
+  console.log("Changed ooutside useEffect")
+  console.log(clients)
+
 
   return (
     <div
@@ -64,10 +57,10 @@ const ManageL = () => {
       }}
     >
       <InfiniteScroll
-        dataLength={data.length}
+        dataLength={2}
         next={loadMoreData}
         hasMore={data.length < 50}
-        loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+        // loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
         scrollableTarget="scrollableDiv"
       >
