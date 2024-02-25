@@ -6,6 +6,7 @@ import { OmitProps } from 'antd/es/transfer/ListBody.js';
 import {Typography } from 'antd';
 import {useNavigate, useParams} from "react-router-dom"
 import {URL} from "../constants.js"
+import useUsers from '../hooks/useUsers.js';
 
 //изначальное состояние приходит из БД, далее слушаем клики и меняем их с стайте
 //type data{
@@ -15,23 +16,30 @@ import {URL} from "../constants.js"
 
 function UserWievTemplate(props){
      const [isChange, setChange] = useState(false);
+     const [client, setClient] = useState({})
      const navigate = useNavigate();
      const email = useParams();
-     const [data, setData] = useState({steps: "", name: "", lastName: ""});
-     const [step, setStep] = useState(test.step);
-     const [text, setText] = useState(test.text);
+     console.log(email)
+     const [step, setStep] = useState(1);
+     const [text, setText] = useState();
+     const {clients, setClients} = useUsers()
 
-    //для получения данных при первом рендеринге
-    useEffect(() =>{
-        let request = fetch(`http://${URL}/client/get-data?email=${email}`)
-        .then((response) => setData(response.json()))
-        .catch(err => console.log(err));
+
+     useEffect(() =>{
+        console.log(clients)
+        setClient(clients.find(item => item.email === email))
+     }, [])
+
+    // useEffect(() =>{
+    //     let request = fetch(`http://${URL}/client/get-data?email=${email}`)
+    //     .then((response) => setData(response.json()))
+    //     .catch(err => console.log(err));
        
-        setData(JSON.parse(data))
-        setStep(data.activeStage)
-        setText(data.onboardingStages[data.activeStage-1])
-    }, 
-    [])
+    //     setData(JSON.parse(data))
+    //     setStep(data.activeStage)
+    //     setText(data.onboardingStages[data.activeStage-1])
+    // }, 
+    // [])
 
 
      //тестовые данные:

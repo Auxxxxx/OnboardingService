@@ -444,6 +444,7 @@ li::marker{
 
 .inner-wrapper{
    display: flex;
+   /* align-items: center; */
 }
 
 .inner-img{
@@ -536,16 +537,6 @@ li::marker{
   background-size: contain;
   background-repeat: no-repeat;
   margin-top: 3%;
-}
-
-
-.notes-p{
-  display: block;
-  margin-top: 2%;
-  padding: 1%;
-  background-color: #81adef;
-  border-radius: 0.15rem;
-
 }
 
 .notes-li-zip{
@@ -978,3 +969,38 @@ li::marker{
   display: block;
 }
 
+
+
+.empty-div{
+    width:
+}
+
+
+/* TemplateNotes */
+.inner-wrapper-note{
+  display: flex;
+  align-items: center;
+  margin-top: 3%;
+}
+
+.inner-get-nav-note{
+  position: relative;
+  margin-left: auto;
+  vertical-align: center;
+  width: 2vw;
+  height: 1.4vw;
+  border: none;
+  background-color: #ffffff;
+  background-image: url('../public/nav-get.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.notes-p{
+  display: block;
+  padding: 1%;
+  margin-top: 2%;
+  background-color: #81adef;
+  border-radius: 0.15rem;
+
+}

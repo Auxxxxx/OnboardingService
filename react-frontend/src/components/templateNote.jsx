@@ -5,7 +5,7 @@ import MediaList from './mediaList';
 import OnboardingList from './onboardingList';
 import ContactList from './contactList';
 import UsefulInfoList from './usefullInfoList';
-import ManageL from './ListScroll.tsx'
+// import ManageL from './ListScroll.tsx'
 // import '../styles/navbar.css'
 import {useNavigate, useParams} from "react-router-dom"
 import useNotes from '../hooks/useNotes.js';
@@ -23,13 +23,21 @@ const InnerNote = (props) => {
   // const id = useParams();
   const id = 1;
   const [text, setText] = useState("");
+  const [note, setNote] = useState("");
+
   
   useEffect(()=>{
-    console.log(id);
-    console.log(data);
+    // console.log(id);
+    // console.log(data);
     const temp = data.find((item) => (item.id === id))
-    setData(temp);
+    console.log(temp)
+    setNote(temp);
     setText((temp.content).join(""))
+
+
+    console.log("NOTE:")
+    console.log(note)
+    // console.log(text)
   }, [])
 
 
@@ -48,20 +56,19 @@ const InnerNote = (props) => {
 
     <main className = "main inner-main">
     <div class="inner-div">
-      <div className="inner-wrapper">
+      <div className="inner-wrapper-note">
         <div>
-        <h2 class = "pages-h2 inner-h2 " >{data.header}</h2>
-        {props.class !== "notes-" &&   <p class = "inner-p" >{props.p}</p>
-        }
+        {/* <img className="inner-img" src="../../public/meetingNotes.svg" /> */}
+        <h2 class = "pages-h2 inner-h2 " >{note.header}</h2>
         </div>
         <button className="user-btn-back" onClick={handleBack}></button>
-        <button className ="inner-get-nav" onClick={handleShowNavbar}></button>
+        <button className ="inner-get-nav-note" onClick={handleShowNavbar}></button>
               {showNavbar &&
               <Navigation showNavbar = {showNavbar} setShowNavbar = {setShowNavbar} />}
         </div>
 
-        {props.class === "notes-" &&  <p class = "notes-p" >{text}</p>
-        }
+        <p class = "notes-p" >{text}</p>
+        
        
 
   </div>
