@@ -1,0 +1,40 @@
+.paginator {
+    display: flex;
+    position: absolute;
+    left: 42.5%;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin-top: max(10px, );
+    background-color: #4e76c5;
+    width: 10%;
+    border-radius: 0.25rem;
+    /* border: 1px solid */
+    
+    /* border: ; */
+
+  }
+  
+  .navigation {
+    
+  }
+  
+  .arrow {
+    border: none;
+    background-color: #fff;
+    border-radius: 0.25rem;
+    color: #333;
+    font-size: 16px;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+.pag-li{
+  display: inline;
+  margin-left: 1em;
+}
+
+  .arrow:hover {
+    background-color: #4e76c5;
+  }

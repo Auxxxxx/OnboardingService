@@ -1,10 +1,20 @@
 version: '2'
 
 services:
-  app:
-    image: 'docker-spring-boot-postgres:latest'
+  front:
+    image: 'auxxxxx/onboarding_service_front:latest'
     build:
-      context: .
+      context: ./react-frontend
+    ports:
+      - "3000:3000"
+    container_name: reactfront
+    depends_on:
+      - app
+    restart: always
+  app:
+    image: 'auxxxxx/onboarding_service:202402172330'
+    build:
+      context: ./spring-boot-backend
     ports:
       - "8080:8080"
     container_name: springapi
@@ -17,6 +27,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=compose-postgres
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
       - SPRINGDOC_SWAGGERUI_VERSION=4.1.3
+    restart: always
 
   db:
     image: 'postgres:13.1-alpine'

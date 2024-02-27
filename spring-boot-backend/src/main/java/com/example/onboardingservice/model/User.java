@@ -3,6 +3,7 @@ package com.example.onboardingservice.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -14,7 +15,7 @@ import java.io.Serializable;
 @Inheritance
 @Data
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @ToString(onlyExplicitlyIncluded = true)
 @Table(name = "table_user")
 public abstract class User implements Serializable {
@@ -24,6 +25,7 @@ public abstract class User implements Serializable {
     @ToString.Include
     private Long id;
     @Schema(example = "bill_edwards@gmail.com")
+    @NotNull
     private String email;
     @JsonIgnore
     private String password;
