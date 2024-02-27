@@ -68,7 +68,7 @@ export function FormTextarea(props) {
         let form = e.target;
         let formData = new FormData(form);
             // console.log(JSON.parse(formJson).content)
-            const d = {id: 0, "content": [formData.get('content')], header: "", recipientEmail: email}
+            const d = {id: 0, "content": [formData.get('content')], header: formData.get('header'), recipientEmail: email}
             console.log(d)
             // setIsSubmitted(1);
         //
@@ -118,6 +118,7 @@ export function FormTextarea(props) {
         <h2>{props.header}</h2>
         <form method="post" onSubmit={handleSubmit}>
         <div>
+          { (props.name === "meeting-notes") && <input className="user-header" type="text" name={"header"} placeholder="header"></input>}
           <textarea className={"user-inp-"+ props.class} type="text" rows="4" name={"content"} required maxLength={"511"} placeholder={props.placeholder}/> 
           <input className="user-btn" type="submit" value="Add"/>
           {/* добавить textarea для заметок */}
