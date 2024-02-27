@@ -26,23 +26,22 @@ const Profile = () => {
     console.log("Rerendering!");
   };
 
-  // useEffect(() => {
-  //   const request = fetch(`http://${URL}/client/get-data`, {
-  //     method: "post",
-  //     body: '{ "email": "' + email + '" }',
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((response) => {
-  //       console.log(response);
-  //       response.text().then(function(result) {
-  //           var obj = JSON.parse(result);
-  //           setName(obj.fullName)
-  //       });
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
+  useEffect(() => {
+    const request = fetch(`http://${URL}/client/get-data/` + email, {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        response.text().then(function(result) {
+            var obj = JSON.parse(result);
+            setName(obj.fullName)
+        });
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <>

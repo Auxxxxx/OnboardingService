@@ -50,16 +50,16 @@ public class ClientController {
             @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
             @ApiResponse(responseCode = "404", description = "Not Found. Client with such email not found")
     })
-    @PostMapping("/get-data")
+    @GetMapping("/get-data/{clientEmail}")
     public ResponseEntity<ClientGetDataResponse> get(
             @RequestBody(description = "Client email", required = true)
-            @RequestData ClientGetDataRequest request) {
-        if (request.getEmail() == null) {
+            @PathVariable("clientEmail") String clientEmail) {
+        if (clientEmail == null || clientEmail.isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        log.info("returning_client: " + request.getEmail());
+        log.info("returning_client: " + clientEmail);
         try {
-            var client = userService.findClientByEmail(request.getEmail());
+            var client = userService.findClientByEmail(clientEmail);
             var response = ClientGetDataResponse.builder()
                     .fullName(client.getFullName())
                     .formAnswers(client.getFormAnswers())
@@ -68,7 +68,7 @@ public class ClientController {
                     .build();
             return ResponseEntity.ok(response);
         } catch (UserNotFoundException e) {
-            log.error("user_not_found" + request.getEmail());
+            log.error("user_not_found: " + clientEmail);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
@@ -149,15 +149,15 @@ public class ClientController {
             @ApiResponse(responseCode = "200", description = "Deleted successfully"),
             @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
     })
-    @DeleteMapping
+    @DeleteMapping("{clientEmail}")
     public ResponseEntity<ClientDeleteResponse> delete(
             @RequestBody(description = "Email of the client to delete", required = true)
-            @RequestData ClientDeleteRequest request) {
-        if (request.getEmail() == null) {
+            @PathVariable("clientEmail") String clientEmail) {
+        if (clientEmail == null || clientEmail.isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        log.info("deleting_client: " + request.getEmail());
-        var clients = userService.deleteByEmail(request.getEmail());
+        log.info("deleting_client: " + clientEmail);
+        var clients = userService.deleteByEmail(clientEmail);
         var response = ClientDeleteResponse.builder()
                 .clients(clients)
                 .build();
