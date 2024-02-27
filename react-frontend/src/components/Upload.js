@@ -1,6 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
+import {URL} from '../constants'
+import useAuth from '../hooks/useAuth';
+
 
 //type image [in BD]
 //id
@@ -23,6 +26,7 @@ const UploadFile = () => {
 
   const[isHidden, setHidden] = useState(false);
   const[isSucess, setSuccess] = useState(0);
+  const {email} = useAuth().email;
 
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -46,9 +50,10 @@ const UploadFile = () => {
     let isError = false;
     fileList.forEach((item) => {
       ((isError) => {
-        fetch("URL_TO_LOAD_PICTURE", {
+        fetch(`http:/${URL}/image/media-assets`, {
           method: "POST",
-          body: item.url,
+          // body: item.url,
+          body: JSON.stringify({imagesBase64: [], clientEmail: email})
         })
           .then((responce) => {
             if (!responce.ok) throw new Error("Error in sending data");

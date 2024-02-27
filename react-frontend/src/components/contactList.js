@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import Pagination from './pagination';
+import useAuth from '../hooks/useAuth';
 
 const ContactList = (props) => {
     // получение данных с innerPages
@@ -7,6 +8,7 @@ const ContactList = (props) => {
     const [data, setData] = useState({});
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(1);
+    const email = useAuth().email;
 
     const ITEMS_PER_PAGE = 10;
 
@@ -29,13 +31,14 @@ const ContactList = (props) => {
       }, [page]);
 
 
+    setData(props.list)
     useEffect( () => {
         //см. разницу 2 синтаксисов и операторов
         try{
-        const responce = fetch('http://localhost:8080/note/contact-details');
+        const responce = fetch(`http://localhost:8080/note/contact-details/${email}`);
         if(responce.ok){
-            setData({data: responce.json().parse()});
-            setTotal(Math.ceil(data['data'].length / ITEMS_PER_PAGE));
+            // setData({data: responce.json().parse()});
+            // setTotal(Math.ceil(data['data'].length / ITEMS_PER_PAGE));
             
         } else{
             throw new Error("ошибка в получении данных");

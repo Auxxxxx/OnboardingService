@@ -8,7 +8,7 @@ import {URL} from "../constants.js"
 
 const ContactPage = (props) => {
   const [showNavBar, setShowNavBar] = useState(false);
-  const email = useAuth();
+  const email = useAuth().email;
 
   const handleShowNavBar = () => {
     setShowNavBar(!showNavBar);
@@ -33,7 +33,7 @@ const ContactPage = (props) => {
 
   useEffect(() => {
     // Выполнение запроса при монтировании компонента
-    fetch(`http://${URL}/note/contact-details?email=${email}`, )
+    fetch(`http://${URL}/note/contact-details/${email}`, )
       .then(response => response.json())
       .then(data => {
          setUserData(data);
