@@ -13,6 +13,21 @@ import useUsers from '../hooks/useUsers.js';
 //state: int,
 //text: string    
 //}
+// 
+// type
+// {
+//     "clients": [
+//       {
+//         "email": "bill_edwards@gmail.com",
+//         "role": "CLIENT/MANAGER",
+//         "fullName": "Bill Edwards",
+//         "formAnswers": "[\"answer 1\",\"answer 2\",...]",
+//         "onboardingStages": "[\"stage 1\",\"stage 2\",...]",
+//         "activeStage": 1
+//       }
+//     ]
+//   }
+
 
 function UserWievTemplate(props){
      const [isChange, setChange] = useState(false);
@@ -92,7 +107,7 @@ function UserWievTemplate(props){
                     const state = index + 1;
                     return (
                         <div key={state}>
-                            <input className = "user-radio" type="radio" name="state" value={state} id={"state"+ state} disabled={!isChange? true:false} onChange={(e) => setStep(e.target.value)} checked={state === step} />
+                            <input className = "user-radio" type="radio" name="state" value={state} id={"state"+ state} disabled={!isChange? true:false} onChange={(e) => setStep(e.target.value)} checked={(state === step) ? "ckecked" : ""} />
                             <label htmlFor={"state"+ state}>State {state}</label>
                         </div>
                     )

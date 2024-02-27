@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import MotionNavigation from "./navbar";
-import Navigation from "./navbar";
-import Tagline from "./tagline.component";
-import ButtonState from "./stateButtons";
+import MotionNavigation from "../navbar.js";
+import Navigation from "../navbar.js";
+import Tagline from "../tagline.component.js";
+import ButtonState from "../stateButtons.js";
 import { motion, AnimatePresence } from "framer-motion";
-import useAuth from "../hooks/useAuth";
-import {URL} from "../constants.js"
+import useAuth from "../../hooks/useAuth.js";
+import {URL} from "../../constants.js"
 
 // struct data{
 // email: string
@@ -17,7 +17,7 @@ import {URL} from "../constants.js"
 
 const Profile = () => {
   const [showNavbar, setShowNavbar] = useState(false);
-  const [data, setData] = useState({});
+  const [data, setData] = useState({activeStage: 4});
   const { email, setEmail } = useAuth();
   const [name, setName] = useState("user");
 
@@ -27,8 +27,10 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    const request = fetch(`http://${URL}/client/get-data/` + email, {
-      method: "get",
+    const request = fetch(`http://${URL}/client/get-data`, {
+      method: "post",
+      body: JSON.stringify({'email': email}),
+      // '{ "email": "' + email + '" }',
       headers: {
         "Content-Type": "application/json",
       },
@@ -36,8 +38,10 @@ const Profile = () => {
       .then((response) => {
         console.log(response);
         response.text().then(function(result) {
-            var obj = JSON.parse(result);
+            let obj = JSON.parse(result);
+            setData(obj)
             setName(obj.fullName)
+            console.log(data.activeStage)
         });
       })
       .catch((err) => console.log(err));
@@ -49,7 +53,7 @@ const Profile = () => {
         <img className="prf-img" src="/footerProfile.svg" alt="logo"></img>
       </header>
       <main className="main prf-main">
-        <img src="/profileAvatar.svg" alt="profile image"></img>
+        <img src="/profileAvatar.svg" alt="profile image" alt="profile"></img>
         {/* <h1 className="prf-h1">John Smith</h1> */}
         <h1 className="prf-h1">{"Good Day, dear " + name + "!"}</h1>
 
@@ -83,9 +87,13 @@ const Profile = () => {
         </p>
         <h2>The Roadmap</h2>
         {/* <button class="prf-btn prf-btn-1"></button> */}
-        <ButtonState text={"progress text"}></ButtonState>
-        {/* <button class="prf-btn prf-btn-2"></button>
-            <button class="prf-btn prf-btn-3"></button> */}
+        <ButtonState status={"progress text"} stageData ={{
+          status: data?.onboardingStages, 
+          // status: "Hello", 
+          stage: data.activeStage,
+          // stage: 3
+
+          }}></ButtonState>
       </main>
       <footer></footer>
     </>
