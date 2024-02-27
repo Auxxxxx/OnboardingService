@@ -33,15 +33,15 @@ public class NoteController {
             @ApiResponse(responseCode = "200", description = "Fetched successfully"),
             @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null")
     })
-    @GetMapping("/meeting-notes")
+    @GetMapping("/meeting-notes/{clientEmail}")
     public ResponseEntity<NoteGetMeetingNotesResponse> getMeetingNotes(
             @RequestBody(description = "Client email", required = true)
-            @RequestData NoteGetUsefulInfoRequest request) {
-        if (request.getEmail() == null) {
+            @PathVariable("clientEmail") String clientEmail) {
+        if (clientEmail == null || clientEmail.isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        log.info("returning_meeting_notes: " + request.getEmail());
-        var meetingNotes = noteService.listMeetingNotes(request.getEmail());
+        log.info("returning_meeting_notes: " + clientEmail);
+        var meetingNotes = noteService.listMeetingNotes(clientEmail);
         var response = NoteGetMeetingNotesResponse.builder()
                 .meetingNotes(meetingNotes)
                 .build();
@@ -54,22 +54,22 @@ public class NoteController {
             @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
             @ApiResponse(responseCode = "404", description = "Not Found. This client does not have useful info")
     })
-    @GetMapping("/useful-info")
+    @GetMapping("/useful-info/{clientEmail}")
     public ResponseEntity<NoteGetUsefulInfoResponse> getUsefulInfo(
             @RequestBody(description = "Client email", required = true)
-            @RequestData NoteGetUsefulInfoRequest request) {
-        if (request.getEmail() == null) {
+            @PathVariable("clientEmail") String clientEmail) {
+        if (clientEmail == null || clientEmail.isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        log.info("returning_useful_info: " + request.getEmail());
+        log.info("returning_useful_info: " + clientEmail);
         try {
-            var usefulInfo = noteService.getUsefulInfo(request.getEmail());
+            var usefulInfo = noteService.getUsefulInfo(clientEmail);
             var response = NoteGetUsefulInfoResponse.builder()
                     .usefulInfo(usefulInfo)
                     .build();
             return ResponseEntity.ok(response);
         } catch (NoteNotFoundException e) {
-            log.error("useful_info_not_found: " + request.getEmail());
+            log.error("useful_info_not_found: " + clientEmail);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
@@ -80,22 +80,22 @@ public class NoteController {
             @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
             @ApiResponse(responseCode = "404", description = "Error. This client does not have contact details")
     })
-    @GetMapping("/contact-details")
+    @GetMapping("/contact-details/{clientEmail}")
     public ResponseEntity<NoteGetContactDetailsResponse> getContactDetails(
             @RequestBody(description = "Client email", required = true)
-            @RequestData NoteGetContactDetailsRequest request) {
-        if (request.getEmail() == null) {
+            @PathVariable("clientEmail") String clientEmail) {
+        if (clientEmail == null || clientEmail.isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        log.info("returning_contact_details: " + request.getEmail());
+        log.info("returning_contact_details: " + clientEmail);
         try {
-            var contactDetails = noteService.getContactDetails(request.getEmail());
+            var contactDetails = noteService.getContactDetails(clientEmail);
             var response = NoteGetContactDetailsResponse.builder()
                     .contactDetails(contactDetails)
                     .build();
             return ResponseEntity.ok(response);
         } catch (NoteNotFoundException e) {
-            log.error("contact_details_not_found: " + request.getEmail());
+            log.error("contact_details_not_found: " + clientEmail);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
@@ -202,25 +202,25 @@ public class NoteController {
             @ApiResponse(responseCode = "404", description = "Error. The note to delete is not found")
 
     })
-    @DeleteMapping("/meeting-note")
+    @DeleteMapping("/meeting-note/{id}")
     public ResponseEntity<NoteDeleteMeetingNoteResponse> deleteMeetingNote(
             @RequestBody(description = "Id of the meeting note to delete", required = true)
-            @RequestData NoteDeleteMeetingNoteRequest request) {
-        if (request.getId() == null) {
+            @PathVariable("id") Long id) {
+        if (id == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        log.info("deleting_meeting_note: " + request.getId());
+        log.info("deleting_meeting_note: " + id);
         try {
-            var meetingNotes = noteService.deleteMeetingNoteById(request.getId());
+            var meetingNotes = noteService.deleteMeetingNoteById(id);
             var response = NoteDeleteMeetingNoteResponse.builder()
                     .meetingNotes(meetingNotes)
                     .build();
             return ResponseEntity.ok(response);
         } catch (NoteNotFoundException e) {
-            log.error("meeting_note_not_found: " + request.getId());
+            log.error("meeting_note_not_found: " + id);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (WrongListSize e) {
-            log.error("note_cannot_be_deleted: " + request.getId());
+            log.error("note_cannot_be_deleted: " + id);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }

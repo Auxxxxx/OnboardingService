@@ -74,20 +74,25 @@ public class OnboardingServiceApplication extends SpringBootServletInitializer {
     public CommandLineRunner commandLineRunner(UserService userService,
                                                AuthenticationService authenticationService) {
         return args -> {
-            userService.save(Manager.builder()
-                    .email("asdf@gjaksdj.ru")
-                    .password("pass")
-                    .status("cool")
-                    .build());
-            //authenticationService.signIn("bill_edwards@gmail.com", "cookie123");
-            authenticationService.register("Bill Edwards", "bill_edwards@gmail.com", "cookie123");
-            authenticationService.signIn("bill_edwards@gmail.com", "cookie123");
-            userService.updateClient(
-                    "bill_edwards@gmail.com",
-                    "Bob edwards",
-                    List.of("default1", "default2", "default3", "default4", "default5", "default6"),
-                    List.of("first steps", "common client", "partner"),
-                    1L);
+            try {
+                userService.save(Manager.builder()
+                        .email("asdf@gjaksdj.ru")
+                        .password("pass")
+                        .status("cool")
+                        .build());
+                //authenticationService.signIn("bill_edwards@gmail.com", "cookie123");
+                authenticationService.register("Bill Edwards", "bill_edwards@gmail.com", "cookie123");
+                authenticationService.signIn("bill_edwards@gmail.com", "cookie123");
+                userService.updateClient(
+                        "bill_edwards@gmail.com",
+                        "Bob edwards",
+                        List.of("default1", "default2", "default3", "default4", "default5", "default6"),
+                        List.of("first steps", "common client", "partner"),
+                        1L);
+            } catch (Exception e) {
+                log.error("error_on_command_line_runner");
+                log.error(e.getMessage() + " " + e.getCause());
+            }
         };
     }
 
