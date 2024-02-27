@@ -2,7 +2,7 @@ version: '2'
 
 services:
   front:
-    image: 'auxxxxx/onboarding_service_front:202402241312'
+    image: 'auxxxxx/onboarding_service_front:202402272243'
     build:
       context: ./react-frontend
     ports:
@@ -12,7 +12,7 @@ services:
       - app
     restart: always
   app:
-    image: 'auxxxxx/onboarding_service:202402241341'
+    image: 'auxxxxx/onboarding_service:202402272142'
     build:
       context: ./spring-boot-backend
     ports:
