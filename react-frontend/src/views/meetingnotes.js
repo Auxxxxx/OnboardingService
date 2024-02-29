@@ -38,40 +38,40 @@ const MeetingNotesPage = () => {
         },
       ]
 
-  const [userData, setUserData] = useState([]);
-    useEffect(() => {
-      // Выполнение запроса при монтировании компонента
-      // fetch(`http://${URL}/note/meeting-notes?email=${email}`)
-      fetch(`http://${URL}/note/meeting-notes/${email}`, {
-        headers:{
-          'Content-Type': 'application/json'
-        },
-        // body: JSON.stringify({'email': email})
-      })
+  // const [userData, setUserData] = useState([]);
+  //   useEffect(() => {
+  //     // Выполнение запроса при монтировании компонента
+  //     // fetch(`http://${URL}/note/meeting-notes?email=${email}`)
+  //     fetch(`http://${URL}/note/meeting-notes/${email}`, {
+  //       headers:{
+  //         'Content-Type': 'application/json'
+  //       },
+  //       // body: JSON.stringify({'email': email})
+  //     })
 
-        .then(response => 
-          {if(response.code === 404)
-                console.log("404: у пользователя нет даных")
+  //       .then(response => 
+  //         {if(response.code === 404)
+  //               console.log("404: у пользователя нет даных")
           
           
           
-            else if(response.ok) response.json()
-          }
-          )
-        .then(data => {
-           setUserData(data);
-        })
-        .catch(error => {
-          console.error('Ошибка получения данных:', error);
-        });
-        setUserData(ExampleData);
-    }, []);
+  //           else if(response.ok) response.json()
+  //         }
+  //         )
+  //       .then(data => {
+  //          setUserData(data);
+  //       })
+  //       .catch(error => {
+  //         console.error('Ошибка получения данных:', error);
+  //       });
+  //       setUserData(ExampleData);
+  //   }, []);
   
 
 
     return (
       <>
-       <InnerPage hed = "Meeting Notes" logoimg = "/meetingNotes.svg" p = "Notes from meeting" class = "notes" list = {userData} /> 
+       <InnerPage hed = "Meeting Notes" logoimg = "/meetingNotes.svg" p = "Notes from meeting" class = "notes" list = {[]} /> 
       </>
     );
   };

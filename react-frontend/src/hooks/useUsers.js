@@ -1,8 +1,8 @@
-import React, {useContext} from 'react'
-import UserContext from '../context/UserProvider'
+import {useContext} from 'react'
+import UserContext from '../context/UserProvider.js'
 
-const useUsers = () =>{
-    return useContext(UserContext)
+function useUsers() {
+    return (useContext(UserContext))
 }
 
 export default useUsers;

@@ -2,12 +2,14 @@ import React from 'react';
 import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import useNotes from '../hooks/useNotes';
-
+import {URL} from '../constants'
+import useAuth from '../hooks/useAuth';
 
 const NotesList = (props) => {
     // получение данных с innerPages
     const [isLoading, setIsLoading] = useState(true);
     const {data, setData} = useNotes();
+    const email = useAuth().email;
     // let data = {}
     const navigate = useNavigate();
     // const noteList = props.list; 
@@ -15,23 +17,23 @@ const NotesList = (props) => {
     {id: 1, content: ["Hello", " Good Bye!"] , header: "Artist"}]; 
 
 
-    setData([{id: 0, content: ["Hello", " Good Bye!"] , header: "Design", date: "12.04.23"},
-    {id: 1, content: ["Hello", " Good Bye!"] , header: "Artist", date: "01.03.23"}]
-  );
+  //   setData([{id: 0, content: ["Hello", " Good Bye!"] , header: "Design", date: "12.04.23"},
+  //   {id: 1, content: ["Hello", " Good Bye!"] , header: "Artist", date: "01.03.23"}]
+  // );
   // console.log(data);
 
     
     useEffect(() =>{
-    // try{
-    // const responce = fetch('http://localhost:8080/note/meeting-notes')
-    // if(responce.ok){
-    //     data = responce.json().parse();
-    // } else{
-    //   throw new Error("ошибка в получении данных в noteList")
-    // }
-    // } catch(error){
-    //   console.log("ошибка в получении данных в noteList")
-    // }
+    try{
+    const responce = fetch(`http://${URL}/note/meeting-notes/${email}`)
+    if(responce.ok){
+        setData(( JSON.parse(responce.json())).meetingNotes)
+    } else{
+      throw new Error("ошибка в получении данных в noteList")
+    }
+    } catch(error){
+      console.log("ошибка в получении данных в meetingNotes")
+    }
     setInterval(() =>{
       setIsLoading(false)}
       , 2000)
@@ -47,8 +49,9 @@ const NotesList = (props) => {
     //   navigate(`/notes/${`${id}`}`);
     // }
    
+    console.log("data:", data)
 
-    const viewNoteList = noteList.map((item, index) => 
+    const viewNoteList = data.map((item, index) => 
     { 
       let id = item.id
       console.log(id)

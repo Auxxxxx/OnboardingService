@@ -5,12 +5,14 @@ import { Avatar, Divider, List, Skeleton } from 'antd';
 import {Link} from 'react-router-dom'
 import {URL} from "../constants.js"
 import useUsers from '../hooks/useUsers.js';
+import Testing from './test.js';
 
 const ManageL = () => {
 
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const {clients, setClients} = useUsers();
+  // setClients([1, 2, 3])
   const loadMoreData = () => {
     if (loading) {
       return;
@@ -18,13 +20,18 @@ const ManageL = () => {
     setLoading(true);
     fetch(`http://${URL}/client/list`)
     // fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
-      .then((res) => res.json())
+      .then((res) =>
+       {
+        return res.json()
+        // setClients(JSON.parse(jsonData))
+      }
+      )
+
       .then((body) => {
         // console.log(body)
         setData(body.clients);
-        setClients(["123"]);
-        // setClients(prev => [...prev, ...body.clients]);
-        console.log(data)
+        setClients(prev => [...prev, ...body.clients])
+        
         setLoading(false);
       })
       .catch(() => {
@@ -34,17 +41,17 @@ const ManageL = () => {
 
   // console.log(data)
   // console.log(clients)
-  useEffect(() =>{setClients(prev => [...prev, ...data]); console.log("Changed data:"); console.log(clients)}, [data])
-  useEffect(() =>{console.log("Changed clients:"); console.log(clients)}, [clients])
+  // useEffect(() =>{setClients(prev => [...prev, ...data])}, [data])
+  // useEffect(() =>{console.log("Changed clients:"); console.log("clients:", clients)}, [clients])
 
   useEffect(() => {
     loadMoreData();
   }, []);
 
-  setClients(prev => [...prev, ...data]);
+
   console.log("Changed ooutside useEffect")
   console.log(clients)
-
+  console.log(typeof(data))
 
   return (
     <div

@@ -27,13 +27,13 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    const request = fetch(`http://${URL}/client/get-data`, {
-      method: "post",
-      body: JSON.stringify({'email': email}),
-      // '{ "email": "' + email + '" }',
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const request = fetch(`http://${URL}/client/get-data/${email}`, {
+      method: "get",
+      // body: JSON.stringify({'email': email}),
+      // // '{ "email": "' + email + '" }',
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
     })
       .then((response) => {
         console.log(response);
@@ -41,7 +41,7 @@ const Profile = () => {
             let obj = JSON.parse(result);
             setData(obj)
             setName(obj.fullName)
-            console.log(data.activeStage)
+            // console.log(data.activeStage)
         });
       })
       .catch((err) => console.log(err));
