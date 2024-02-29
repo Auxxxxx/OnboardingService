@@ -34,7 +34,6 @@ const NotesList = (props) => {
       });
     })
     .catch((err) => console.log(err));
-    
   }, []);
 
   if (isLoading)

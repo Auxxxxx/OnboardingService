@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -31,6 +33,7 @@ public class AuthenticationService {
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .build();
+        client.setOnboardingStages(Arrays.asList("Beginner", "Common client", "Partner"));
         userRepository.save(client);
 
         try {

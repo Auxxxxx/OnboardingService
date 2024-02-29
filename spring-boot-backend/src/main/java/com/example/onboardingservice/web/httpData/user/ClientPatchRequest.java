@@ -21,4 +21,5 @@ public class ClientPatchRequest {
     private List<String> onboardingStages;
     @Schema(example = "1")
     private Long activeStage;
+    private String role; // not used
 }
