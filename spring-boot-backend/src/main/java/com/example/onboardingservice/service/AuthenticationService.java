@@ -33,6 +33,7 @@ public class AuthenticationService {
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .build();
+        client.setActiveStage(1L);
         client.setOnboardingStages(Arrays.asList("Beginner", "Common client", "Partner"));
         userRepository.save(client);
 
