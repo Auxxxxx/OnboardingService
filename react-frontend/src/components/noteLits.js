@@ -1,9 +1,9 @@
-import React from 'react';
-import {useState, useEffect} from 'react'
-import {useNavigate} from 'react-router-dom'
-import useNotes from '../hooks/useNotes';
-import {URL} from '../constants'
-import useAuth from '../hooks/useAuth';
+import React from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import useNotes from "../hooks/useNotes";
+import { URL } from "../constants";
+import useAuth from "../hooks/useAuth";
 
 const NotesList = (props) => {
     // получение данных с innerPages
@@ -67,24 +67,25 @@ const NotesList = (props) => {
         {item.date}
      </li>
     } else {
-      return <li className = {props.class + "-li-zip"} key = {index} onClick = {() => navigate(url)}>
-       <img className = {props.class + "-img"} src = "/onboarding.svg" alt = "notes"></img>
-        <span className = "notes-name">{item.header}</span> 
-        <span className = "notes-date">
-        {item.date}
-        </span>
-
-      </li>}
+      return (
+        <li
+          className={props.class + "-li-zip"}
+          key={index}
+          onClick={() => navigate(url)}
+        >
+          <img
+            className={props.class + "-img"}
+            src="/onboarding.svg"
+            alt="notes"
+          ></img>
+          <span className="notes-name">{item.header}</span>
+          <span className="notes-date">{item.date}</span>
+        </li>
+      );
     }
-    );
-    
+  });
 
-    return(
-    <ul className="notes-ul">
-        {viewNoteList}
-    </ul>
-    );
-
-}
+  return <ul className="notes-ul">{viewNoteList}</ul>;
+};
 
 export default NotesList;

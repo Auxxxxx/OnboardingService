@@ -160,7 +160,7 @@ function UserWievTemplate(props){
         console.log("в отправке данных", data)
 
         let responce = fetch(`http://${URL}/client`,{
-            method: "POST",
+            method: "PATCH",
             body: JSON.stringify(data),
         })
         setChange((prev) => !prev);
