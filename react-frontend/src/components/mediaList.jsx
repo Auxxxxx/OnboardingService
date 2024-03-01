@@ -57,7 +57,7 @@ const MediaList = (props) => {
     {if (
         typeof(item) == "string" &&
         item.length <= 255){
-        return <li className = {props.class + "-li"} key = {index}>
+        return <li className = {props.class + "-li"} key = {index} onClick={() => {props.imgWork.getImg(item)}}>
         <img className = {props.class + "-img"} src = {item} alt = "image source"></img>
       </li>
       }
@@ -111,7 +111,7 @@ const MediaList = (props) => {
         //  setInterval(() => {
         //   setIsLoading(false)
         //  }, 2000)
-      }, [data])
+      }, [])
     
     if(isLoading) 
         return <><p className = "p-loading">Loading...</p></>

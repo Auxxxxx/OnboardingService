@@ -1,7 +1,8 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import useNotes from "../hooks/useNotes";
+import Pagination from './pagination';
 import { URL } from "../constants";
 import useAuth from "../hooks/useAuth";
 
@@ -13,21 +14,38 @@ const NotesList = (props) => {
     console.log(email)
     // let data = {}
     const navigate = useNavigate();
-    // const noteList = props.list; 
-    const noteList = [{id: 0, content: ["Hello", " Good Bye!"] , header: "Design"},
-    {id: 1, content: ["Hello", " Good Bye!"] , header: "Artist"}]; 
+    // const noteList = props.list;  
+
+    const [page, setPage] = useState(1);
+    const [total, setTotal] = useState(1);
+//пагинация 
+    const ITEMS_PER_PAGE = 7;
+
+    const startIndex = (page - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+
+    const handleNextPageClick = useCallback(() => {
+        const current = page;
+        const next = current + 1;
+        const totl = data ? total : current;
+    
+        setPage(next <= totl ? next : current);
+      }, [page, data, total]);
+    
+    const handlePrevPageClick = useCallback(() => {
+        const current = page;
+        const prev = current - 1;
+    
+        setPage(prev > 0 ? prev : current);
+      }, [page]);
+
+
+// 
+
 
     
     useEffect(() =>{
     const request = fetch(`http://${URL}/note/meeting-notes/${email}`)
-    // if(responce.ok){
-    //     setData(( JSON.parse(responce.json())).meetingNotes)
-    // } else{
-    //   throw new Error("ошибка в получении данных в noteList", responce.status)
-    // }
-    // } catch(error){
-    //   // console.log("ошибка в получении данных в meetingNotes", error.code)
-    // }
       .then((response) => {
         response.json().then(function(result){
           setData(result.meetingNotes)
@@ -41,6 +59,10 @@ const NotesList = (props) => {
       setIsLoading(false)}
       , 2000)
       }, [])
+
+      useEffect(() => {setTotal(Math.ceil(data?.length / ITEMS_PER_PAGE));
+      console.log(data)
+      }, [data])
     
     if(isLoading) 
     return <><p className = "p-loading">Loading...</p></>
@@ -53,7 +75,9 @@ const NotesList = (props) => {
    
     console.log("data:", data)
 
-    const viewNoteList = data.map((item, index) => 
+    const noteList = data?.slice(startIndex, endIndex); 
+
+    const viewNoteList = noteList?.map((item, index) => 
     { 
       let id = item.id
       console.log(id)
@@ -61,8 +85,10 @@ const NotesList = (props) => {
       if (
         typeof(item) == "string" &&
         item.length <= 255){
-     return <li className = {props.class + "-li"} key = {index} onClick = {() => {navigate(url); console.log(url); }}>
-        <img className = {props.class + "-img"} src = "/meetingNotes.svg" alt = "notes"></img>
+       return <li className = {props.class + "-li"} key = {index}
+        onClick = {() => {navigate(url); console.log(url); }}>
+        <img className = {props.class + "-img"} src = "/meetingNotes.svg" 
+        alt = "notes"></img>
         {item.name}     
         {item.date}
      </li>
@@ -78,14 +104,28 @@ const NotesList = (props) => {
             src="/onboarding.svg"
             alt="notes"
           ></img>
-          <span className="notes-name">{item.header}</span>
+          <span className="notes-name">{(item.header.length <= 128 )? item.header : item.header.slice(0, 100)+"..."}</span>
           <span className="notes-date">{item.date}</span>
         </li>
       );
     }
   });
 
-  return <ul className="notes-ul">{viewNoteList}</ul>;
+  return <>
+  <ul className="notes-ul">{viewNoteList}</ul>
+  {data && (
+        <Pagination
+          onNextPageClick={handleNextPageClick}
+          onPrevPageClick={handlePrevPageClick}
+          disable={{
+            left: page === 1,
+            right: page === total,
+          }}
+          nav={{ current: page, total: total }}
+        />
+      )}
+  </>
+  ;
 };
 
 export default NotesList;
