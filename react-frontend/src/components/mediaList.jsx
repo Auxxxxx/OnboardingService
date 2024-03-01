@@ -16,6 +16,7 @@ const MediaList = (props) => {
     // получение данных с innerPages
     const [isLoading, setIsLoading] = useState(true);
     const email = useAuth().email;
+    console.log("email:", email)
     
     const [data, setData] = useState({data:  ["https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     , "https://plus.unsplash.com/premium_photo-1683980578016-a1f980719ec2?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -28,7 +29,7 @@ const MediaList = (props) => {
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(1);
     
-    const ITEMS_PER_PAGE = 10;
+    const ITEMS_PER_PAGE = 6;
 
     const startIndex = (page - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -67,7 +68,7 @@ const MediaList = (props) => {
 
         async function getData(){
           try{
-            const responce = await fetch(`http://${URL}/media/${email}`, {
+            const responce = await fetch(`http://${URL}/image/media-assets/${email}`, {
               method: "GET",
               // headers: {
                 // 'content-type': '',

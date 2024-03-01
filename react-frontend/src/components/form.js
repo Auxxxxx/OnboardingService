@@ -86,12 +86,36 @@ export function FormTextarea(props) {
                   })
                   .catch(err => {
                     setIsSubmitted(2);
-                    if(err.status === 404) {console.log("Такого пользоватея нет")}
+                    if(err.status === 404) {console.log("Такого пользователя нет")}
                     else console.log("Ошибка в отправке данных")
 
                   })
 
-    } else{
+    } if(props.name === "contact-notes"){
+      delete d.header;
+      delete d.id;
+      
+      fetch(`http://${URL}/note/contact-details`, {
+        method: 'PUT',
+        body: JSON.stringify(d)
+
+    })
+      .then(response => {
+        if(!response.ok){
+          setIsSubmitted(2);
+          throw new Error("error in sending data") 
+        }    
+        setIsSubmitted(1);   
+
+      })
+      .catch(err => {
+        setIsSubmitted(2);
+        if(err.status === 404) {console.log("Такого пользователя нет")}
+        else console.log("Ошибка в отправке данных")
+      })
+    }
+
+    else{
          delete d.header;
          delete d.id;
         const request = fetch(`http://${URL}/note/useful-info`, {
@@ -118,8 +142,30 @@ export function FormTextarea(props) {
         <h2>{props.header}</h2>
         <form method="post" onSubmit={handleSubmit}>
         <div>
-          { (props.name === "meeting-notes") && <input className="user-header" type="text" name={"header"} placeholder="header"></input>}
-          <textarea className={"user-inp-"+ props.class} type="text" rows="4" name={"content"} required maxLength={"511"} placeholder={props.placeholder}/> 
+          { (props.name === "meeting-notes") && <>
+          <input className="user-header" type="text" name={"header"} placeholder="header"></input>
+            <textarea className={"user-inp-"+ props.class} type="text" rows="4" name={"content"} 
+            required maxLength={"511"} placeholder={props.placeholder}/> 
+          </>
+          }
+          
+          
+          {(props.name === "useful-notes") &&
+            <textarea className={"user-inp-"+ props.class} type="text" rows="4" 
+            name={"content"} required maxLength={"511"} placeholder={props.placeholder}
+            value = {props.usefulNote}
+            onChange = {(e) => {props.setUsefulNote(e.target.value)}}
+            /> 
+          }
+
+            {(props.name === "contact-notes") &&
+            <textarea className={"user-inp-"+ props.class} type="text" rows="4" 
+            name={"content"} required maxLength={"511"} placeholder={props.placeholder}
+            value = {props.contact}
+            onChange = {(e) => {props.setContact(e.target.value)}}
+            /> 
+          }
+
           <input className="user-btn" type="submit" value="Add"/>
           {/* добавить textarea для заметок */}
           {(isSubmitted === 1) && <p className="form-scsf">Succesful</p>}

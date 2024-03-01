@@ -51,34 +51,73 @@ function UserWievTemplate(props){
    
     //  console.log('rerendering')
 
+    const [contact, setContact] = useState("")
+    const [usefulNote, setUsefulNote] = useState("")
+
+
+    // ассинхронные функции на бек
+    const fetchData = async () => {
+        // Make a GET request using the Fetch API
+        const request = fetch(`http://${URL}/note/contact-details/${email}`)
+        .then((response) => {
+          response.json().then(function(result){
+            setContact(result.contactDetails.content)
+          }
+          )
+        }) 
+        .catch(err => console.log(err))
+      
+    };  
+
+    console.log("contact:", contact)
+    
+    const fetchUsefulNotes = async () =>{
+        fetch(`http://${URL}/note/useful-info/${email}`)
+            .then(response => response.json())
+            .then(dataBody => {
+            setUsefulNote(dataBody.usefulInfo.content);
+      })
+      .catch(error => {
+        if(error.status === 404) {console.log("У пользователя нет данных")}
+        console.error('Ошибка получения данных:', error);
+      });
+    }
+    // 
+
 
      useEffect(() =>{
         console.log("Clients", clients)
         console.log("email", email)
+
+       fetchData()
+       fetchUsefulNotes()
+
+
         setClient(clients.find(item => item.email === email))
         console.log('initial rendering')
      }, [])
 
      useEffect(() =>{
         console.log("client", client)
-        setIntialState(client.activeStage)
+        setIntialState(client?.activeStage)
      }, [client])
 
      useEffect(() =>{
         setStep(initialState)
-        console.log("typeof:", typeof(initialState))
-        // setTemp(client.onboardingStages)
+        // console.log("typeof:", typeof(initialState))
+        setTemp(client.onboardingStages)
         // console.log("temp", temp)
         // console.log(tempStatus)
         // setInitialText(temp)
     }, [client, initialState])
 
 
-    // useEffect(()=> {
+    useEffect(()=> {
     //  if(temp && temp.lenght > 0)
     //    setTempStatus(temp[0])
+    // console.log(typeof(temp), temp[0])
 
-    // }, [temp])
+    }, [temp])
 
     // useEffect(() =>{
     //     setText(initialText)
@@ -174,7 +213,10 @@ function UserWievTemplate(props){
                 </button>
         </form>
         </div>
-        <Collapas></Collapas>
+        <Collapas contact = {contact} setContact = {setContact} 
+            usefulNote = {usefulNote} setUsefulNote = {setUsefulNote}>
+
+         </Collapas>
         </div>
     </main>)
 }

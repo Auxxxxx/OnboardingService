@@ -36,12 +36,12 @@ const InnerPage = (props) => {
   return (
 
     <main className = "main inner-main">
-    <div class="inner-div">
+    <div className="inner-div">
       <div className="inner-wrapper">
-        <img class = "inner-img" src= {props.logoimg} ></img>
+        <img className = "inner-img" src= {props.logoimg} ></img>
         <div>
-        <h2 class = "pages-h2 inner-h2 " >{props.hed}</h2>
-        {props.class !== "notes-" &&   <p class = "inner-p" >{props.p}</p>
+        <h2 className = "pages-h2 inner-h2 " >{props.hed}</h2>
+        {props.class !== "notes-" &&   <p className = "inner-p" >{props.p}</p>
         }
         </div>
         <button className ="inner-get-nav" onClick={handleShowNavbar}></button>

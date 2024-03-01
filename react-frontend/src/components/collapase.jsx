@@ -49,7 +49,7 @@ const ContactText = (
 
 
 
-const Collapas = () => {
+const Collapas = (props) => {
   const email = useAuth();
 
   const handleMeetingNotes = () =>{
@@ -112,12 +112,19 @@ const handleContact = () =>{
     {
       key: "2",
       label: "Useful Notes",
-      children: <FormTextarea header="Add useful note:" id={"2"} placeholder='Write your note' class="notes" name="useful-notes"></FormTextarea>,
+      children: <FormTextarea header="Add useful note:" id={"2"} placeholder='Write your note' 
+      class="notes" name="useful-notes" 
+      usefulNote = {props.usefulNote} setUsefulNote = {props.setUsefulNote}
+      ></FormTextarea>,
     },
     {
       key: "3",
       label: "Contacts",
-      children: <Form header="Add new contact:" id={"3"} placeholder="Add new contact" class="contact" ></Form>,
+      children: <FormTextarea header="Add new contact:" id={"3"} placeholder="Add new contact" 
+      class="contact"
+      name="contact-notes"
+      contact = {props.contact} setContact = {props.setContact}
+      ></FormTextarea>,
     },
     {
       key: "4",

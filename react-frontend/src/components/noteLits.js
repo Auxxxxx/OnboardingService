@@ -10,35 +10,37 @@ const NotesList = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const {data, setData} = useNotes();
     const email = useAuth().email;
+    console.log(email)
     // let data = {}
     const navigate = useNavigate();
     // const noteList = props.list; 
     const noteList = [{id: 0, content: ["Hello", " Good Bye!"] , header: "Design"},
     {id: 1, content: ["Hello", " Good Bye!"] , header: "Artist"}]; 
 
-
-  //   setData([{id: 0, content: ["Hello", " Good Bye!"] , header: "Design", date: "12.04.23"},
-  //   {id: 1, content: ["Hello", " Good Bye!"] , header: "Artist", date: "01.03.23"}]
-  // );
-  // console.log(data);
-
     
     useEffect(() =>{
-    try{
-    const responce = fetch(`http://${URL}/note/meeting-notes/${email}`)
-    if(responce.ok){
-        setData(( JSON.parse(responce.json())).meetingNotes)
-    } else{
-      throw new Error("ошибка в получении данных в noteList")
-    }
-    } catch(error){
-      console.log("ошибка в получении данных в meetingNotes")
-    }
+    const request = fetch(`http://${URL}/note/meeting-notes/${email}`)
+    // if(responce.ok){
+    //     setData(( JSON.parse(responce.json())).meetingNotes)
+    // } else{
+    //   throw new Error("ошибка в получении данных в noteList", responce.status)
+    // }
+    // } catch(error){
+    //   // console.log("ошибка в получении данных в meetingNotes", error.code)
+    // }
+      .then((response) => {
+        response.json().then(function(result){
+          setData(result.meetingNotes)
+        }
+        )
+      }) 
+      .catch(err => console.log(err))
+
+
     setInterval(() =>{
       setIsLoading(false)}
       , 2000)
-    
-    }, [])
+      }, [])
     
     if(isLoading) 
     return <><p className = "p-loading">Loading...</p></>

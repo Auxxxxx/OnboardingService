@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import Pagination from './pagination';
 import useAuth from '../hooks/useAuth';
+import { URL } from '../constants';
 
 const ContactList = (props) => {
     // получение данных с innerPages
@@ -47,27 +48,62 @@ const ContactList = (props) => {
 
 
     // setData(props.list)
-    useEffect( () => {
-        //см. разницу 2 синтаксисов и операторов
-        try{
-        const responce = fetch(`http://localhost:8080/note/contact-details/${email}`);
-        if(responce.ok){
-            // setData({data: responce.json().parse()});
-            // setTotal(Math.ceil(data['data'].length / ITEMS_PER_PAGE));
-            
-        } else{
-            throw new Error("ошибка в получении данных");
+    // useEffect(() => {
+
+    //   async function asyncFetch() {
+    //   // Выполнение запроса при монтировании компонента
+    //   fetch(`http://${URL}/note/contact-details/${email}`, )
+    //     .then(response => 
+    //       {
+    //       const temp = await response.json()
+    //       setData(JSON.parse(temp))
+    //       return (temp)
+    //     }
+    //       )
+    //     .catch(error => {
+    //       console.error('Ошибка получения данных:', error);
+    //     });
+    //     setTimeout(() => {
+    //       setIsLoading(false);
+    //     }, 2000);
+    //   }
+
+    //   asyncFetch()
+
+    // }, []);
+
+    useEffect(() => {
+      fetchData();
+    }, []);
+
+    // Function to fetch data
+  const fetchData = async () => {
+      // Make a GET request using the Fetch API
+      const request = fetch(`http://${URL}/note/contact-details/${email}`)
+      .then((response) => {
+        response.json().then(function(result){
+          setData({'data': result.contactDetails.content})
         }
-        // .catch(error => {
-        //     console.log(error);
-        }
-        catch(error){
-            console.log("Ошибка в получении данных в contactList");
-        }
-        setTotal(Math.ceil(data['data'].length / ITEMS_PER_PAGE));
+        )
+      }) 
+      .catch(err => console.log(err))
+    
+  };
+
+    // {nsole.log("Ошибка в получении данных в contactList");
+    //     }
+    //     // setTotal(Math.ceil(data.data.length / ITEMS_PER_PAGE));
+    //     setTimeout(() => {
+    //         setIsLoading(false);
+    //       }, 2000);
+    // }, [data])
+
+    useEffect(() =>{
+      setTotal(Math.ceil(data.data.length / ITEMS_PER_PAGE));
         setTimeout(() => {
             setIsLoading(false);
           }, 2000);
+          console.log(data)
     }, [data])
 
 

@@ -3,6 +3,7 @@ import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import {URL} from '../constants'
 import useAuth from '../hooks/useAuth';
+import {useParams} from 'react-router-dom'
 
 
 //type image [in BD]
@@ -26,7 +27,7 @@ const UploadFile = () => {
 
   const[isHidden, setHidden] = useState(false);
   const[isSucess, setSuccess] = useState(0);
-  const {email} = useAuth().email;
+  const email = useParams().username
 
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -49,11 +50,14 @@ const UploadFile = () => {
   function onClick() {
     let isError = false;
     fileList.forEach((item) => {
+      // console.log(fileList)
       ((isError) => {
-        fetch(`http:/${URL}/image/media-assets`, {
-          method: "POST",
+        const d = {imagesBase64: {[`additionalProp111023ed-${Math.floor(Math.random() * 1234533432543958)}`]: item.thumbUrl}, clientEmail: email}
+        console.log("d:", d)
+        fetch(`http://${URL}/image/media-assets`, {
+          method: "PUT",
           // body: item.url,
-          body: JSON.stringify({imagesBase64: [], clientEmail: email})
+          body: JSON.stringify(d)
         })
           .then((responce) => {
             if (!responce.ok) throw new Error("Error in sending data");

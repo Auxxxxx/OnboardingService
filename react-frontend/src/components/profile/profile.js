@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MotionNavigation from "../navbar.js";
 import Navigation from "../navbar.js";
 import Tagline from "../tagline.component.js";
-import ButtonState from "../stateButtons.js";
+import ButtonState from "./stateButtons.js";
 import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../../hooks/useAuth.js";
 import {URL} from "../../constants.js"
@@ -17,7 +17,7 @@ import {URL} from "../../constants.js"
 
 const Profile = () => {
   const [showNavbar, setShowNavbar] = useState(false);
-  const [data, setData] = useState({activeStage: 4});
+  const [data, setData] = useState({activeStage: 0, onboardingStages: ""});
   const { email, setEmail } = useAuth();
   const [name, setName] = useState("user");
 
@@ -47,6 +47,7 @@ const Profile = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  console.log("client:", data)
   return (
     <>
       <header>

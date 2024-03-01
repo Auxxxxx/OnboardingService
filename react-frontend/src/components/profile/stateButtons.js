@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import './buttons-states.css'
+import '../buttons-states.css'
 
 //type {
 //  email: string,
@@ -12,7 +12,7 @@ function ButtonState(props){
     const [isOpen, setIsOpen] = useState(false);
     // const [Number, setNumber] = useState(props?.stage);          //прикрутить номер этапа к каждому элементу
     const stage = props.stageData.stage;
-    const status = props.stageData.status; 
+    const status = props.stageData.status[stage-1]; 
     console.log(stage)
 
     // useEffect(() => {

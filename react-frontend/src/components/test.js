@@ -13,20 +13,38 @@ const Testing = () => {
     const {setAuth, isAuthenticated} = useAuth()
     const navigate = useNavigate()
 
+    const [temp, setTemp] = useState([1, 2, 3, 4])
+    // const [clients, setClients] = useState([])
+
     useEffect(() =>{
-    setAuth("1")
-    setData({id: 0, content: ["New", " new"] , header: "new new", date: "12.04.23"})
-    setClients("emailing")}
+        // fetch(`http://${URL}/client/list`)
+        // // fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
+        //   .then((res) =>
+        //    {
+        //     return res.json()
+        //   }
+        //   )
+    
+        //   .then((body) => {
+        //     setData(body.clients);
+        //     setClients(prev => [...prev, ...body.clients])
+            
+        // })
+        //   .catch(() => {
+        //   });
+
+    // console.log("temp:", temp[0])
+}
     , [])
 
 
-    useEffect(() => {
-        // navigate("/admin")
-        console.log("clients:", clients)
-       console.log("data:", data)
-    console.log("auth:", isAuthenticated)
+    // useEffect(() => {
+    //     // navigate("/admin")
+    //     console.log("clients:", clients)
+    //    console.log("data:", data)
+    // console.log("auth:", isAuthenticated)
 
-    }, [clients, data, isAuthenticated])
+    // }, [clients, data, isAuthenticated])
 
 }
 
