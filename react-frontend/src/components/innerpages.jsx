@@ -58,7 +58,7 @@ const InnerPage = (props) => {
       <NotesList class = {props.class} list = {props.list}/>
       }
       {props.class === "media" &&
-        <MediaList class = {props.class} list = {props.list}/>
+        <MediaList class = {props.class} list = {props.list} imgWork={props.imgWork}/>
       }
       {props.class === "onboarding" &&
         <OnboardingList />
