@@ -17,7 +17,7 @@ storage:
   credentials:
     key: "YCAJEtSkeatkzSy8Ku-CAt7VV"
     secret: "YCP438_siyUDOQJawDdYq7S2JgSIGRtfnbOU-cHT"
-  baseUrl: "https://storage.yandexcloud.net/glasflair-media-assets/"
+  base-url: "https://storage.yandexcloud.net/glasflair-media-assets/"
 
 manager-credentials:
   email: "onboarding.manager01@gmail.com"

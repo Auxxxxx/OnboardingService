@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ImageService {
-    @Value("${storage.baseUrl}")
+    @Value("${storage.base-url}")
     private String baseUrl;
     @Value("${storage.root}")
     private String root;
