@@ -8,8 +8,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Inheritance
@@ -18,7 +23,7 @@ import java.io.Serializable;
 @SuperBuilder(toBuilder = true)
 @ToString(onlyExplicitlyIncluded = true)
 @Table(name = "table_user")
-public abstract class User implements Serializable {
+public abstract class User implements Serializable, UserDetails {
     @Id
     @GeneratedValue
     @JsonIgnore
@@ -30,4 +35,34 @@ public abstract class User implements Serializable {
     @JsonIgnore
     private String password;
     private Role role;
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

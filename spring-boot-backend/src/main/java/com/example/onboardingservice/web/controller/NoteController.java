@@ -1,8 +1,9 @@
 package com.example.onboardingservice.web.controller;
 
 import com.example.onboardingservice.exception.WrongListSize;
-import com.example.onboardingservice.exception.NoteNotFoundException;
+import com.example.onboardingservice.exception.JsonTooLongException;
 import com.example.onboardingservice.exception.UserNotFoundException;
+import com.example.onboardingservice.model.User;
 import com.example.onboardingservice.service.NoteService;
 import com.example.onboardingservice.web.httpData.note.*;
 import com.example.onboardingservice.web.util.RequestData;
@@ -16,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -31,14 +34,20 @@ public class NoteController {
     @Operation(summary = "Get meeting notes", description = "Lists all meeting notes of the client")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fetched successfully"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. A client is trying to get another client's data"),
             @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null")
     })
     @GetMapping("/meeting-notes/{clientEmail}")
     public ResponseEntity<NoteGetMeetingNotesResponse> getMeetingNotes(
             @RequestBody(description = "Client email", required = true)
             @PathVariable("clientEmail") String clientEmail) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (clientEmail == null || clientEmail.isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        if (!user.getEmail().equals(clientEmail)) {
+            log.error("returning_meeting_notes: " + clientEmail + " by: " + user.getEmail());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         log.info("returning_meeting_notes: " + clientEmail);
         var meetingNotes = noteService.listMeetingNotes(clientEmail);
@@ -52,14 +61,20 @@ public class NoteController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fetched successfully"),
             @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. A client is trying to get another client's data"),
             @ApiResponse(responseCode = "404", description = "Not Found. This client does not have useful info")
     })
     @GetMapping("/useful-info/{clientEmail}")
     public ResponseEntity<NoteGetUsefulInfoResponse> getUsefulInfo(
             @RequestBody(description = "Client email", required = true)
             @PathVariable("clientEmail") String clientEmail) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (clientEmail == null || clientEmail.isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        if (!user.getEmail().equals(clientEmail)) {
+            log.error("returning_useful_info: " + clientEmail + " by: " + user.getEmail());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         log.info("returning_useful_info: " + clientEmail);
         try {
@@ -68,7 +83,7 @@ public class NoteController {
                     .usefulInfo(usefulInfo)
                     .build();
             return ResponseEntity.ok(response);
-        } catch (NoteNotFoundException e) {
+        } catch (JsonTooLongException e) {
             log.error("useful_info_not_found: " + clientEmail);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -78,14 +93,20 @@ public class NoteController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fetched successfully"),
             @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. A client is trying to get another client's data"),
             @ApiResponse(responseCode = "404", description = "Error. This client does not have contact details")
     })
     @GetMapping("/contact-details/{clientEmail}")
     public ResponseEntity<NoteGetContactDetailsResponse> getContactDetails(
             @RequestBody(description = "Client email", required = true)
             @PathVariable("clientEmail") String clientEmail) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (clientEmail == null || clientEmail.isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        if (!user.getEmail().equals(clientEmail)) {
+            log.error("returning_contact_details: " + clientEmail + " by: " + user.getEmail());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         log.info("returning_contact_details: " + clientEmail);
         try {
@@ -94,16 +115,18 @@ public class NoteController {
                     .contactDetails(contactDetails)
                     .build();
             return ResponseEntity.ok(response);
-        } catch (NoteNotFoundException e) {
+        } catch (JsonTooLongException e) {
             log.error("contact_details_not_found: " + clientEmail);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
+    @Secured("MANAGER")
     @Operation(summary = "Save a meeting note", description = "Saves the meeting note created or edited by the manager.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Saved successfully"),
             @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. Accessible only for MANAGER"),
             @ApiResponse(responseCode = "404", description = "Not Found. The recipient client is not found")
     })
     @PutMapping("/meeting-notes")
@@ -135,11 +158,13 @@ public class NoteController {
         }
     }
 
+    @Secured("MANAGER")
     @Operation(summary = "Save useful info",
             description = "Saves the useful info edited by the manager")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Saved successfully"),
             @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. Accessible only for MANAGER"),
             @ApiResponse(responseCode = "404", description = "Error. The recipient client is not found")
     })
     @PutMapping("/useful-info")
@@ -164,11 +189,13 @@ public class NoteController {
         }
     }
 
+    @Secured("MANAGER")
     @Operation(summary = "Save contact details",
             description = "Saves the contact details edited by the manager")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Saved successfully"),
             @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. Accessible only for MANAGER"),
             @ApiResponse(responseCode = "404", description = "Error. The recipient client is not found")
     })
     @PutMapping("/contact-details")
@@ -193,12 +220,14 @@ public class NoteController {
         }
     }
 
+    @Secured("MANAGER")
     @Operation(summary = "Delete meeting note", description = "Deletes the meeting note by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Deleted successfully"),
             @ApiResponse(responseCode = "400", description = "Error. " +
                     "This type of note cannot be deleted " +
                     "or a request field is null"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. Accessible only for MANAGER"),
             @ApiResponse(responseCode = "404", description = "Error. The note to delete is not found")
 
     })
@@ -216,7 +245,7 @@ public class NoteController {
                     .meetingNotes(meetingNotes)
                     .build();
             return ResponseEntity.ok(response);
-        } catch (NoteNotFoundException e) {
+        } catch (JsonTooLongException e) {
             log.error("meeting_note_not_found: " + id);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (WrongListSize e) {

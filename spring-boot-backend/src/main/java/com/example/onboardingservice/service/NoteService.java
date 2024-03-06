@@ -1,7 +1,7 @@
 package com.example.onboardingservice.service;
 
 import com.example.onboardingservice.exception.WrongListSize;
-import com.example.onboardingservice.exception.NoteNotFoundException;
+import com.example.onboardingservice.exception.JsonTooLongException;
 import com.example.onboardingservice.exception.UserNotFoundException;
 import com.example.onboardingservice.model.*;
 import com.example.onboardingservice.repository.NoteRepository;
@@ -24,14 +24,14 @@ public class NoteService {
         return noteRepository.findByRecipientAndNoteType(email, NoteType.MEETING_NOTES);
     }
 
-    public Note getUsefulInfo(String email) throws NoteNotFoundException {
+    public Note getUsefulInfo(String email) throws JsonTooLongException {
         List<Note> found = noteRepository.findByRecipientAndNoteType(email, NoteType.USEFUL_INFO);
-        return found.stream().findAny().orElseThrow(NoteNotFoundException::new);
+        return found.stream().findAny().orElseThrow(JsonTooLongException::new);
     }
 
-    public Note getContactDetails(String email) throws NoteNotFoundException {
+    public Note getContactDetails(String email) throws JsonTooLongException {
         List<Note> found = noteRepository.findByRecipientAndNoteType(email, NoteType.CONTACT_DETAILS);
-        return found.stream().findAny().orElseThrow(NoteNotFoundException::new);
+        return found.stream().findAny().orElseThrow(JsonTooLongException::new);
     }
 
     public void saveMeetingNote(Long id,
@@ -98,8 +98,8 @@ public class NoteService {
 
     @Transactional
     public List<Note> deleteMeetingNoteById(Long id)
-            throws NoteNotFoundException, WrongListSize {
-        Note note = noteRepository.findById(id).orElseThrow(NoteNotFoundException::new);
+            throws JsonTooLongException, WrongListSize {
+        Note note = noteRepository.findById(id).orElseThrow(JsonTooLongException::new);
         if (note.getNoteType() == NoteType.MEETING_NOTES) {
             noteRepository.deleteById(id);
             return listMeetingNotes(note.getRecipient().getEmail());

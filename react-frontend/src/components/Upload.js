@@ -38,7 +38,7 @@ const UploadFile = () => {
       src = await new Promise((resolve) => {
         const reader = new FileReader();
         reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
+        reader.onload = () => resolve(btoa(reader.result));
       });
     }
     const image = new Image();
@@ -47,11 +47,23 @@ const UploadFile = () => {
     imgWindow?.document.write(image.outerHTML);
   };
 
+  function getBase64(file, cb) {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+        cb(reader.result)
+    };
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
+    };
+}
+
   function onClick() {
     let isError = false;
     fileList.forEach((item) => {
       // console.log(fileList)
       ((isError) => {
+        console.log(btoa(item));
         const d = {imagesBase64: {[`additionalProp111023ed-${Math.floor(Math.random() * 1234533432543958)}`]: item.thumbUrl}, clientEmail: email}
         console.log("d:", d)
         fetch(`http://${URL}/image/media-assets`, {

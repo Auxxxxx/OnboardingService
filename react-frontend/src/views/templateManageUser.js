@@ -157,7 +157,7 @@ function UserWievTemplate(props){
         data['activeStage'] = +step;
         data.onboardingStages[step-1] = formData.get('status')
 
-        console.log("в отправке данных", data)
+        console.log("в отправке данных", JSON.stringify(data))
 
         let responce = fetch(`http://${URL}/client`,{
             method: "PATCH",

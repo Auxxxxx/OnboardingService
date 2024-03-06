@@ -1,5 +1,6 @@
 package com.example.onboardingservice.web.httpData.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,7 @@ import java.util.List;
 @Data
 @Builder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ClientGetDataResponse {
     @Schema(example = "Bill Edwards")
     private String fullName;
