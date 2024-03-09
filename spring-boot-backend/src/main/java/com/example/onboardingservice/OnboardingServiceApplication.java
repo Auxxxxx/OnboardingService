@@ -22,7 +22,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.security.config.oauth2.client.ClientRegistrationsBeanDefinitionParser;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.util.List;
@@ -31,13 +32,22 @@ import java.util.List;
 @SpringBootApplication
 @Slf4j
 public class OnboardingServiceApplication extends SpringBootServletInitializer {
-    @Value("${aws.credentials.key}")
+    @Value("${storage.credentials.key}")
     private String key;
-    @Value("${aws.credentials.secret}")
+    @Value("${storage.credentials.secret}")
     private String secret;
+    @Value("${manager-credentials.email}")
+    private String managerEmail;
+    @Value("${manager-credentials.password}")
+    private String managerPassword;
 
     public static void main(String[] args) {
         SpringApplication.run(OnboardingServiceApplication.class, args);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -75,20 +85,24 @@ public class OnboardingServiceApplication extends SpringBootServletInitializer {
     public CommandLineRunner commandLineRunner(UserService userService,
                                                AuthenticationService authenticationService) {
         return args -> {
-            userService.save(Manager.builder()
-                    .email("asdf@gjaksdj.ru")
-                    .password("pass")
-                    .status("cool")
-                    .build());
-            //authenticationService.signIn("bill_edwards@gmail.com", "cookie123");
-            authenticationService.register("Bill Edwards", "bill_edwards@gmail.com", "cookie123");
-            authenticationService.signIn("bill_edwards@gmail.com", "cookie123");
-            userService.updateClient(
-                    "bill_edwards@gmail.com",
-                    "Bob edwards",
-                    List.of("default1", "default2", "default3", "default4", "default5", "default6"),
-                    List.of("first steps", "common client", "partner"),
-                    1L);
+            try {
+                userService.save(Manager.builder()
+                        .email(managerEmail)
+                        .password(passwordEncoder().encode(managerPassword))
+                        .build());
+                //authenticationService.signIn("bill_edwards@gmail.com", "cookie123");
+                authenticationService.register("Bill Edwards", "bill_edwards@gmail.com", "cookie123");
+                authenticationService.signIn("bill_edwards@gmail.com", "cookie123");
+                userService.updateClient(
+                        "bill_edwards@gmail.com",
+                        "Bob edwards",
+                        List.of("default1", "default2", "default3", "default4", "default5", "default6"),
+                        List.of("first steps", "common client", "partner"),
+                        1L);
+            } catch (Exception e) {
+                log.error("error_on_command_line_runner");
+                log.error(e.getMessage() + " " + e.getCause());
+            }
         };
     }
 

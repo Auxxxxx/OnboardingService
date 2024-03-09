@@ -5,7 +5,7 @@ email: "", setEmail: () => {}
 });
 
 export const AuthProvider = ({children}) => { 
-  const [isAuthenticated, setAuth] = useState(false);
+  const [isAuthenticated, setAuth] = useState(true);
   const [email, setEmail] = useState("");
 
 return (

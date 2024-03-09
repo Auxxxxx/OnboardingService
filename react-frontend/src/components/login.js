@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect } from 'react';
 import {Router, Link} from 'react-router-dom';
 import useAuth from '../hooks/useAuth.js';
 import {useNavigate, useLocation} from 'react-router-dom';
+import {URL} from "../constants.js"
 
 const Login = () => {
  
@@ -30,14 +31,13 @@ const Login = () => {
       console.log(formJson);
       console.log(typeof(formData));
 
-        const response = fetch('http://localhost:8080/auth/sign-in', { 
+      const response = fetch(`http://${URL}/auth/sign-in`, { 
           // mode: 'no-cors',
            method: form.method, 
         body: formJson,
         headers: {
           // Accept: 'application/json',
           "Content-Type": "application/json",
-          'Access-Control-Allow-Origin': '*',
         }
       
       })
@@ -113,7 +113,7 @@ const Login = () => {
           
         </div>
         <div className="container-2">
-        <div className="h1-logo">GLASFLAIR</div>
+          <div className="h1-logo">GLASFLAIR</div>
         </div>
       </div>
     </nav>

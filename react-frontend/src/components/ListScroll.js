@@ -3,38 +3,35 @@ import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Avatar, Divider, List, Skeleton } from 'antd';
 import {Link} from 'react-router-dom'
+import {URL} from "../constants.js"
+import useUsers from '../hooks/useUsers.js';
+import Testing from './test.js';
 
-
-const ManageL: React.FC = () => {
-  interface DataType {
-    gender: string;
-    // userName: {
-    //   title: string;
-    //   first: string;
-    //   last: string;
-    fullName: string;
-    email: string;
-    // picture: {
-    //   large: string;
-    //   medium: string;
-    //   thumbnail: string;
-    // };
-    nat: string;
-  }
+const ManageL = () => {
 
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<DataType[]>([]);
-
+  const [data, setData] = useState([]);
+  const {clients, setClients} = useUsers();
+  // setClients([1, 2, 3])
   const loadMoreData = () => {
     if (loading) {
       return;
     }
     setLoading(true);
-    // fetch('http://localhost:8080/client/list')
-    fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
-      .then((res) => res.json())
+    fetch(`http://${URL}/client/list`)
+    // fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
+      .then((res) =>
+       {
+        return res.json()
+        // setClients(JSON.parse(jsonData))
+      }
+      )
+
       .then((body) => {
-        setData([...data, ...body.results]);
+        // console.log(body)
+        setData(body.clients);
+        setClients(prev => [...prev, ...body.clients])
+        
         setLoading(false);
       })
       .catch(() => {
@@ -42,9 +39,19 @@ const ManageL: React.FC = () => {
       });
   };
 
+  // console.log(data)
+  // console.log(clients)
+  // useEffect(() =>{setClients(prev => [...prev, ...data])}, [data])
+  // useEffect(() =>{console.log("Changed clients:"); console.log("clients:", clients)}, [clients])
+
   useEffect(() => {
     loadMoreData();
   }, []);
+
+
+  console.log("Changed ooutside useEffect")
+  console.log(clients)
+  console.log(typeof(data))
 
   return (
     <div
@@ -57,10 +64,10 @@ const ManageL: React.FC = () => {
       }}
     >
       <InfiniteScroll
-        dataLength={data.length}
+        dataLength={2}
         next={loadMoreData}
         hasMore={data.length < 50}
-        loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+        // loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
         scrollableTarget="scrollableDiv"
       >
@@ -69,7 +76,7 @@ const ManageL: React.FC = () => {
           renderItem={(item) => (
             <List.Item key={item.email}>
               <List.Item.Meta
-                title={<Link to="/user">{item?.fullName}</Link>}
+                title={<Link to={`/user/${item.email}`}>{item?.fullName}</Link>}
                 description={item.email}
               />
               <div>
@@ -79,6 +86,7 @@ const ManageL: React.FC = () => {
           )}
         />
       </InfiniteScroll>
+      <Testing/>
     </div>
   );
 };

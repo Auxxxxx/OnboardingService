@@ -1,0 +1,97 @@
+/* .prf-btn-now{
+    height: 7vw;
+    width: 7vw;
+}
+
+.prf-btn-usual{
+    height: 6vw;
+    width: 6vw;
+} */
+
+
+.prf-passed-btn-1{
+    position: relative;
+    /* margin-top: 0.6em; */
+    /* margin-left: 2em; */
+    vertical-align: middle;
+    background-image: url('../../public/btn-states/passed-btn-1.svg');
+    background-size: cover;
+    background-color: #ffffff;
+}
+.prf-passed-btn-2{
+    position: relative;
+    /* margin-top: 0.6em; */
+    margin-left: 2em;
+    vertical-align: middle;
+    background-image: url('../../public/btn-states/passed-btn-2.svg');
+    background-size: cover;
+    background-color: #ffffff;
+}
+
+.prf-passed-btn-3{
+    position: relative;
+    /* margin-top: 0.6em; */
+    margin-left: 2em;
+    vertical-align: middle;
+    background-image: url('../../public/btn-states/passed-btn-3.svg');
+    background-size: cover;
+    background-color: #ffffff;
+
+}
+
+
+
+.prf-now-btn-1{
+    /* margin-left: 2em; */
+  background-image: url('../../public/btn-states/now-btn-1.svg');
+  position: relative;
+  vertical-align: middle;
+  width: 7.5vw;
+  height: 7.5vw;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: #ffffff;
+}
+.prf-now-btn-2{
+    margin-left: 2em;
+  background-image: url('../../public/btn-states/now-btn-2.svg');
+  position: relative;
+  vertical-align: middle;
+  width: 7.5vw;
+  height: 7.5vw;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: #ffffff;
+}
+.prf-now-btn-3{
+    margin-left: 2em;
+  background-image: url('../../public/btn-states/now-btn-3.svg');
+  position: relative;
+  vertical-align: middle;
+  width: 7.5vw;
+  height: 7.5vw;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: #ffffff;
+}
+
+
+
+.prf-empty-btn-2{
+    position: relative;
+    margin-left: 2em;
+    /* margin-top: 0.6em; */
+    vertical-align: middle;
+    background-image: url('../../public/btn-states/empty-btn-2.svg');
+    background-size: cover;
+    background-color: #ffffff;
+}
+.prf-empty-btn-3{
+    position: relative;
+    margin-left: 2em;
+    /* margin-top: 0.6em; */
+    vertical-align: middle;
+    background-image: url('../../public/btn-states/empty-btn-3.svg');
+    background-size: cover;
+    background-color: #ffffff;
+}

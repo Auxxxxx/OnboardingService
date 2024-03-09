@@ -4,6 +4,8 @@ import React from "react";
 import { Collapse } from "antd";
 import {Form, FormTextarea} from "./form";
 import Upload from './Upload'
+import useAuth from '../hooks/useAuth.js';
+import {URL} from "../constants.js"
 
 const Meetingtext = (
   <>
@@ -47,13 +49,13 @@ const ContactText = (
 
 
 
-const Collapas = () => {
-
+const Collapas = (props) => {
+  const email = useAuth();
 
   const handleMeetingNotes = () =>{
-      const request = fetch('http://localhost:8080/note/meeting-notes', {
+      const request = fetch(`http://${URL}/note/meeting-notes`, {
         method: 'PUT',
-        body: JSON.stringify({id: 0, "content": [], header: "", recipientEmail: ""})
+        body: JSON.stringify({id: 0, "content": [], header: "", recipientEmail: email})
       })
       .then(response => {
         if(!response.ok)
@@ -68,9 +70,9 @@ const Collapas = () => {
   }
 
   const handleUsefulNotes = () =>{
-    const request = fetch('http://localhost:8080/note/useful-info', {
+    const request = fetch(`http://${URL}/note/useful-info`, {
       method: 'PUT',
-      body: JSON.stringify({id: 0, "content": [], header: "", recipientEmail: ""})
+      body: JSON.stringify({id: 0, "content": [], header: "", recipientEmail: email})
     })
     .then(response => {
       if(!response.ok)
@@ -85,9 +87,9 @@ const Collapas = () => {
 
 
 const handleContact = () =>{
-  const request = fetch('http://localhost:8080/note/contact-details', {
+  const request = fetch(`http://${URL}/note/contact-details`, {
     method: 'PUT',
-    body: JSON.stringify({ "content": [], recipientEmail: ""})
+    body: JSON.stringify({ "content": [], recipientEmail: email})
   })
   .then(response => {
     if(!response.ok)
@@ -110,12 +112,19 @@ const handleContact = () =>{
     {
       key: "2",
       label: "Useful Notes",
-      children: <FormTextarea header="Add useful note:" id={"2"} placeholder='Write your note' class="notes" name="useful-notes"></FormTextarea>,
+      children: <FormTextarea header="Add useful note:" id={"2"} placeholder='Write your note' 
+      class="notes" name="useful-notes" 
+      usefulNote = {props.usefulNote} setUsefulNote = {props.setUsefulNote}
+      ></FormTextarea>,
     },
     {
       key: "3",
       label: "Contacts",
-      children: <Form header="Add new contact:" id={"3"} placeholder="Add new contact" class="contact" ></Form>,
+      children: <FormTextarea header="Add new contact:" id={"3"} placeholder="Add new contact" 
+      class="contact"
+      name="contact-notes"
+      contact = {props.contact} setContact = {props.setContact}
+      ></FormTextarea>,
     },
     {
       key: "4",

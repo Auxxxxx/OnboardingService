@@ -2,7 +2,7 @@ import React from 'react'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
-import Profile from './components/profile'
+import Profile from './components/profile/profile'
 import Login from './components/login.js'
 import SignUp from './components/signup.component'
 // import NotesList from './components/innerpages.component.jsx'
@@ -21,6 +21,7 @@ import ManagerPage from './views/managerView.js'
 import { PrivateRoute } from './components/privateRoute.js';
 import UserWievTemplate from './views/templateManageUser.js'
 import InnerNote from './components/templateNote.jsx'
+import ErrorFindPage from './views/404.js'
 
 
 
@@ -42,7 +43,7 @@ function App() {
         <Route path ="/media" element = {<MediaPage />} />
         <Route path ="/onboarding" element = {<Onboarding />} />
         <Route path ="/reports" element = {<ReportPage />} />
-        <Route path ="/notes/1" element = {<InnerNote />} />
+        {/* <Route path ="/notes/1" element = {<InnerNote />} /> */}
       </Route>
       
       <Route path="/pagination" element = {<AppPage/>}/>
@@ -50,10 +51,11 @@ function App() {
       <Route path="/user" element={<UserWievTemplate></UserWievTemplate>} />
 
       {/* страницы пользователей, профилей, заметок */}
-      <Route path='/user/:username' element={<UserWievTemplate/>} />
-      <Route path='/notes/:id' element={<InnerNote />} />
 
+        <Route path='/user/:username' element={<UserWievTemplate/>} />
+        <Route path='/notes/:id' element={<InnerNote />} />
 
+        <Route path="*" element={<ErrorFindPage/>} />
      </Routes> 
 </Router>
  

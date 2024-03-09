@@ -2,10 +2,12 @@ import InnerPage from '../components/innerpages.jsx'
 import React, { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth.js';
 import InnerNote from '../components/templateNote.jsx';
+import {URL} from "../constants.js"
 
 const MeetingNotesPage = () => {
     const [showNavBar, setShowNavBar] = useState(false);
-    const email = useAuth();
+    const {email} = useAuth();
+    console.log(email)
 
     
     const handleShowNavBar = () => {
@@ -36,25 +38,40 @@ const MeetingNotesPage = () => {
         },
       ]
 
-  const [userData, setUserData] = useState([]);
-    useEffect(() => {
-      // Выполнение запроса при монтировании компонента
-      fetch(`http://localhost:8080/note/meeting-notes?email=${encodeURIComponent(email)}`)
-        .then(response => response.json())
-        .then(data => {
-           setUserData(data);
-        })
-        .catch(error => {
-          console.error('Ошибка получения данных:', error);
-        });
-        setUserData(ExampleData);
-    }, []);
+  // const [userData, setUserData] = useState([]);
+  //   useEffect(() => {
+  //     // Выполнение запроса при монтировании компонента
+  //     // fetch(`http://${URL}/note/meeting-notes?email=${email}`)
+  //     fetch(`http://${URL}/note/meeting-notes/${email}`, {
+  //       headers:{
+  //         'Content-Type': 'application/json'
+  //       },
+  //       // body: JSON.stringify({'email': email})
+  //     })
+
+  //       .then(response => 
+  //         {if(response.code === 404)
+  //               console.log("404: у пользователя нет даных")
+          
+          
+          
+  //           else if(response.ok) response.json()
+  //         }
+  //         )
+  //       .then(data => {
+  //          setUserData(data);
+  //       })
+  //       .catch(error => {
+  //         console.error('Ошибка получения данных:', error);
+  //       });
+  //       setUserData(ExampleData);
+  //   }, []);
   
 
 
     return (
       <>
-       <InnerPage hed = "Meeting Notes" logoimg = "/meetingNotes.svg" p = "Notes from meeting" class = "notes" list = {userData} /> 
+       <InnerPage hed = "Meeting Notes" logoimg = "/meetingNotes.svg" p = "Notes from meeting" class = "notes" list = {[]} /> 
       </>
     );
   };

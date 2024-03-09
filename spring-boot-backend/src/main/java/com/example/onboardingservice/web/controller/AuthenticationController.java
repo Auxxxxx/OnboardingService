@@ -3,6 +3,7 @@ package com.example.onboardingservice.web.controller;
 import com.example.onboardingservice.exception.UserAlreadyExistsException;
 import com.example.onboardingservice.exception.UserNotFoundException;
 import com.example.onboardingservice.exception.WrongPasswordException;
+import com.example.onboardingservice.model.User;
 import com.example.onboardingservice.service.AuthenticationService;
 import com.example.onboardingservice.web.httpData.authentication.AuthenticationRegisterRequest;
 import com.example.onboardingservice.web.httpData.authentication.AuthenticationSignInRequest;
@@ -18,12 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping(path = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
@@ -80,9 +81,13 @@ public class AuthenticationController {
             var user = authenticationService.signIn(
                     request.getEmail(),
                     request.getPassword());
+            var jwt = authenticationService.authenticate(
+                    request.getEmail(),
+                    request.getPassword());
             var response = AuthenticationSignInResponse.builder()
                     .user(user)
                     .role(user.getRole())
+                    .jwt(jwt)
                     .build();
             return ResponseEntity.ok(response);
         } catch (UserNotFoundException e) {

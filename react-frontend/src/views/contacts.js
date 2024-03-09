@@ -3,10 +3,12 @@ import Navigation from '../components/navbar.js';
 import InnerPage from '../components/innerpages.jsx'
 import PhotoPage from '../components/gallery.js';
 import useAuth from '../hooks/useAuth.js';
+import {URL} from "../constants.js"
+
 
 const ContactPage = (props) => {
   const [showNavBar, setShowNavBar] = useState(false);
-  const email = useAuth();
+  const email = useAuth().email;
 
   const handleShowNavBar = () => {
     setShowNavBar(!showNavBar);
@@ -31,7 +33,7 @@ const ContactPage = (props) => {
 
   useEffect(() => {
     // Выполнение запроса при монтировании компонента
-    fetch(`http://localhost:8080/note/contact-details?email=${encodeURIComponent(email)}`, )
+    fetch(`http://${URL}/note/contact-details/${email}`, )
       .then(response => response.json())
       .then(data => {
          setUserData(data);

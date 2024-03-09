@@ -1,6 +1,7 @@
 import InnerPage from '../components/innerpages.jsx'
 import React, { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth.js';
+import {URL} from "../constants.js"
 
 const UsefulInfoPage = () => {
     const [showNavBar, setShowNavBar] = useState(false);
@@ -17,7 +18,7 @@ const UsefulInfoPage = () => {
   
     // useEffect(() => {
     //   // Выполнение запроса при монтировании компонента
-    //   fetch(`http://localhost:8080/note/useful-info?email=${encodeURIComponent(email)}`)
+    //   fetch(`http://${URL}/note/useful-info?email=${encodeURIComponent(email)}`)
     //     .then(response => response.json())
     //     .then(data => {
     //        setUserData(data);

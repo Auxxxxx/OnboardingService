@@ -30,6 +30,7 @@ public class RequestDataArgumentResolver implements HandlerMethodArgumentResolve
                                   ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory) throws Exception {
+
         HttpServletRequest servletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
         HttpInputMessage inputMessage = new ServletServerHttpRequest(servletRequest);
         String requestBodyContent = StreamUtils.copyToString(

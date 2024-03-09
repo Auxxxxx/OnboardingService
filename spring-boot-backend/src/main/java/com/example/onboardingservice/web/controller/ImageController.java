@@ -4,6 +4,8 @@ import com.amazonaws.auth.*;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ListObjectsV2Result;
+import com.example.onboardingservice.model.Role;
+import com.example.onboardingservice.model.User;
 import com.example.onboardingservice.service.ImageService;
 import com.example.onboardingservice.web.httpData.image.ImageGetMediaAssetsResponse;
 import com.example.onboardingservice.web.httpData.image.ImageGetPaidAdvertisingReportsResponse;
@@ -21,11 +23,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping(path = "/image", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
@@ -34,34 +39,45 @@ import java.util.stream.Collectors;
 public class ImageController {
     private final ImageService imageService;
 
+    @Secured("CLIENT")
     @Operation(summary = "Save media assets", description = "Load media assets images into the storage.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Saved successfully"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. A client is trying to get another client's data. Accessible only for clients"),
             @ApiResponse(responseCode = "400", description = "Bad Request. Arguments are not base64 encoded images")
     })
-    @PutMapping("/media-assets")
+    @PutMapping("/media-assets/{clientEmail}")
     public ResponseEntity<Void> putMediaAssets(
-            @RequestBody(description = """
-                    Map of images encoded as Base64 strings <filename, imageBase64>
-                    And email of the client who uploads the images
+            @Parameter(description = """
+                    And email of the client who had uploaded the images
                     """, required = true)
-            @RequestData ImagePutMediaAssetsRequest request) {
-        if (request.getImagesBase64() == null ||
-                request.getImagesBase64().isEmpty() ||
-                request.getClientEmail() == null ||
-                request.getClientEmail().isBlank()) {
+            @PathVariable("clientEmail") String clientEmail,
+            @RequestParam("files") MultipartFile[] files) {
+        try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (clientEmail == null || files.length == 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+            if (!user.getEmail().equals(clientEmail)) {
+                log.error("saving_media_assets: " + clientEmail + " by: " + user.getEmail());
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+            log.info("saving_media_assets: " + clientEmail);
+            imageService.uploadMediaAssets(
+                    files,
+                    clientEmail);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        log.info("saving_media_assets: " + request.getClientEmail());
-        imageService.uploadMediaAssets(
-                request.getImagesBase64(),
-                request.getClientEmail());
-        return ResponseEntity.status(HttpStatus.OK).build();
+
     }
 
+    @Secured("MANAGER")
     @Operation(summary = "Get media assets", description = "Get media assets for this client.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fetched successfully"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. Accessible only for MANAGER"),
             @ApiResponse(responseCode = "400", description = "Bad Request. No client specified")
     })
     @GetMapping("/media-assets/{clientEmail}")
@@ -82,34 +98,39 @@ public class ImageController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "Save paid advertising reports", description = "Load paid advertising repots images into the storage.")
+    @Secured("MANAGER")
+    @Operation(summary = "Save paid advertising reports", description = "Load paid advertising reports images into the storage.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Saved successfully"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. Accessible only for MANAGER"),
             @ApiResponse(responseCode = "400", description = "Bad Request. Arguments are not base64 encoded images")
     })
-    @PutMapping("/paid-advertising-reports")
+    @PutMapping("/paid-advertising-reports/{clientEmail}")
     public ResponseEntity<Void> putPaidAdvertisingReports(
-            @RequestBody(description = """
-                    Map of images encoded as Base64 strings <filename, imageBase64>
-                    And email of the client who will receive the images
+            @Parameter(description = """
+                    And email of the client who had uploaded the images
                     """, required = true)
-            @RequestData ImagePutPaidAdvertisingReportsRequest request) {
-        if (request.getImagesBase64() == null ||
-                request.getImagesBase64().isEmpty() ||
-                request.getClientEmail() == null ||
-                request.getClientEmail().isBlank()) {
+            @PathVariable("clientEmail") String clientEmail,
+            @RequestParam("files") MultipartFile[] files) {
+        try {
+            if (clientEmail == null || files.length == 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+            log.info("saving_paid_advertising_reports: " + clientEmail);
+            imageService.uploadMediaAssets(
+                    files,
+                    clientEmail);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        log.info("saving_paid_advertising_reports: " + request.getClientEmail());
-        imageService.uploadPaidAdvertisingReports(
-                request.getImagesBase64(),
-                request.getClientEmail());
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @Secured("CLIENT")
     @Operation(summary = "Get paid advertising reports", description = "Get paid advertising reports for this client.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fetched successfully"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. A client is trying to get another client's data. Accessible only for clients"),
             @ApiResponse(responseCode = "400", description = "Bad Request. No client specified")
     })
     @GetMapping("/paid-advertising-reports/{clientEmail}")
@@ -118,8 +139,13 @@ public class ImageController {
                     And email of the client who should see the images
                     """, required = true)
             @PathVariable("clientEmail") String clientEmail) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (clientEmail == null || clientEmail.isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        if (!user.getEmail().equals(clientEmail)) {
+            log.error("fetching_paid_advertising_reports: " + clientEmail + " by: " + user.getEmail());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         log.info("fetching_paid_advertising_reports: " + clientEmail);
         var imageUrls = imageService.getPaidAdvertisingReports(clientEmail);

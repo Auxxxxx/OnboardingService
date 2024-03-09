@@ -1,10 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import Navigation from '../components/navbar.js';
 import InnerPage from '../components/innerpages.jsx'
+import {URL} from "../constants.js"
+import useAuth from '../hooks/useAuth.js';
+import '../styles/media-photo.css'
 
 const MediaPage = () => {
   const [showNavBar, setShowNavBar] = useState(false);
-  
+  const email = useAuth();
+
+  const [model, setModel] = useState(false)
+  const [imgSrc, setImgSrc] = useState('')
+
+
+const getImg = (imgURL) =>{
+    setImgSrc(imgURL)
+    setModel(true)
+}
+
+
   const handleShowNavBar = () => {
     setShowNavBar(!showNavBar);
   };
@@ -14,7 +28,7 @@ const MediaPage = () => {
 
   useEffect(() => {
     // Выполнение запроса при монтировании компонента
-    fetch('http://localhost:8080/note/useful-info')
+    fetch(`http://${URL}/note/media?email=${email}`)
       .then(response => response.json())
       .then(data => {
          setUserData(data);
@@ -32,7 +46,20 @@ const MediaPage = () => {
 
   return (
     <>
-     <InnerPage hed = "Media Asserts" logoimg = "/mediaAssert.svg" p = "Photo, video for company" class = "media" list = {gallery}/> 
+    <div className={model? "model open": "model"}>
+      <svg onClick = {() => setModel(false)}
+           width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24.9999 1L0.999998 25" stroke="#3873E9" stroke-width="2" stroke-linecap="round"/>
+          <path d="M1.00006 1L25 25" stroke="#3873E9" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+
+      <img src={imgSrc} alt="gallery"/>
+    </div>
+     <InnerPage hed = "Media Asserts" logoimg = "/mediaAssert.svg" p = "Photo, video for company" class = "media" list = {gallery} 
+     imgWork= {{'setImgSrc' : setImgSrc, 
+                'getImg': getImg}}
+     
+     /> 
     </>
   );
 };

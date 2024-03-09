@@ -28,6 +28,7 @@ spring-boot-backend/!**/src/test/**/target/
 /spring-boot-backend/build/
 !**/spring-boot-backend/src/main/**/build/
 !**/spring-boot-backend/src/test/**/build/
+!**/spring-boot-backend/src/main/resources/application.yml
 
 # Docker
 ./postgres-data/

@@ -5,7 +5,7 @@ import MediaList from './mediaList.jsx';
 import OnboardingList from './onboardingList.js';
 import ContactList from './contactList.js';
 import UsefulInfoList from './usefullInfoList.js';
-import ManageL from './ListScroll.tsx'
+import ManageL from './ListScroll.js'
 // import '../styles/navbar.css'
 
 const InnerPage = (props) => {
@@ -36,12 +36,12 @@ const InnerPage = (props) => {
   return (
 
     <main className = "main inner-main">
-    <div class="inner-div">
+    <div className="inner-div">
       <div className="inner-wrapper">
-        <img class = "inner-img" src= {props.logoimg} ></img>
+        <img className = "inner-img" src= {props.logoimg} ></img>
         <div>
-        <h2 class = "pages-h2 inner-h2 " >{props.hed}</h2>
-        {props.class !== "notes-" &&   <p class = "inner-p" >{props.p}</p>
+        <h2 className = "pages-h2 inner-h2 " >{props.hed}</h2>
+        {props.class !== "notes-" &&   <p className = "inner-p" >{props.p}</p>
         }
         </div>
         <button className ="inner-get-nav" onClick={handleShowNavbar}></button>
@@ -58,7 +58,7 @@ const InnerPage = (props) => {
       <NotesList class = {props.class} list = {props.list}/>
       }
       {props.class === "media" &&
-        <MediaList class = {props.class} list = {props.list}/>
+        <MediaList class = {props.class} list = {props.list} imgWork={props.imgWork}/>
       }
       {props.class === "onboarding" &&
         <OnboardingList />

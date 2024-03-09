@@ -22,8 +22,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,32 +36,33 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ImageService {
-    @Value("${aws.baseUrl}")
+    @Value("${storage.base-url}")
     private String baseUrl;
+    @Value("${storage.root}")
+    private String root;
     private final AmazonS3 s3;
 
-    public void uploadMediaAssets(Map<String, String> imagesBase64, String clientEmail) {
-        saveImages(imagesBase64, clientEmail, "media-assets");
+    public void uploadMediaAssets(MultipartFile[] files, String clientEmail) throws IOException {
+        saveImages(files, clientEmail, "media-assets");
     }
 
-    public void uploadPaidAdvertisingReports(Map<String, String> imagesBase64, String clientEmail) {
-        saveImages(imagesBase64, clientEmail, "paid-advertising-reports");
+    public void uploadPaidAdvertisingReports(MultipartFile[] files, String clientEmail) throws IOException {
+        saveImages(files, clientEmail, "paid-advertising-reports");
     }
 
-    private void saveImages(Map<String, String> imagesBase64, String clientEmail, String folder) {
-        for (Map.Entry<String, String> imageBase64 : imagesBase64.entrySet()) {
-            String filename = imageBase64.getKey();
-            String image = imageBase64.getValue();
-            byte[] bI = Base64.decodeBase64((image.substring(image.indexOf(",")+1)).getBytes());
+    private void saveImages(MultipartFile[] files, String clientEmail, String folder) throws IOException {
+        for (MultipartFile file : files) {
+            String filename = file.getOriginalFilename();
+            byte[] bI = file.getBytes();
             InputStream fis = new ByteArrayInputStream(bI);
 
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(bI.length);
-            metadata.setContentType("image/png");
+            metadata.setContentType("jpg/jpeg/png");
             metadata.setCacheControl("public, max-age=31536000");
             String path = String.join("/", folder, clientEmail, filename);
-            s3.putObject("glasflair-media-assets", path, fis, metadata);
-            s3.setObjectAcl("glasflair-media-assets", path, CannedAccessControlList.PublicRead);
+            s3.putObject(root, path, fis, metadata);
+            s3.setObjectAcl(root, path, CannedAccessControlList.PublicRead);
         }
     }
 
@@ -74,7 +77,7 @@ public class ImageService {
 
     private List<String> getImages(String clientEmail, String folder) {
         String prefix = folder + clientEmail;
-        ObjectListing listing = s3.listObjects("glasflair-media-assets", prefix);
+        ObjectListing listing = s3.listObjects(root, prefix);
         List<S3ObjectSummary> summaries = listing.getObjectSummaries();
 
         while (listing.isTruncated()) {

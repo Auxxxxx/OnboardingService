@@ -43,10 +43,10 @@ public class UserService {
         if (!(user instanceof Client existing)) {
             throw new UserIsNotClientException();
         }
-        if (formAnswers != null && formAnswers.size() != 6) {
+        if (onboardingStages != null && onboardingStages.size() != 3) {
             throw new WrongListSize();
         }
-        if (onboardingStages != null && onboardingStages.size() != 3) {
+        if (formAnswers != null && formAnswers.size() != 6) {
             throw new WrongListSize();
         }
         if (fullName != null) existing.setFullName(fullName);

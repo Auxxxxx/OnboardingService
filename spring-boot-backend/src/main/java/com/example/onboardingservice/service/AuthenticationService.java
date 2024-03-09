@@ -8,11 +8,16 @@ import com.example.onboardingservice.model.Note;
 import com.example.onboardingservice.model.NoteType;
 import com.example.onboardingservice.model.User;
 import com.example.onboardingservice.repository.UserRepository;
+import com.example.onboardingservice.security.JwtService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -21,6 +26,8 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final NoteService noteService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public void register(String fullName, String email, String password) throws UserAlreadyExistsException {
         if (userRepository.findByEmail(email).isPresent()) {
@@ -31,6 +38,8 @@ public class AuthenticationService {
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .build();
+        client.setActiveStage(1L);
+        client.setOnboardingStages(Arrays.asList("Beginner", "Common client", "Partner"));
         userRepository.save(client);
 
         try {
@@ -47,5 +56,16 @@ public class AuthenticationService {
             throw new WrongPasswordException();
         }
         return user;
+    }
+
+    public String authenticate(String email, String password) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        email,
+                        password
+                )
+        );
+        var user = userRepository.findByEmail(email).orElseThrow();
+        return jwtService.generateToken(user);
     }
 }

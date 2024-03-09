@@ -4,13 +4,19 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { AuthProvider } from './context/AuthProvider';
+import { NoteProvider } from './context/NotesProvider'
+import { UserProvider } from './context/UserProvider'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
+    <UserProvider>
     <AuthProvider>
+    <NoteProvider>
     <App />
+    </NoteProvider>
     </AuthProvider>
+    </UserProvider>
   </React.StrictMode>,
 )
 
