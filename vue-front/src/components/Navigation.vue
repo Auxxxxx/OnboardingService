@@ -12,17 +12,25 @@
                     <router-link @click="store.navPopup = false" to="/onboard">OnBoarding</router-link>
                 </li>
                 <li class="nav-item">
-                    <img src="../assets/imgs/meetingNotes.svg" alt="">
-                    <router-link @click="store.navPopup = false" to="/media-asserts">Media Asserts</router-link>
+                    <img src="../assets/imgs/media-assets-icon.svg" alt="">
+                    <router-link @click="store.navPopup = false" to="/media-assets">Media Asserts</router-link>
                 </li>
-                <!-- <li class="nav-item">
-                    <img src="" alt="">
+                <li class="nav-item">
+                    <img src="../assets/imgs/paid-icon.svg" alt="">
                     <router-link to="/">Paid Adversting Reports</router-link>
                 </li>
                 <li class="nav-item">
-                    <img src="" alt="">
-                    <router-link to="/">Meeting Notes</router-link>
-                </li> -->
+                    <img src="../assets/imgs/meeting-icon.svg" alt="">
+                    <router-link to="/meeting-notes">Meeting Notes</router-link>
+                </li>
+                <li class="nav-item">
+                    <img src="../assets/imgs/useful-icon.svg" alt="">
+                    <router-link to="/">Useful Info</router-link>
+                </li>
+                <li class="nav-item">
+                    <img src="../assets/imgs/contact-icon.svg" alt="">
+                    <router-link to="/">Client Contact Details</router-link>
+                </li>
             </ul>
         </div>
         </Transition>
@@ -59,6 +67,18 @@ const store = useCounterStore()
     width: 30%;
 }
 
+.nav::before{
+    content: "";
+    position: absolute;
+    background-image: url("../assets/imgs/nav-decor.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 300px;
+    height: 280px;
+    left: 0;
+    bottom: 0;
+}
+
 .nav-bg {
   position: fixed;
   width: 100%;
@@ -78,12 +98,17 @@ const store = useCounterStore()
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-left: 20px;
+    margin-left:40px;
 }
 
 .nav-item > a{
     color: #3873E9;
     text-decoration: none;
+}
+
+.nav-item > img{
+    width: 45px;
+    height: 45px;
 }
 
 .nav-title{
@@ -100,6 +125,7 @@ const store = useCounterStore()
 
 .nav-title > h3{
     color: #3873E9;
-    font-size: 24px;
+    font-size: 32px;
+    margin-left: 30px;
 }
 </style>

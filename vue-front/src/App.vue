@@ -3,12 +3,14 @@ import Navigation from './components/Navigation.vue';
 </script>
 
 <template>
+  <div>
     <Navigation />
    <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">
         <component :is="Component"/>
       </transition>
       </router-view>
+  </div>
 </template>
 
 <style scoped>

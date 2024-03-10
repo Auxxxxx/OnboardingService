@@ -4,60 +4,98 @@
         <form action="">
             <div class="form-input">
                 <label>Email address</label>
-                <input v-model="email" type="email" placeholder="enter email">
+                <input v-model="state.email" type="email" placeholder="enter email">
             </div>
             <div class="form-input">
                 <label  >Password</label>
-                <input v-model="password" type="password" placeholder="enter password">
+                <input v-model="state.password" type="password" placeholder="enter password">
             </div>
             <div>
-                <input v-model="rememberMe" type="checkbox">
+                <input v-model="state.rememberMe" type="checkbox">
                 <label>Remember me</label>
             </div>
             <button @click.prevent="login">Login</button>
         </form>
         <Transition>
-            <p class="success" v-if="notifyState">success</p>
-        </Transition>
-        <Transition>
-            <p class="error" v-if="notifyState == false">error</p>
+            <AuthNotify :class="popUpClass" v-if="notifyState == true">{{ popUpText }}</AuthNotify>
         </Transition>
     </section>
 </template>
 
 <script setup>
 
-import {ref} from "vue"
+import {reactive, ref} from "vue"
 import { useRouter } from "vue-router";
-
+import AuthNotify from "../components/AuthNotify.vue";
 const router = useRouter()
-const rememberMe = ref(false)
-const email = ref("")
-const password = ref("")
-const notifyState = ref(null)
+const state = reactive({
+    email:"",
+    password:"",
+    rememberMe:false
+})
+const notifyState = ref(false)
+const popUpText = ref("")
+const popUpClass = ref("none")
+const url = import.meta.env.VITE_BASE_URL
+
+function wrongPassword(){
+    popUpClass.value = "error"
+    popUpText.value = "wrong password"
+}
+
+function wrongEmail(){
+    popUpClass.value = "error"
+    popUpText.value = " User with such email is not found"
+}
+
+function successLogin(){
+    
+    popUpClass.value = "success"
+    popUpText.value = "success signed in"
+}
+
+function dissapearPopup(){
+    setTimeout(() => notifyState.value = false, 4000)
+}
 
 
+const responseVariations = {
+    200:successLogin(),
+    401:wrongPassword(),
+    404:wrongEmail()
+}
 
-function login(){
-    if(email.value == "test@gmail.com" && password.value == "12345"){
-        putInLocalOrSession()
-        setNotifyToFalse()
+async function login(){
+
+    if(!state.email || !state.password){
+        popUpClass.value = "error"
         notifyState.value = true
-        setTimeout(() => {
-            router.push("/onboard")
-        },500)
+        dissapearPopup()
         return
     }
-    console.log(email.value, password.value)
-    setNotifyToFalse()
-    notifyState.value = false
+
+    await fetch(`${url}/auth/sign-in`,
+    {
+        method:"POST",
+        body:JSON.stringify({
+            "email":state.email,
+            "password":state.password
+        })
+    })
+    .then((response) => {
+        responseVariations[response.status]
+        notifyState.value = true
+        dissapearPopup()
+        return response.json()
+    })
+    .then((data) => {
+        localStorage.setItem("jwt", data.jwt)
+        console.log(data)
+    })
+
 }
 
-function setNotifyToFalse(){
-    setTimeout(() =>{
-        notifyState.value = null
-    },2000)
-}
+
 
 function putInLocalOrSession(){
     if(rememberMe.value){

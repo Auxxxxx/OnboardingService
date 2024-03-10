@@ -1,37 +1,22 @@
 <template>
-    <section>
-        <div class="title container">
-            <h2>Media Asserts</h2>
-            <div @click="store.navPopup = true" class="burger-menu">
+    <div @click="store.navPopup = true" class="burger-menu">
                 <div class="hamburger-lines">
                   <span class="line line1"></span>
                   <span class="line line2"></span>
                   <span class="line line3"></span>
                 </div>  
             </div>
-        </div>
-    </section>
 </template>
 
 <script setup>
 import { useCounterStore } from '../stores/counter';
 
 const store = useCounterStore()
+
+
 </script>
 
 <style scoped>
-
-
-.title{
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-    margin-top: 100px;
-}
-
-h2{
-    color: #0d6efd;
-}
 
 .burger-menu{
     position: relative;
@@ -54,7 +39,7 @@ h2{
   height: 4px;
   width: 100%;
   border-radius: 10px;
-  background: #0e2431;
+  background: #3873E9;
 }
 .hamburger-lines .line1 {
   transform-origin: 0% 0%;
