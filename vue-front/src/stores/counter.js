@@ -9,6 +9,6 @@ export const useCounterStore = defineStore("counter", {
   }),
   getters: {},
   actions: {
-
+    
   },
 });

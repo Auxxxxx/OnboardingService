@@ -1,6 +1,6 @@
 <template>
     <section class="container">
-        <img class="section-header" src="../assets/imgs/footerProfile.png" alt="">
+        <img class="section-header" src="../assets/imgs/footer-profile.png" alt="">
         <div class="profile-block">
             <img src="../assets/imgs/profileAvatar.svg" alt="">
             <h2>Good Day, dear Name Surename!</h2>
@@ -69,10 +69,7 @@ const data = ref([
   position: absolute;
 }
 .section-header {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+
 }
 
 .profile-block {
@@ -81,7 +78,7 @@ const data = ref([
     flex-direction: column;
     gap: 30px;
     z-index: 2;
-    margin-top: 150px;
+
 }
 
 .profile-block>img {
