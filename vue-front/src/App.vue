@@ -1,5 +1,13 @@
 <script setup>
+import { onMounted } from 'vue';
 import Navigation from './components/Navigation.vue';
+import { useCounterStore } from './stores/counter';
+
+const store = useCounterStore()
+
+onMounted(() => {
+  store.jwt = store.getCookieJwt()[1]
+})
 </script>
 
 <template>

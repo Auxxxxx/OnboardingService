@@ -19,14 +19,17 @@
         <Transition>
             <AuthNotify :class="popUpClass" v-if="notifyState == true">{{ popUpText }}</AuthNotify>
         </Transition>
+        <button @click="getJwt">get cookie</button>
     </section>
 </template>
 
 <script setup>
-
-import {reactive, ref} from "vue"
+import { useCounterStore } from "../stores/counter";
+import {onMounted, reactive, ref} from "vue"
 import { useRouter } from "vue-router";
 import AuthNotify from "../components/AuthNotify.vue";
+
+const store = useCounterStore()
 const router = useRouter()
 const state = reactive({
     email:"",
@@ -58,6 +61,19 @@ function dissapearPopup(){
     setTimeout(() => notifyState.value = false, 4000)
 }
 
+function getJwt(){
+    const jwt = store.getCookieJwt();
+
+}
+
+function getCookie(){
+    var pattern = RegExp("token" + "=.[^;]*");
+    var matched = document.cookie.match(pattern);
+    if(matched){
+        var cookie = matched[0].split('=');
+        console.log(cookie[1]);
+    }
+}
 
 const responseVariations = {
     200:successLogin(),
@@ -89,8 +105,10 @@ async function login(){
         return response.json()
     })
     .then((data) => {
-        localStorage.setItem("jwt", data.jwt)
-        console.log(data)
+        console.log("cookie saved")
+        const expiresIn = new Date();
+      expiresIn.setHours(expiresIn.getHours() + 24);
+      document.cookie = `token=${data.jwt}; Secure; SameSite=Lax; expires=${expiresIn.toUTCString()}`;
     })
 
 }
@@ -106,6 +124,9 @@ function putInLocalOrSession(){
     sessionStorage.setItem("isLoggedIn", "true")
     return
 }
+
+onMounted(() => {
+})
 
 </script>
 
