@@ -26,7 +26,7 @@ async function addMedia(){
     const formData = new FormData()
     formData.append("clientEmail", "bill_edwards@gmail.com")
     formData.append("files", file.value[0])
-    await fetch(`${url}/image/paid-adverstising-reports/bill_edwards@gmail.com`,
+    await fetch(`${url}/image/paid-advertising-reports/bill_edwards@gmail.com`,
         {
             method:"PUT",
             headers:{

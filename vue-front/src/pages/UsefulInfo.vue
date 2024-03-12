@@ -1,16 +1,34 @@
 <template>
     <section class="container">
-        <header>
-            <h2>Useful info</h2>
+        <header class="header">
+            <div class="header-title">
+                <img src="../assets/imgs/useful-icon.svg" alt="">
+                <div>
+                    <h2>Useful Info</h2>
+                    <p>Refer to this page for key insights into the business <br/>for Media Buying purposes</p>
+                </div>
+            </div>
+            <NavBar />
         </header>
-        {{ tips }}
+        <div class="tips" v-if="tips.content">
+            <div class="tip">
+                <img src="../assets/imgs/dot-icon.svg" alt="">
+                <span>{{ tips.content[0] }}</span>
+            </div>
+            <div class="tip">
+                <img src="../assets/imgs/dot-icon.svg" alt="">
+                <span>{{ tips.content[1] }}</span>
+            </div>
+        </div>
     </section>
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
+import { useCounterStore } from "../stores/counter";
+import NavBar from "../components/NavBar.vue";
 
-
+const store = useCounterStore()
 const tips = ref({})
 const url = import.meta.env.VITE_BASE_URL
 
@@ -19,7 +37,7 @@ async function getTips(){
     {
         method:"GET",
         headers:{ 
-            "Authorization":"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiaWxsX2Vkd2FyZHNAZ21haWwuY29tIiwiaWF0IjoxNzEwMDI1NTM4LCJleHAiOjE3MTAxMTE5Mzh9.VtN2WItVHd4x7norHM_7CMnj4YRbASIpVqPWrmXlcZE"
+            "Authorization":"Bearer " + store.jwt
         },
     }).then((response) => response.json())
     .then((data) => {
@@ -40,5 +58,45 @@ onMounted(() => {
 
 section{
     margin-top: 100px;
+}
+
+.header{
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.header-title{
+    display: flex;
+    gap: 20px;
+   
+}
+
+.header-title > img{
+    width: 50px;
+}
+
+.header-title > div > h2{
+    color: #0d6efd;
+    font-size: 50px;
+}
+
+.tips{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+.tip{
+    display: flex;
+    align-content: center;
+    gap: 10px;
+}
+
+.tip > span{
+    color: #575757;
 }
 </style>

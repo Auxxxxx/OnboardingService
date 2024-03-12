@@ -3,17 +3,15 @@
         <h2>Sign in</h2>
         <form action="">
             <div class="form-input">
-                <label>Email address</label>
                 <input v-model="state.email" type="email" placeholder="enter email">
             </div>
             <div class="form-input">
-                <label  >Password</label>
                 <input v-model="state.password" type="password" placeholder="enter password">
             </div>
-            <div>
+            <!-- <div>
                 <input v-model="state.rememberMe" type="checkbox">
                 <label>Remember me</label>
-            </div>
+            </div> -->
             <button @click.prevent="login">Login</button>
         </form>
         <Transition>
@@ -98,8 +96,13 @@ async function login(){
         })
     })
     .then((response) => {
-        responseVariations[response.status]
         notifyState.value = true
+        if(response.status === 200){
+            successLogin()
+            
+        }else{
+            wrongPassword()
+        }
         dissapearPopup()
         return response.json()
     })
@@ -109,6 +112,7 @@ async function login(){
     const expiresIn = new Date();
       expiresIn.setHours(expiresIn.getHours() + 24);
       document.cookie = `token=${data.jwt}; Secure; SameSite=Lax; expires=${expiresIn.toUTCString()}`;
+      setTimeout(() => router.push("/"),600)
     })
 
 }
@@ -153,6 +157,7 @@ h2{
     color: red;
 }
 section{
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -161,12 +166,39 @@ section{
 }
 
 form{
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 300px;
     gap: 10px;
 }
 
+
+form::before{
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -20%;
+  background-image: url("../assets/imgs/decor-1.svg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
+}
+
+form::after{
+  content: "";
+  position: absolute;
+  bottom: 0%;
+  right: -20%;
+  background-image: url("../assets/imgs/decor-2.svg");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 52px;
+  height: 95px;
+}
 .form-input{
     display: flex;
     flex-direction: column;
@@ -174,9 +206,11 @@ form{
 
 input{
     padding: 7px;
+    border: none;
+    border-bottom: 2px solid #0d6efd;
+    background: none;
     
 }
-
 button{
     padding: 0.375rem 0.75rem;
     border: none;

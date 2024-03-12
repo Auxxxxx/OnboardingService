@@ -1,6 +1,7 @@
 <template>
     <section class="container">
         <img class="section-header" src="../assets/imgs/footer-profile.png" alt="">
+        <NavBar class="profile-nav" />
         <div class="profile-block">
             <img src="../assets/imgs/profileAvatar.svg" alt="">
             <h2>Good Day, dear {{userData.fullName}}!</h2>
@@ -10,15 +11,15 @@
         <div class="roadmap">
             <h3>The Roadmap</h3>
             <div class="roadmap-stages">
-                <button class="roadmap-btn" @click="index = i" :class="{ active: userData.activeStage == i }" v-for="(btn, i) in data" :key="i">{{ i + 1
+                <button class="roadmap-btn" @click="index = i" :class="{ active: userData.activeStage-1 == i }" v-for="(btn, i) in data" :key="i">{{ i + 1
                 }}</button>
             </div>
             <div class="roadmap-desc">
                 <TransitionGroup name="list" tag="div" mode="out-in">
-                    <div v-if="userData.onboardingStages">{{ userData.onboardingStages[userData.activeStage] }}</div>
+                    <div v-if="userData.onboardingStages">{{ userData.onboardingStages[userData.activeStage-1] }}</div>
                 </TransitionGroup>
             </div>
-            <button class="open-menu-btn" @click="store.navPopup = true">Open menu</button>
+            <!-- <button class="open-menu-btn" @click="store.navPopup = true">Open menu</button> -->
         </div>
     </section>
 </template>
@@ -26,6 +27,7 @@
 <script setup>
 import { computed, onMounted, ref } from "vue"
 import { useCounterStore } from "../stores/counter";
+import NavBar from "../components/NavBar.vue";
 
 const store = useCounterStore()
 
@@ -48,17 +50,14 @@ const data = ref([
 
 async function getUserData(){
     if(localStorage.getItem("email") == null) return
-    console.log(localStorage.getItem("email"))
     await fetch(`${url}/client/get-data/${localStorage.getItem("email")}`,{
         method:"GET",
         headers:{ 
-                "Authorization":"Bearer " + store.jwt
+                "Authorization":"Bearer " + store.getCookieJwt()[1]
             }
     }).then((response) => response.json())
     .then((data) => {
         userData.value = data
-        console.log(userData.value)
-        console.log(userData.value.onboardingStages)
     })
 }
 
@@ -91,7 +90,7 @@ onMounted(() => {
   position: absolute;
 }
 .section-header {
-
+    width: 100%;
 }
 
 .profile-block {
@@ -101,6 +100,10 @@ onMounted(() => {
     gap: 30px;
     z-index: 2;
 
+}
+
+.profile-nav{
+    transform: translate(-5%,-5%);
 }
 
 .profile-block>img {
