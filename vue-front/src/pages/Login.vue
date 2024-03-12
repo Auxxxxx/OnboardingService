@@ -19,7 +19,6 @@
         <Transition>
             <AuthNotify :class="popUpClass" v-if="notifyState == true">{{ popUpText }}</AuthNotify>
         </Transition>
-        <button @click="getJwt">get cookie</button>
     </section>
 </template>
 
@@ -105,8 +104,9 @@ async function login(){
         return response.json()
     })
     .then((data) => {
-        console.log("cookie saved")
-        const expiresIn = new Date();
+        localStorage.setItem("email", state.email)
+    console.log("cookie saved")
+    const expiresIn = new Date();
       expiresIn.setHours(expiresIn.getHours() + 24);
       document.cookie = `token=${data.jwt}; Secure; SameSite=Lax; expires=${expiresIn.toUTCString()}`;
     })

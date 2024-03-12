@@ -21,7 +21,7 @@
             <button @click.prevent="regUser">Register</button>
         </form>
         <Transition>
-          <AuthNotify class="test" v-if="formValue.email == 1" >error</AuthNotify>
+            <AuthNotify :class="popUpClass" v-if="notifyState == true">{{ popUpText }}</AuthNotify>
         </Transition>
     </section>
 </template>
@@ -34,36 +34,59 @@ const formValue = reactive({
   name:"",
   password:""
 })
-const popUpClass = ref(null)
+const popUpText = ref("")
+const popUpClass = ref("none")
 const status = ref(false)
+const notifyState = ref(false)
 const url = import.meta.env.VITE_BASE_URL
+
+function dissapearPopup(){
+    setTimeout(() => notifyState.value = false, 4000)
+}
+
+
+function userExists(){
+    popUpClass.value = "error"
+    popUpText.value = " User with such email already exists"
+}
+
+function successLogin(){
+    
+    popUpClass.value = "success"
+    popUpText.value = "success signed in"
+    return popUpText.value
+}
+
+
 
 async function regUser(){
 
 
-  const form = new FormData()
-  form.append("email", formValue.email)
-  form.append("fullName", formValue.name)
-  form.append("password", formValue.password)
-
-  console.log(form)
-  const response = await fetch(`${url}/auth/sign-in`,
+  const response = await fetch(`${url}/auth/register`,
   {
     method:"POST",
     body:JSON.stringify({
-      "email":"te321321st@gmail.com",
-      "password":"12345"
+      "email":formValue.email,
+      "password":formValue.password,
+      "fullName":formValue.name
     }),
     headers:{
       "Content-Type":"application/json"
     }
   })
   .then((response) => {
-      console.log(response)
-    if(response == 200){
-
-      return 
-    }
+        if(response.status === 409){
+          userExists()
+        }else if(response.status === 200){
+          successLogin()
+          setTimeout(() => router.push("/login"),500)
+        }
+        notifyState.value = true
+        dissapearPopup()
+        return response.json()
+  }).then((data) =>{
+    localStorage.setItem("email", formVAlue.email)
+    console.log("Data1". data)
   })
 
 }
@@ -71,7 +94,6 @@ async function regUser(){
 
 
 onMounted(() =>{
-  console.log()
 })
 </script>
 

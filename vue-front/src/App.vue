@@ -2,11 +2,15 @@
 import { onMounted } from 'vue';
 import Navigation from './components/Navigation.vue';
 import { useCounterStore } from './stores/counter';
-
+import { useRouter } from 'vue-router'; 
 const store = useCounterStore()
-
+const router = useRouter()
 onMounted(() => {
-  store.jwt = store.getCookieJwt()[1]
+  if(store.getCookieJwt() == null){
+    router.push("/")
+  }else{
+    store.jwt = store.getCookieJwt()[1]
+  }
 })
 </script>
 

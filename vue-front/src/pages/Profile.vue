@@ -3,21 +3,19 @@
         <img class="section-header" src="../assets/imgs/footer-profile.png" alt="">
         <div class="profile-block">
             <img src="../assets/imgs/profileAvatar.svg" alt="">
-            <h2>Good Day, dear Name Surename!</h2>
+            <h2>Good Day, dear {{userData.fullName}}!</h2>
             <p>Welcome! Using this page toy can access all required tools needed for onboarding. You can also<br />
                 access any notes from our meetings together and even access a record of advertissing reports.</p>
         </div>
         <div class="roadmap">
             <h3>The Roadmap</h3>
             <div class="roadmap-stages">
-                <button class="roadmap-btn" @click="index = i" :class="{ active: index == i }" v-for="(btn, i) in data" :key="i">{{ i + 1
+                <button class="roadmap-btn" @click="index = i" :class="{ active: userData.activeStage == i }" v-for="(btn, i) in data" :key="i">{{ i + 1
                 }}</button>
             </div>
             <div class="roadmap-desc">
                 <TransitionGroup name="list" tag="div" mode="out-in">
-                    <div class="roadmap-text" :class="{active : index == i}" v-for="(text, i) in data" :key="i" v-show="i == index">
-                        {{ text.text }}
-                    </div>
+                    <div v-if="userData.onboardingStages">{{ userData.onboardingStages[userData.activeStage] }}</div>
                 </TransitionGroup>
             </div>
             <button class="open-menu-btn" @click="store.navPopup = true">Open menu</button>
@@ -26,13 +24,16 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { computed, onMounted, ref } from "vue"
 import { useCounterStore } from "../stores/counter";
 
 const store = useCounterStore()
 
 const index = ref(0)
+const url = import.meta.env.VITE_BASE_URL
 
+const userData = ref({})
+const userStages =  userData.onboardingStages
 const data = ref([
     {
         text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque, odit modi. Quas repudiandae commodi quia delectus dignissimos alias! Eos, cupiditate laborum et aperiam facere culpa vel id obcaecati unde delectus?"
@@ -45,6 +46,27 @@ const data = ref([
     },
 ])
 
+async function getUserData(){
+    if(localStorage.getItem("email") == null) return
+    console.log(localStorage.getItem("email"))
+    await fetch(`${url}/client/get-data/${localStorage.getItem("email")}`,{
+        method:"GET",
+        headers:{ 
+                "Authorization":"Bearer " + store.jwt
+            }
+    }).then((response) => response.json())
+    .then((data) => {
+        userData.value = data
+        console.log(userData.value)
+        console.log(userData.value.onboardingStages)
+    })
+}
+
+onMounted(() => {
+    getUserData()
+    // setTimeout(() => console.log(userStages), 1000)
+    
+})
 
 </script>
 
