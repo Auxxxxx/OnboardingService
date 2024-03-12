@@ -108,7 +108,7 @@ public class ImageController {
     @PutMapping("/paid-advertising-reports/{clientEmail}")
     public ResponseEntity<Void> putPaidAdvertisingReports(
             @Parameter(description = """
-                    And email of the client who had uploaded the images
+                    Email of the client who had uploaded the images
                     """, required = true)
             @PathVariable("clientEmail") String clientEmail,
             @RequestParam("files") MultipartFile[] files) {

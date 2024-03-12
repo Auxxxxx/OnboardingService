@@ -8,6 +8,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.example.onboardingservice.model.Client;
 import com.example.onboardingservice.model.Manager;
 import com.example.onboardingservice.model.Note;
+import com.example.onboardingservice.model.User;
 import com.example.onboardingservice.service.AuthenticationService;
 import com.example.onboardingservice.service.UserService;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -27,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @SpringBootApplication
@@ -86,10 +88,13 @@ public class OnboardingServiceApplication extends SpringBootServletInitializer {
                                                AuthenticationService authenticationService) {
         return args -> {
             try {
-                userService.save(Manager.builder()
-                        .email(managerEmail)
-                        .password(passwordEncoder().encode(managerPassword))
-                        .build());
+                Optional<User> existingManager = userService.findByEmailOptional(managerEmail);
+                if (existingManager.isEmpty()) {
+                    userService.save(Manager.builder()
+                            .email(managerEmail)
+                            .password(passwordEncoder().encode(managerPassword))
+                            .build());
+                }
                 //authenticationService.signIn("bill_edwards@gmail.com", "cookie123");
                 authenticationService.register("Bill Edwards", "bill_edwards@gmail.com", "cookie123");
                 authenticationService.signIn("bill_edwards@gmail.com", "cookie123");

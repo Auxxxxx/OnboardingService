@@ -15,6 +15,6 @@ import java.util.List;
 public class NotePutUsefulInfoRequest {
     @Schema(example = "[\"note line 1\",\"note line 2\"]")
     private List<String> content;
-    @Schema(example = "bill_edwards@gmail.com")
-    private String recipientEmail;
+    @Schema(example = "2024-03-11")
+    private String date;
 }
