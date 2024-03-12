@@ -18,6 +18,6 @@ public class NotePutMeetingNoteRequest {
     private List<String> content;
     @Schema(example = "Useful info")
     private String header;
-    @Schema(example = "bill_edwards@gmail.com")
-    private String recipientEmail;
+    @Schema(example = "2024-03-11")
+    private String date;
 }

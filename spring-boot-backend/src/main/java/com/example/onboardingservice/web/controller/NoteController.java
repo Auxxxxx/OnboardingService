@@ -129,7 +129,7 @@ public class NoteController {
             @ApiResponse(responseCode = "403", description = "Forbidden. Accessible only for MANAGER"),
             @ApiResponse(responseCode = "404", description = "Not Found. The recipient client is not found")
     })
-    @PutMapping("/meeting-notes")
+    @PutMapping("/meeting-notes/{recipientEmail}")
     public ResponseEntity<Void> putMeetingNote(
             @RequestBody(description = """
                     Data of the note to be added
@@ -137,23 +137,24 @@ public class NoteController {
                     If noteId is null - a new one is saved
                     Content strings must be not null
                     """, required = true)
-            @RequestData NotePutMeetingNoteRequest request) {
-        if (request.getRecipientEmail() == null ||
+            @RequestData NotePutMeetingNoteRequest request,
+            @PathVariable("recipientEmail") String recipientEmail) {
+        if (recipientEmail == null ||
                 request.getHeader() == null ||
                 request.getContent() == null ||
                 request.getContent().stream().anyMatch(Objects::isNull)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        log.info("saving_meeting_note: " + request.getRecipientEmail());
+        log.info("saving_meeting_note: " + recipientEmail);
         try {
             noteService.saveMeetingNote(
                     request.getId(),
                     request.getContent(),
                     request.getHeader(),
-                    request.getRecipientEmail());
+                    recipientEmail);
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (UserNotFoundException e) {
-            log.error("recipient_not_found: " + request.getRecipientEmail());
+            log.error("recipient_not_found: " + recipientEmail);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
@@ -167,24 +168,25 @@ public class NoteController {
             @ApiResponse(responseCode = "403", description = "Forbidden. Accessible only for MANAGER"),
             @ApiResponse(responseCode = "404", description = "Error. The recipient client is not found")
     })
-    @PutMapping("/useful-info")
+    @PutMapping("/useful-info/{recipientEmail}")
     public ResponseEntity<Void> putUsefulInfo(
             @RequestBody(description = "Data of the note to be edited. " +
                     "Content strings must be not null", required = true)
-            @RequestData NotePutUsefulInfoRequest request) {
-        if (request.getRecipientEmail() == null ||
+            @RequestData NotePutUsefulInfoRequest request,
+            @PathVariable("recipientEmail") String recipientEmail) {
+        if (recipientEmail == null ||
                 request.getContent() == null ||
                 request.getContent().stream().anyMatch(Objects::isNull)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        log.info("saving_useful_info: " + request.getRecipientEmail());
+        log.info("saving_useful_info: " + recipientEmail);
         try {
             noteService.saveUsefulInfo(
-                    request.getRecipientEmail(),
+                    recipientEmail,
                     request.getContent());
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (UserNotFoundException e) {
-            log.error("recipient_not_found: " + request.getRecipientEmail());
+            log.error("recipient_not_found: " + recipientEmail);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
@@ -198,24 +200,25 @@ public class NoteController {
             @ApiResponse(responseCode = "403", description = "Forbidden. Accessible only for MANAGER"),
             @ApiResponse(responseCode = "404", description = "Error. The recipient client is not found")
     })
-    @PutMapping("/contact-details")
+    @PutMapping("/contact-details/{recipientEmail}")
     public ResponseEntity<Void> putContactDetails(
             @RequestBody(description = "Data of the note to be edited. " +
                     "Content strings must be not null", required = true)
-            @RequestData NotePutContactDetailsRequest request) {
-        if (request.getRecipientEmail() == null ||
+            @RequestData NotePutContactDetailsRequest request,
+            @PathVariable("recipientEmail") String recipientEmail) {
+        if (recipientEmail == null ||
                 request.getContent() == null ||
                 request.getContent().stream().anyMatch(Objects::isNull)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        log.info("saving_contact_details: " + request.getRecipientEmail());
+        log.info("saving_contact_details: " + recipientEmail);
         try {
             noteService.saveContactDetails(
-                    request.getRecipientEmail(),
+                    recipientEmail,
                     request.getContent());
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (UserNotFoundException e) {
-            log.error("recipient_not_found: " + request.getRecipientEmail());
+            log.error("recipient_not_found: " + recipientEmail);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }

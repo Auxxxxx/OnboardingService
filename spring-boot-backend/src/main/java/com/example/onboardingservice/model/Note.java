@@ -2,6 +2,7 @@ package com.example.onboardingservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -22,6 +23,7 @@ public class Note implements Serializable {
     @GeneratedValue
     @ToString.Include
     private Long id;
+    @JsonIgnore
     private NoteType noteType;
     @Schema(example = "Meeting in November")
     private String header;
@@ -33,6 +35,7 @@ public class Note implements Serializable {
     @CollectionTable(name = "note_content", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "note_content", nullable = false)
     private List<String> content;
+
 
     @JsonIgnore
     @ManyToOne(fetch=FetchType.EAGER)
