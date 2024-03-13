@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router"
 import Login from "./pages/Login.vue"
-import OnBoard from "./pages/OnBoard.vue"
+import Profile from "./pages/Profile.vue"
 import MediaAssets from "./pages/MediaAssets.vue"
 import isLoggedIn from "./middleware/isLoggedIn"
 import preventAuthAccess  from "./middleware/preventAuthAccess"
@@ -10,19 +10,25 @@ import UsefulInfo from "./pages/UsefulInfo.vue"
 import PaidAdvertisementReports from "./pages/PaidAdvertisementReports.vue"
 import AdminPage from "./pages/admin/AdminPage.vue"
 import ClientPage from "./pages/admin/ClientPage.vue"
+import OnBoarding from "./pages/OnBoarding.vue"
+import ContactDetails from "./pages/ContactDetails.vue"
 
 export const router = createRouter({
     history:createWebHistory(),
     routes:[
         {
-            path:"/onboard",
-            component:OnBoard,
-            // beforeEnter:isLoggedIn
+            path:"/onboarding",
+            component:OnBoarding
         },
         {
             path:"/",
+            component:Profile,
+            beforeEnter:isLoggedIn
+        },
+        {
+            path:"/login",
             component:Login,
-            beforeEnter:preventAuthAccess
+            // beforeEnter:isLoggedIn
         },
         {
             path:"/media-assets",
@@ -43,6 +49,10 @@ export const router = createRouter({
         {
             path:"/paid-advertising-reports",
             component:PaidAdvertisementReports
+        },
+        {
+            path:"/contacts-details",
+            component:ContactDetails
         },
         {
             path: "/admin",

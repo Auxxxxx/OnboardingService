@@ -1,7 +1,13 @@
 <template>
     <section class="container">
-        <header class="meeting-header">
-            <h2>Meeting notes</h2>
+        <header class="header">
+            <div class="header-title">
+                <img src="../assets/imgs/meeting-icon.svg" alt="">
+                <div>
+                    <h2>Meeting notes</h2>
+                    <p>notes for meeting</p>
+                </div>
+            </div>
             <NavBar />
         </header>
         <ul>
@@ -14,24 +20,30 @@
             </li>
         </ul>
         <!-- {{ notes }} -->
+        <BackHome />
     </section>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
+import { useCounterStore } from '../stores/counter';
 import NavBar from '../components/NavBar.vue';
+import BackHome from "../components/BackHome.vue"
 const url = import.meta.env.VITE_BASE_URL
 const notes = ref({})
+const store = useCounterStore()
 
 async function getNotes(){
-    fetch(`${url}/note/meeting-notes/bill_edwards@gmail.com`,
+    fetch(`${url}/note/meeting-notes/${localStorage.getItem("email")}`,
     {
         method:"GET",
         headers:{ 
-            "Authorization":"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiaWxsX2Vkd2FyZHNAZ21haWwuY29tIiwiaWF0IjoxNzEwMDI1NTM4LCJleHAiOjE3MTAxMTE5Mzh9.VtN2WItVHd4x7norHM_7CMnj4YRbASIpVqPWrmXlcZE"
+            "Authorization":"Bearer " + store.jwt
         },
     })
-    .then((response) => response.json())
+    .then((response) => {
+        console.log(response)
+        return response.json()})
     .then((data) => {
         console.log(data)
         notes.value = data})
@@ -49,21 +61,33 @@ section{
     margin-top: 100px;
 }
 
-.meeting-header{
+.header{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.header-title{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-title > img{
+    width: 50px;
 }
 
 ul{
     display: flex;
     flex-direction: column;
+    gap: 20px;
     margin-top: 40px;
 }
 
 li{
     width: 100%;
     padding: 20px;
-    background: #ebf3fb;
+    background: rgb(193, 207, 221);
     border-radius: 15px;
 }
 
