@@ -85,7 +85,6 @@ public class ClientController {
         }
     }
 
-    @Secured("MANAGER")
     @Operation(summary = "Save form", description = "Accepts client data from the form. " +
             "Only fields with a non-null value passed are updated")
     @ApiResponses(value = {
@@ -94,34 +93,40 @@ public class ClientController {
                     "the user with such email is not a client " +
                     "or list size for answers/stages is wrong " +
                     "or email field is null"),
-            @ApiResponse(responseCode = "403", description = "Forbidden. Accessible only for MANAGER"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. A client is trying to access another client's data"),
             @ApiResponse(responseCode = "404", description = "Not Found. Client with such email not found")
     })
-    @PatchMapping
+    @PostMapping("/{clientEmail}")
     public ResponseEntity<Void> update(
             @RequestBody(description = "Client data from form " +
                     "Only fields with a non-null value passed are updated", required = true)
-            @RequestData ClientPatchRequest request) {
-        if (request.getEmail() == null) {
+            @RequestData ClientPostRequest request,
+            @PathVariable("clientEmail") String clientEmail) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (clientEmail == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        log.info("updating_client: " + request.getEmail());
+        if (user.getRole() == Role.CLIENT && !user.getEmail().equals(clientEmail)) {
+            log.error("returning_client: " + clientEmail + " by: " + user.getEmail());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        log.info("updating_client: " + clientEmail);
         try {
             userService.updateClient(
-                    request.getEmail(),
+                    clientEmail,
                     request.getFullName(),
                     request.getFormAnswers(),
                     request.getOnboardingStages(),
                     request.getActiveStage());
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (UserNotFoundException e) {
-            log.error("user_not_found" + request.getEmail());
+            log.error("user_not_found" + clientEmail);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (UserIsNotClientException e) {
-            log.error("user_is_not_client: " + request.getEmail());
+            log.error("user_is_not_client: " + clientEmail);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (WrongListSize e) {
-            log.error("wrong_list_size: " + request.getEmail());
+            log.error("wrong_list_size: " + clientEmail);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }

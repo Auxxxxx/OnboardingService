@@ -117,7 +117,7 @@ public class ImageController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
             log.info("saving_paid_advertising_reports: " + clientEmail);
-            imageService.uploadMediaAssets(
+            imageService.uploadPaidAdvertisingReports(
                     files,
                     clientEmail);
             return ResponseEntity.status(HttpStatus.OK).build();

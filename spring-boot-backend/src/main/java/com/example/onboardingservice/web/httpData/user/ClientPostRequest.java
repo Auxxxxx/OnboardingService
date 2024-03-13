@@ -1,7 +1,6 @@
 package com.example.onboardingservice.web.httpData.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
@@ -13,9 +12,7 @@ import java.util.List;
 @Builder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ClientPatchRequest {
-    @Schema(example = "bill_edwards@gmail.com")
-    private String email;
+public class ClientPostRequest {
     @Schema(example = "Bill Edwards")
     private String fullName;
     @Schema(example = "[\"answer 1\",\"answer 2\",...]")
@@ -24,5 +21,4 @@ public class ClientPatchRequest {
     private List<String> onboardingStages;
     @Schema(example = "1")
     private Long activeStage;
-    private String role; // not used
 }
