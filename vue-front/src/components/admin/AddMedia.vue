@@ -42,4 +42,15 @@ async function addMedia(){
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.add-media{
+    display: flex;
+    flex-direction: column;
+}
+
+.add-media > button{
+    width: fit-content;
+}
+
+</style>

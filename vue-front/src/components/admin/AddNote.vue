@@ -1,7 +1,7 @@
 <template>
     <div class="meeting-notes">
         <input type="text" placeholder="header" v-model="noteHeader">
-        <textarea class="textarea" name="" id="" cols="30" rows="10" v-model="noteDesc" ></textarea>
+        <textarea class="textarea" name="" id="" cols="10" rows="5" v-model="noteDesc" ></textarea>
         <button @click.prevent="postNote">add note</button>
     </div>
 </template>
@@ -47,5 +47,15 @@ async function postNote(){
 
 .textarea{
     resize: none;
+}
+
+.meeting-notes{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.meeting-notes > button{
+    width: fit-content;
 }
 </style>
