@@ -1,12 +1,10 @@
 import { useRouter } from "vue-router";
+import { useCounterStore } from "../stores/counter";
 export default function isLoggedIn({ next, to }){
+    const store = useCounterStore()
     const router = useRouter()
-    console.log("start")
-    if (localStorage.getItem("isLoggedIn") === "true" || sessionStorage.getItem("isLoggedIn") === "true") {
-        console.log("logged");
-      } else {
-        console.log("not logged");
-        router.push("/")
-      }
+    if(store.getCookieJwt() == null){
+      router.push("/login")
+    }
     
 }
