@@ -20,6 +20,7 @@
             </li>
         </ul>
         <!-- {{ notes }} -->
+        <BackHome />
     </section>
 </template>
 
@@ -27,12 +28,13 @@
 import { onMounted, ref } from 'vue';
 import { useCounterStore } from '../stores/counter';
 import NavBar from '../components/NavBar.vue';
+import BackHome from "../components/BackHome.vue"
 const url = import.meta.env.VITE_BASE_URL
 const notes = ref({})
 const store = useCounterStore()
 
 async function getNotes(){
-    fetch(`${url}/note/meeting-notes/bill_edwards@gmail.com`,
+    fetch(`${url}/note/meeting-notes/${localStorage.getItem("email")}`,
     {
         method:"GET",
         headers:{ 

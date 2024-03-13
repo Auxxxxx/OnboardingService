@@ -5,6 +5,7 @@
         </header>
         <input type="file" @change="onFileChange">
         <button @click.prevent="addMedia">add image</button>
+        {{ props.email }}
     </div>
 </template>
 
@@ -21,12 +22,15 @@ function onFileChange(e) {
     console.log(file.value[0])
 }
 
+const props = defineProps({
+    email:String
+})
 async function addMedia(){
     console.log(file.value[0])
     const formData = new FormData()
-    formData.append("clientEmail", "bill_edwards@gmail.com")
+    formData.append("clientEmail", props.email)
     formData.append("files", file.value[0])
-    await fetch(`${url}/image/paid-advertising-reports/bill_edwards@gmail.com`,
+    await fetch(`${url}/image/paid-advertising-reports/${props.email}`,
         {
             method:"PUT",
             headers:{

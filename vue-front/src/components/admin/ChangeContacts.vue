@@ -11,6 +11,9 @@
 import { ref } from 'vue';
 import { useCounterStore } from '../../stores/counter';
 
+const props = defineProps({
+    email:String
+})
 const store = useCounterStore()
 const url = import.meta.env.VITE_BASE_URL
 const contactOne = ref("")
@@ -32,7 +35,7 @@ async function changeUsefulNote(){
         ],
         date:formatDate()
     }
-    await fetch(`${url}/note/contact-details/bill_edwards@gmail.com`,{
+    await fetch(`${url}/note/contact-details/${props.email}`,{
         method: "PUT",
         headers:{
             "Authorization":"Bearer " + store.jwt

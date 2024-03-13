@@ -77,6 +77,7 @@
       </div>
       <button @click.prevent="sendForm" class="button">Send</button>
     </form>
+    <BackHome />
   </section>
 </template>
 
@@ -84,6 +85,7 @@
 import { reactive } from "vue";
 import NavBar from "../components/NavBar.vue";
 import { useCounterStore } from "../stores/counter";
+import BackHome from "../components/BackHome.vue"
 
 const store = useCounterStore()
 const url = import.meta.env.VITE_BASE_URL

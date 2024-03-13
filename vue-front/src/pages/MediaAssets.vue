@@ -9,6 +9,7 @@
           {{ image }}</li>
         </ul>
         <MediaPopup @close-popup="popup = false" v-show="popup"/>
+        <BackHome />
     </section>
 </template>
 
@@ -17,7 +18,7 @@ import { useCounterStore } from '../stores/counter';
 import MediaPopup from '../components/MediaPopup.vue';
 import NavBar from '../components/NavBar.vue';
 import { onMounted, ref } from 'vue';
-
+import BackHome from "../components/BackHome.vue"
 const popup = ref(true)
 const store = useCounterStore()
 const images = ref()

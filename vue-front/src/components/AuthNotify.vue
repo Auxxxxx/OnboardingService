@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="text">
         <slot></slot>
     </div>    
 </template>
@@ -10,11 +10,13 @@ import { onMounted } from "vue";
 
 
 onMounted(() => {
-    console.log("я родился")
+
 })
 </script>
 
 <style scoped>
 
-
+.text{
+    text-align: center;
+}
 </style>

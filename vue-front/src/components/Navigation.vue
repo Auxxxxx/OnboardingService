@@ -17,19 +17,19 @@
                 </li>
                 <li class="nav-item">
                     <img src="../assets/imgs/paid-icon.svg" alt="">
-                    <router-link to="/paid-advertising-reports">Paid Adversting Reports</router-link>
+                    <router-link @click="store.navPopup = false" to="/paid-advertising-reports">Paid Adversting Reports</router-link>
                 </li>
                 <li class="nav-item">
                     <img src="../assets/imgs/meeting-icon.svg" alt="">
-                    <router-link to="/meeting-notes">Meeting Notes</router-link>
+                    <router-link @click="store.navPopup = false" to="/meeting-notes">Meeting Notes</router-link>
                 </li>
                 <li class="nav-item">
                     <img src="../assets/imgs/useful-icon.svg" alt="">
-                    <router-link to="/useful-info">Useful Info</router-link>
+                    <router-link @click="store.navPopup = false" to="/useful-info">Useful Info</router-link>
                 </li>
                 <li class="nav-item">
                     <img src="../assets/imgs/contact-icon.svg" alt="">
-                    <router-link to="/contacts-details">Client Contact Details</router-link>
+                    <router-link @click="store.navPopup = false" to="/contacts-details">Client Contact Details</router-link>
                 </li>
             </ul>
         </div>

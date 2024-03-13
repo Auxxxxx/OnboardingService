@@ -15,17 +15,20 @@ const noteHeader = ref("")
 const noteDesc = ref("")
 const url = import.meta.env.VITE_BASE_URL
 
+const props = defineProps({
+    email:String
+})
 async function postNote(){
+    console.log(props.email)
     const body = {
         id:null,
         content:[
             noteDesc.value,""
         ],
-        header:noteHeader.value,
-        recipientEmail:"bill_edwards@gmail.com"
+        header:noteHeader.value
     }
     console.log(JSON.stringify(body))
-    await fetch(`${url}/note/meeting-notes`,{
+    await fetch(`${url}/note/meeting-notes/${props.email}`,{
         method:"PUT",
         headers:{ 
             "Authorization":"Bearer " + store.jwt

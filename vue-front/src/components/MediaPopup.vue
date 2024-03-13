@@ -10,7 +10,9 @@
 	   	<input type="file" @change="onFileChange">       
  	   	<span class="input-file-btn">Select File</span>
  	</label>
-    <div class="img-preview">
+    <div v-if="images" class="img-preview">
+        <!-- <img v-if="images.url[0]" :src="images.url[0]" alt="Image Preview" /> -->
+        <!-- <img v-if="previewUrl" :src="images.url[1]" alt="Image Preview" /> -->
         <img v-if="previewUrl" :src="previewUrl" alt="Image Preview" />
     </div>
             
@@ -28,17 +30,20 @@ const emit = defineEmits(['closePopup']);
 const store = useCounterStore()
 const previewUrl = ref("")
 const url = import.meta.env.VITE_BASE_URL
+const images = ref([])
 const file = ref()
 const emitFunction = function() {
     emit('closePopup')
 }
 function onFileChange(e) {
     file.value = e.target.files[0];
-    console.log(file.value[0])
+    console.log(file.value)
     if (file) {
-    // Create a URL for the selected file
+        // if(file.value === 0) return
+        // for(let i = 0; i < file.value.length; i++){
+        //     images.value.push({name: file.value[i].name, url:URL.createObjectURL(file.value[i])})
+        // }
     const url = URL.createObjectURL(file.value);
-    // Update the preview URL
     previewUrl.value = url;
  }
 }
@@ -86,6 +91,11 @@ async function loadImage(){
 .header > h3{
     color: #3873E9;
     font-size: 32px;
+}
+
+.img-preview{
+    margin: 20px 0;
+    border: 2px dashed black;
 }
 
 .input-file {

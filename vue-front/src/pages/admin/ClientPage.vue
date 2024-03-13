@@ -21,11 +21,12 @@
             </div>
             <div class="meeting-notes">
                 <h2>Add new note:</h2>
-                <AddNote />
+                <AddNote :email="route.params.email" />
             </div>
-            <ChangeUsefulNote />
-            <ChangeContacts />
-            <AddMedia />
+            <ChangeUsefulNote :email="route.params.email" />
+            <ChangeContacts :email="route.params.email" />
+            <AddMedia :email="route.params.email" />
+            {{ route.params.email }}
         </form>
     </section>
 </template>
@@ -70,7 +71,7 @@ async function changeStage(){
     changedStageText[indexStage.value-1] = stageText.value
     console.log(changedStageText, stageText.value, indexStage.value)
     const body = {
-        email: "bill_edwards@gmail.com",
+        email: route.params.email,
         onboardingStages: changedStageText,
         activeStage: indexStage.value,
     }

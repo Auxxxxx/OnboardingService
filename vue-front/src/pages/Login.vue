@@ -1,30 +1,40 @@
 <template>
-    <section>
-        <h2>Sign in</h2>
-        <form action="">
-            <div class="form-input">
-                <input v-model="state.email" type="email" placeholder="enter email">
+    <div>
+        <Header />
+
+        <section>
+            <!-- <Logo /> -->
+            <div>
+                <h2>Sign in</h2>
+                <form action="">
+                    <div class="form-input">
+                        <input v-model="state.email" type="email" placeholder="enter email">
+                    </div>
+                    <div class="form-input">
+                        <input v-model="state.password" type="password" placeholder="enter password">
+                    </div>
+                    <!-- <div>
+                        <input v-model="state.rememberMe" type="checkbox">
+                        <label>Remember me</label>
+                    </div> -->
+                    <button @click.prevent="login">Login</button>
+                </form>
+                <Transition>
+                    <AuthNotify :class="popUpClass" v-if="notifyState == true">{{ popUpText }}</AuthNotify>
+                </Transition>
+    
             </div>
-            <div class="form-input">
-                <input v-model="state.password" type="password" placeholder="enter password">
-            </div>
-            <!-- <div>
-                <input v-model="state.rememberMe" type="checkbox">
-                <label>Remember me</label>
-            </div> -->
-            <button @click.prevent="login">Login</button>
-        </form>
-        <Transition>
-            <AuthNotify :class="popUpClass" v-if="notifyState == true">{{ popUpText }}</AuthNotify>
-        </Transition>
-    </section>
+        </section>
+    </div>
 </template>
 
 <script setup>
 import { useCounterStore } from "../stores/counter";
-import {onMounted, reactive, ref} from "vue"
+import {onMounted, reactive, ref} from "vue";
 import { useRouter } from "vue-router";
 import AuthNotify from "../components/AuthNotify.vue";
+import Header from "../components/Header.vue";
+import Logo from "../components/Logo.vue";
 
 const store = useCounterStore()
 const router = useRouter()
@@ -61,15 +71,6 @@ function dissapearPopup(){
 function getJwt(){
     const jwt = store.getCookieJwt();
 
-}
-
-function getCookie(){
-    var pattern = RegExp("token" + "=.[^;]*");
-    var matched = document.cookie.match(pattern);
-    if(matched){
-        var cookie = matched[0].split('=');
-        console.log(cookie[1]);
-    }
 }
 
 const responseVariations = {
@@ -148,6 +149,7 @@ onMounted(() => {
 
 h2{
     color: #0d6efd;
+    text-align: center;
 }
 
 .success{

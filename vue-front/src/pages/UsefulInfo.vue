@@ -20,6 +20,7 @@
                 <span>{{ tips.content[1] }}</span>
             </div>
         </div>
+        <BackHome />
     </section>
 </template>
 
@@ -27,13 +28,14 @@
 import { onMounted, ref } from "vue";
 import { useCounterStore } from "../stores/counter";
 import NavBar from "../components/NavBar.vue";
+import BackHome from "../components/BackHome.vue"
 
 const store = useCounterStore()
 const tips = ref({})
 const url = import.meta.env.VITE_BASE_URL
 
 async function getTips(){
-    await fetch(`${url}/note/useful-info/bill_edwards@gmail.com`,
+    await fetch(`${url}/note/useful-info/${localStorage.getItem("email")}`,
     {
         method:"GET",
         headers:{ 

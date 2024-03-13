@@ -18,6 +18,10 @@ const url = import.meta.env.VITE_BASE_URL
 const noteOne = ref("")
 const noteTwo = ref("")
 
+const props = defineProps({
+    email:String
+})
+
 function formatDate(){
     const date = new Date();
     const year = date.getFullYear();
@@ -35,7 +39,7 @@ async function changeUsefulNote(){
         ],
         date:formatDate()
     }
-    await fetch(`${url}/note/useful-info/bill_edwards@gmail.com`,{
+    await fetch(`${url}/note/useful-info/${props.email}`,{
         method: "PUT",
         headers:{
             "Authorization":"Bearer " + store.jwt

@@ -1,34 +1,38 @@
 <template>
-      <section>
-        <h2>Registration</h2>
-        <form action="">
-            <div class="form-input">
-                <!-- <label>Email address</label> -->
-                <input v-model="formValue.email" type="email" placeholder="Name" required>
-            </div>
-            <div class="form-input">
-                <!-- <label>Email address</label> -->
-                <input v-model="formValue.name" type="text" placeholder="Login" required>
-            </div>
-            <div class="form-input">
-                <!-- <label  >Password</label> -->
-                <input v-model="formValue.password" type="password" placeholder="Password" required>
-            </div>
-            <!-- <div>
-                <input v-model="rememberMe" type="checkbox">
-                <label>Remember me</label>
-            </div> -->
-            <button @click.prevent="regUser">Register</button>
-        </form>
-        <Transition>
-            <AuthNotify :class="popUpClass" v-if="notifyState == true">{{ popUpText }}</AuthNotify>
-        </Transition>
-    </section>
+  <div>
+    <Header />
+    <section>
+      <h2>Registration</h2>
+      <form action="">
+          <div class="form-input">
+              <!-- <label>Email address</label> -->
+              <input v-model="formValue.email" type="email" placeholder="Name" required>
+          </div>
+          <div class="form-input">
+              <!-- <label>Email address</label> -->
+              <input v-model="formValue.name" type="text" placeholder="Login" required>
+          </div>
+          <div class="form-input">
+              <!-- <label  >Password</label> -->
+              <input v-model="formValue.password" type="password" placeholder="Password" required>
+          </div>
+          <!-- <div>
+              <input v-model="rememberMe" type="checkbox">
+              <label>Remember me</label>
+          </div> -->
+          <button @click.prevent="regUser">Register</button>
+      </form>
+      <Transition>
+          <AuthNotify :class="popUpClass" v-if="notifyState == true">{{ popUpText }}</AuthNotify>
+      </Transition>
+  </section>
+  </div>
 </template>
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
 import AuthNotify from "../components/AuthNotify.vue"
+import Header from '../components/Header.vue';
 const formValue = reactive({
   email:"",
   name:"",
@@ -124,9 +128,9 @@ h2{
     color: red;
 }
 section{
-  margin-top: 100px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     height: 100svh;
 }
@@ -182,8 +186,8 @@ button{
     margin: 0 auto;
     padding: 0.375rem 1.075rem;
     border: none;
-    border-radius: 12px;
-    width: fit-content;
+    border-radius: 3px;
+    width: 100%;
     color: white;
     background-color: #0d6efd;
     font-size: 18px;

@@ -21,6 +21,7 @@
             </div>
             <!-- <button class="open-menu-btn" @click="store.navPopup = true">Open menu</button> -->
         </div>
+        <BackHome />
     </section>
 </template>
 
@@ -28,6 +29,7 @@
 import { computed, onMounted, ref } from "vue"
 import { useCounterStore } from "../stores/counter";
 import NavBar from "../components/NavBar.vue";
+import BackHome from "../components/BackHome.vue"
 
 const store = useCounterStore()
 
