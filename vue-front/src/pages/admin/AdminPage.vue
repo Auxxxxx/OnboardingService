@@ -5,7 +5,7 @@
             <ul>
                 <li v-for="(user,i) in users.clients" :key="i">
                     <h3>{{ user.email }}</h3>
-                    <button @click="router.push({path:`client-page/${user.email}` })">go to user page</button>
+                    <button @click="router.push({path:`admin/client-page/${user.email}` })">go to user page</button>
                 </li>
             </ul>
         </header>
