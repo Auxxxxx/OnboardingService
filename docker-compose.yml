@@ -2,9 +2,16 @@ version: '2'
 
 services:
   front:
-    image: 'auxxxxx/onboarding_service_front:202402291755'
-    build:
-      context: ./react-frontend
+    image: 'auxxxxx/onboarding_service_vue:202403141220'
+    ports:
+      - "5173:5173"
+    container_name: vuefront
+    depends_on:
+      - app
+    restart: always
+    
+  front-old:
+    image: 'auxxxxx/onboarding_service_front:202403141525'
     ports:
       - "3000:3000"
     container_name: reactfront

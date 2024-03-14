@@ -73,10 +73,11 @@ async function changeStage(){
     const body = {
         email: route.params.email,
         onboardingStages: changedStageText,
+        // formAnswers:userData.value.formAnswers,
         activeStage: indexStage.value,
     }
-    await fetch(`${url}/client`,{
-        method:"PATCH",
+    await fetch(`${url}/client/${route.params.email}`,{
+        method:"POST",
         headers:{ 
             "Authorization":"Bearer " + store.jwt
         },
@@ -90,3 +91,10 @@ onMounted(() =>{
     getClientData()
 })
 </script>
+
+<style scoped>
+form{
+    background: #cbd0d6 ;
+    padding: 40px;
+}
+</style>

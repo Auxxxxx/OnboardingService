@@ -53,3 +53,17 @@ onMounted(() => {
 })
 
 </script>
+
+
+<style scoped>
+
+.useful-notes{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.useful-notes > button{
+    width: fit-content;
+}
+</style>
