@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="contact-details">
         <h2>Change contacts details</h2>
         <input type="text" v-model="contactOne">
         <input type="text" v-model="contactTwo">
@@ -24,7 +24,7 @@ function formatDate(){
     const month = `0${date.getMonth() + 1}`.slice(-2);
     const day = `0${date.getDate()}`.slice(-2);
     const formattedDate = `${year}-${month}-${day}`;
-    return formatDate
+    return formattedDate
 }
 
 async function changeUsefulNote(){
@@ -46,3 +46,15 @@ async function changeUsefulNote(){
 
 
 </script>
+
+<style scoped>
+.contact-details{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contact-details > button{
+    width: fit-content;
+}
+</style>

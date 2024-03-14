@@ -10,18 +10,15 @@
             </div>
             <NavBar />
         </header>
-        <div class="tips" v-if="tips">
-            <div class="tip" v-if="tips.content">
+        <div class="tips" v-if="tips.content">
+            <div class="tip" >
                 <img src="../assets/imgs/dot-icon.svg" alt="">
                 <span>{{ tips.content[0] }}</span>
             </div>
-            <div class="tip"  v-if="tips.content">
+            <div class="tip"  >
                 <img src="../assets/imgs/dot-icon.svg" alt="">
                 <span>{{ tips.content[1] }}</span>
             </div>
-        </div>
-        <div class="no-contacts" v-else>
-            <p>You dont have contact details :(</p>
         </div>
         <BackHome />
     </section>
@@ -38,7 +35,7 @@ const tips = ref({})
 const url = import.meta.env.VITE_BASE_URL
 
 async function getTips(){
-    await fetch(`${url}/note/contact-detail/${localStorage.getItem("email")}`,
+    await fetch(`${url}/note/contact-details/${localStorage.getItem("email")}`,
     {
         method:"GET",
         headers:{ 
@@ -47,7 +44,7 @@ async function getTips(){
     }).then((response) => response.json())
     .then((data) => {
         console.log(data)
-        tips.value = data.usefulInfo
+        tips.value = data.contactDetails
     })
 }
 

@@ -10,11 +10,11 @@
             </div>
             <NavBar />
         </header>
-        <div class="imgs-list" v-for="(image,i) in images" :key="i">
+        <div class="imgs-list" v-for="(image,i) in images.imageUrls" :key="i">
             <div class="img-wrapper">
                 <div>
                     <p>
-                {{ image[0].split("/")[image[0].split("/").length-1] }}
+                {{ image.split("/")[image.split("/").length-1] }}
             </p>
             <button>
                 <a :href="image" :download="image[0].split('/')[image[0].split('/').length-1]">
@@ -26,6 +26,7 @@
 
             </div>
         </div>
+       
         <BackHome />
     </section>
 </template>
