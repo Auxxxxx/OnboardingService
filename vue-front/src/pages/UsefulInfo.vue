@@ -11,13 +11,9 @@
             <NavBar />
         </header>
         <div class="tips" v-if="tips.content">
-            <div class="tip">
+            <div class="tip" v-for="(tip,i) in tips.content" :key="i">
                 <img src="../assets/imgs/dot-icon.svg" alt="">
-                <span>{{ tips.content[0] }}</span>
-            </div>
-            <div class="tip">
-                <img src="../assets/imgs/dot-icon.svg" alt="">
-                <span>{{ tips.content[1] }}</span>
+                <span>{{ tip }}</span>
             </div>
         </div>
         <BackHome />

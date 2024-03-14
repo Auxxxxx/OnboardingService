@@ -44,7 +44,7 @@
       </div>
       <div class="input">
         <label for=""
-          >4/ Waarom maken uw klanten gebruik van uw dienst? Welk probleem lost
+          >4. Waarom maken uw klanten gebruik van uw dienst? Welk probleem lost
           het voor hen op</label
         >
         <textarea
@@ -66,7 +66,7 @@
       </div>
       <div class="input">
         <label for=""
-          >Waarom kiezen klanten voor uw bedrijf in plaats van voor uw
+          >6. Waarom kiezen klanten voor uw bedrijf in plaats van voor uw
           concurrenten</label
         >
         <textarea

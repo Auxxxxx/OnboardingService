@@ -11,14 +11,11 @@
             <NavBar />
         </header>
         <div class="tips" v-if="tips.content">
-            <div class="tip" >
+            <div class="tip" v-for="(contact,i) in tips.content" :key="i">
                 <img src="../assets/imgs/dot-icon.svg" alt="">
-                <span>{{ tips.content[0] }}</span>
+                <span>{{ contact }}</span>
             </div>
-            <div class="tip"  >
-                <img src="../assets/imgs/dot-icon.svg" alt="">
-                <span>{{ tips.content[1] }}</span>
-            </div>
+           
         </div>
         <BackHome />
     </section>
