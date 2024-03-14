@@ -2,14 +2,11 @@ package com.example.onboardingservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Data
@@ -29,18 +26,9 @@ public class Note implements Serializable {
     private String header;
     @Schema(example = "yyyy-MM-dd")
     private LocalDate date;
-
-    @Schema(example = "[\"note line 1\",\"note line 2\"]")
-    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "note_content", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "note_content", nullable = false)
-    private List<String> content;
-
-
+    private String content;
     @JsonIgnore
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client recipient;
-
-
 }

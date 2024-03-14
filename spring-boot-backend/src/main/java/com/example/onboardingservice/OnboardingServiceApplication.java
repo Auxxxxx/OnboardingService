@@ -5,9 +5,7 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.example.onboardingservice.model.Client;
 import com.example.onboardingservice.model.Manager;
-import com.example.onboardingservice.model.Note;
 import com.example.onboardingservice.model.User;
 import com.example.onboardingservice.service.AuthenticationService;
 import com.example.onboardingservice.service.UserService;
@@ -38,9 +36,9 @@ public class OnboardingServiceApplication extends SpringBootServletInitializer {
     private String key;
     @Value("${storage.credentials.secret}")
     private String secret;
-    @Value("${manager-credentials.email}")
+    @Value("${manager.credentials.email}")
     private String managerEmail;
-    @Value("${manager-credentials.password}")
+    @Value("${manager.credentials.password}")
     private String managerPassword;
 
     public static void main(String[] args) {

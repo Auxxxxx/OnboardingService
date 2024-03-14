@@ -1,9 +1,11 @@
 package com.example.onboardingservice.service;
 
-import com.example.onboardingservice.exception.WrongListSize;
 import com.example.onboardingservice.exception.JsonTooLongException;
 import com.example.onboardingservice.exception.UserNotFoundException;
-import com.example.onboardingservice.model.*;
+import com.example.onboardingservice.exception.WrongListSize;
+import com.example.onboardingservice.model.Client;
+import com.example.onboardingservice.model.Note;
+import com.example.onboardingservice.model.NoteType;
 import com.example.onboardingservice.repository.NoteRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +37,7 @@ public class NoteService {
     }
 
     public void saveMeetingNote(Long id,
-                                List<String> content,
+                                String content,
                                 String header,
                                 String recipientEmail) throws UserNotFoundException {
         Client recipient = (Client) userService.findByEmail(recipientEmail);
@@ -53,7 +55,7 @@ public class NoteService {
     }
 
     public void saveUsefulInfo(String recipientEmail,
-                               List<String> content) throws UserNotFoundException {
+                               String content) throws UserNotFoundException {
         Note existing = noteRepository.findByRecipientAndNoteType(
                         recipientEmail, NoteType.USEFUL_INFO)
                 .stream()
@@ -64,7 +66,7 @@ public class NoteService {
     }
 
     public void saveContactDetails(String recipientEmail,
-                                   List<String> content) throws UserNotFoundException {
+                                   String content) throws UserNotFoundException {
         Note existing = noteRepository.findByRecipientAndNoteType(
                         recipientEmail, NoteType.CONTACT_DETAILS)
                 .stream()

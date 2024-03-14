@@ -1,20 +1,11 @@
 package com.example.onboardingservice.web.controller;
 
-import com.amazonaws.auth.*;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ListObjectsV2Result;
-import com.example.onboardingservice.model.Role;
 import com.example.onboardingservice.model.User;
 import com.example.onboardingservice.service.ImageService;
 import com.example.onboardingservice.web.httpData.image.ImageGetMediaAssetsResponse;
 import com.example.onboardingservice.web.httpData.image.ImageGetPaidAdvertisingReportsResponse;
-import com.example.onboardingservice.web.httpData.image.ImagePutMediaAssetsRequest;
-import com.example.onboardingservice.web.httpData.image.ImagePutPaidAdvertisingReportsRequest;
-import com.example.onboardingservice.web.util.RequestData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/image", produces = MediaType.APPLICATION_JSON_VALUE)

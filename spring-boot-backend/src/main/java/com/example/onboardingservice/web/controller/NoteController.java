@@ -1,8 +1,8 @@
 package com.example.onboardingservice.web.controller;
 
-import com.example.onboardingservice.exception.WrongListSize;
 import com.example.onboardingservice.exception.JsonTooLongException;
 import com.example.onboardingservice.exception.UserNotFoundException;
+import com.example.onboardingservice.exception.WrongListSize;
 import com.example.onboardingservice.model.User;
 import com.example.onboardingservice.service.NoteService;
 import com.example.onboardingservice.web.httpData.note.*;
@@ -20,8 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/note", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -142,7 +140,7 @@ public class NoteController {
         if (recipientEmail == null ||
                 request.getHeader() == null ||
                 request.getContent() == null ||
-                request.getContent().stream().anyMatch(Objects::isNull)) {
+                request.getContent().isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         log.info("saving_meeting_note: " + recipientEmail);
@@ -176,7 +174,7 @@ public class NoteController {
             @PathVariable("recipientEmail") String recipientEmail) {
         if (recipientEmail == null ||
                 request.getContent() == null ||
-                request.getContent().stream().anyMatch(Objects::isNull)) {
+                request.getContent().isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         log.info("saving_useful_info: " + recipientEmail);
@@ -208,7 +206,7 @@ public class NoteController {
             @PathVariable("recipientEmail") String recipientEmail) {
         if (recipientEmail == null ||
                 request.getContent() == null ||
-                request.getContent().stream().anyMatch(Objects::isNull)) {
+                request.getContent().isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         log.info("saving_contact_details: " + recipientEmail);

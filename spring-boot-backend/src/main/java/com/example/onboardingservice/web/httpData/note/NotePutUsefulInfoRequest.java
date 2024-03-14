@@ -6,15 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
-import java.util.List;
-
 @Data
 @Builder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NotePutUsefulInfoRequest {
-    @Schema(example = "[\"note line 1\",\"note line 2\"]")
-    private List<String> content;
-    @Schema(example = "2024-03-11")
-    private String date;
+    @Schema(example = "line1\n line2")
+    private String content;
 }
