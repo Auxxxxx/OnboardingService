@@ -1,10 +1,9 @@
 <template>
     <div class="useful-notes">
         <header>
-            <h2>Change useful note</h2>
+            <h2>Add useful note</h2>
         </header>
         <input type="text" v-model="noteOne"/>
-        <input type="text" v-model="noteTwo" />
         <button @click.prevent="changeUsefulNote">save</button>
     </div>
 </template>
@@ -16,7 +15,7 @@ import { useCounterStore } from '../../stores/counter';
 const store = useCounterStore()
 const url = import.meta.env.VITE_BASE_URL
 const noteOne = ref("")
-const noteTwo = ref("")
+
 
 const props = defineProps({
     email:String
@@ -32,11 +31,9 @@ function formatDate(){
 }
 
 async function changeUsefulNote(){
+    if(noteOne.value == "") return
     const body = {
-        content:[
-            noteOne.value,
-            noteTwo.value
-        ],
+        content:noteOne.value.split(" "),
         date:formatDate()
     }
     await fetch(`${url}/note/useful-info/${props.email}`,{

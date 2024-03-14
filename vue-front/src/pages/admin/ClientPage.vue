@@ -26,7 +26,6 @@
             <ChangeUsefulNote :email="route.params.email" />
             <ChangeContacts :email="route.params.email" />
             <AddMedia :email="route.params.email" />
-            {{ route.params.email }}
         </form>
     </section>
 </template>

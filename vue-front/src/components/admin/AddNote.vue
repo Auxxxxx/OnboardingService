@@ -1,8 +1,8 @@
 <template>
     <div class="meeting-notes">
-        <input type="text" placeholder="header" v-model="noteHeader">
-        <textarea class="textarea" name="" id="" cols="10" rows="5" v-model="noteDesc" ></textarea>
-        <button @click.prevent="postNote">add note</button>
+        <input required type="text" placeholder="header" v-model="noteHeader">
+        <textarea required class="textarea" name="" id="" cols="10" rows="5" v-model="noteDesc" ></textarea>
+        <button type="submit" @click.prevent="postNote">add note</button>
     </div>
 </template>
 
@@ -19,6 +19,7 @@ const props = defineProps({
     email:String
 })
 async function postNote(){
+    if(noteHeader.value == "" || noteDesc.value == "") return
     console.log(props.email)
     const body = {
         id:null,

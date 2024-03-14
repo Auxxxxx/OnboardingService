@@ -5,7 +5,6 @@
         </header>
         <input type="file" @change="onFileChange">
         <button @click.prevent="addMedia">add image</button>
-        {{ props.email }}
     </div>
 </template>
 

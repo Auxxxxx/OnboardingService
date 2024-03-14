@@ -1,35 +1,38 @@
 <template>
-    <section class="container">
-        <img class="section-header" src="../assets/imgs/footer-profile.png" alt="">
-        <NavBar class="profile-nav" />
-        <div class="profile-block">
-            <img src="../assets/imgs/profileAvatar.svg" alt="">
-            <h2>Good Day, dear {{userData.fullName}}!</h2>
-            <p>Welcome! Using this page toy can access all required tools needed for onboarding. You can also<br />
-                access any notes from our meetings together and even access a record of advertissing reports.</p>
-        </div>
-        <div class="roadmap">
-            <h3>The Roadmap</h3>
-            <div class="roadmap-stages">
-                <button class="roadmap-btn" @click="index = i" :class="{ active: userData.activeStage-1 == i }" v-for="(btn, i) in data" :key="i">{{ i + 1
-                }}</button>
+    <div>
+
+        <img class="section-header" src="../assets/imgs/Group 41.svg" alt="">
+        <section class="section container">
+            <NavBar class="profile-nav" />
+            <div class="profile-block">
+                <img src="../assets/imgs/profileAvatar.svg" alt="">
+                <h2>Good Day, dear {{userData.fullName}}!</h2>
+                <p>Welcome! Using this page toy can access all required tools needed for onboarding. You can also<br />
+                    access any notes from our meetings together and even access a record of advertissing reports.</p>
             </div>
-            <div class="roadmap-desc">
-                <TransitionGroup name="list" tag="div" mode="out-in">
-                    <div v-if="userData.onboardingStages">{{ userData.onboardingStages[userData.activeStage-1] }}</div>
-                </TransitionGroup>
+            <div class="roadmap">
+                <h3>The Roadmap</h3>
+                <div class="roadmap-stages">
+                    <button class="roadmap-btn" @click="index = i" :class="{ active: userData.activeStage-1 == i }" v-for="(btn, i) in data" :key="i">{{ i + 1
+                    }}</button>
+                </div>
+                <div class="roadmap-desc">
+                    <TransitionGroup name="list" tag="div" mode="out-in">
+                        <div v-if="userData.onboardingStages">{{ userData.onboardingStages[userData.activeStage-1] }}</div>
+                    </TransitionGroup>
+                </div>
+                <!-- <button class="open-menu-btn" @click="store.navPopup = true">Open menu</button> -->
             </div>
-            <!-- <button class="open-menu-btn" @click="store.navPopup = true">Open menu</button> -->
-        </div>
-        <BackHome />
-    </section>
+            <BackHome />
+        </section>
+    </div>
 </template>
 
 <script setup>
 import { computed, onMounted, ref } from "vue"
 import { useCounterStore } from "../stores/counter";
 import NavBar from "../components/NavBar.vue";
-import BackHome from "../components/BackHome.vue"
+
 
 const store = useCounterStore()
 
@@ -87,6 +90,10 @@ onMounted(() => {
   position: absolute;
 } */
 
+
+.section{
+        transform: translateY(-80px);
+}
 .v-leave-to,
 .v-leave-active {
   position: absolute;
@@ -105,11 +112,14 @@ onMounted(() => {
 }
 
 .profile-nav{
-    transform: translate(-5%,-5%);
+    position: absolute;
+    top: 150px;
+    left: -100px;
 }
 
 .profile-block>img {
     width: 150px;
+
 }
 
 .roadmap {

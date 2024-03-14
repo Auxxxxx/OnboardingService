@@ -2,7 +2,6 @@
     <div class="contact-details">
         <h2>Change contacts details</h2>
         <input type="text" v-model="contactOne">
-        <input type="text" v-model="contactTwo">
         <button @click.prevent="changeUsefulNote">change contact</button>
     </div>
 </template>
@@ -29,10 +28,7 @@ function formatDate(){
 
 async function changeUsefulNote(){
     const body = {
-        content:[
-            contactOne.value,
-            contactTwo.value
-        ],
+        content:contactOne.value.split(" "),
         date:formatDate()
     }
     await fetch(`${url}/note/contact-details/${props.email}`,{
