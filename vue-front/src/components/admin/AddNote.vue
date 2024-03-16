@@ -9,7 +9,9 @@
 <script setup>
 import { ref,onMounted } from 'vue';
 import {useCounterStore} from "../../stores/counter"
-
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+const $toast = useToast();
 const store = useCounterStore()
 const noteHeader = ref("")
 const noteDesc = ref("")
@@ -19,8 +21,10 @@ const props = defineProps({
     email:String
 })
 async function postNote(){
-    if(noteHeader.value == "" || noteDesc.value == "") return
-    console.log(props.email)
+    if(noteHeader.value == "" || noteDesc.value == "") {
+        $toast.open({message:"please fill the fields", type:"error", position:"top"})
+        return
+    }
     const body = {
         id:null,
         content:[
@@ -36,7 +40,11 @@ async function postNote(){
         },
         body:JSON.stringify(body)
     }).then((response) =>{
-        console.log(response)
+        if(response.status == 200){
+            $toast.open({message:"success", type:"success", position:"top"})
+        }else{
+            $toast.open({message:"error caused", type:"error", position:"top"})
+        }
         return response
     })
 }

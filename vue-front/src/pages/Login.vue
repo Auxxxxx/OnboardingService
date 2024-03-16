@@ -8,10 +8,10 @@
                 <h2>Sign in</h2>
                 <form action="">
                     <div class="form-input">
-                        <input v-model="state.email" type="email" placeholder="enter email">
+                        <input v-model="state.email" type="email" placeholder="enter email" required>
                     </div>
                     <div class="form-input">
-                        <input v-model="state.password" type="password" placeholder="enter password">
+                        <input v-model="state.password" type="password" placeholder="enter password" required>
                     </div>
                     <!-- <div>
                         <input v-model="state.rememberMe" type="checkbox">
@@ -19,9 +19,7 @@
                     </div> -->
                     <button @click.prevent="login">Login</button>
                 </form>
-                <Transition>
-                    <AuthNotify :class="popUpClass" v-if="notifyState == true">{{ popUpText }}</AuthNotify>
-                </Transition>
+       
     
             </div>
         </section>
@@ -35,7 +33,9 @@ import { useRouter } from "vue-router";
 import AuthNotify from "../components/AuthNotify.vue";
 import Header from "../components/Header.vue";
 import Logo from "../components/Logo.vue";
-
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+const $toast = useToast();
 const store = useCounterStore()
 const router = useRouter()
 const state = reactive({
@@ -50,23 +50,24 @@ const url = import.meta.env.VITE_BASE_URL
 
 function wrongPassword(){
     popUpClass.value = "error"
-    popUpText.value = "wrong password"
+    popUpText.value = "wrong password or email"
+
 }
 
 function wrongEmail(){
     popUpClass.value = "error"
     popUpText.value = " User with such email is not found"
+
 }
 
 function successLogin(){
     
     popUpClass.value = "success"
     popUpText.value = "success signed in"
+
 }
 
-function dissapearPopup(){
-    setTimeout(() => notifyState.value = false, 4000)
-}
+
 
 function getJwt(){
     const jwt = store.getCookieJwt();
@@ -83,8 +84,7 @@ async function login(){
 
     if(!state.email || !state.password){
         popUpClass.value = "error"
-        notifyState.value = true
-        dissapearPopup()
+        $toast.open({message:"please enter password or email", type:popUpClass.value, position:"top"})
         return
     }
 
@@ -100,11 +100,13 @@ async function login(){
         notifyState.value = true
         if(response.status === 200){
             successLogin()
+            $toast.open({message:popUpText.value, type:popUpClass.value, position:"top"})
             
         }else{
+            console.log("aaaa")
             wrongPassword()
+            $toast.open({message:popUpText.value, type:popUpClass.value, position:"top"})
         }
-        dissapearPopup()
         return response.json()
     })
     .then((data) => {

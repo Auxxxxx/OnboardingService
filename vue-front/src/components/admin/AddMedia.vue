@@ -11,7 +11,9 @@
 <script setup>
 import { ref } from 'vue';
 import { useCounterStore } from '../../stores/counter';
-
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+const $toast = useToast();
 const store = useCounterStore()
 const file = ref()
 const url = import.meta.env.VITE_BASE_URL
@@ -25,6 +27,13 @@ const props = defineProps({
     email:String
 })
 async function addMedia(){
+    if(!file.value) {
+        $toast.open({message:"please add media file", type:"error", position:"top"})
+        return
+    }
+
+   
+    
     console.log(file.value[0])
     const formData = new FormData()
     formData.append("clientEmail", props.email)
@@ -37,7 +46,13 @@ async function addMedia(){
             },
             body:formData
         }
-    ).then((response) => console.log(response))
+    ).then((response) => {
+        if(response.status == 200){
+            $toast.open({message:"success", type:"success", position:"top"})
+        }else{
+            $toast.open({message:"error caused", type:"error", position:"top"})
+        }
+    })
 }
 </script>
 

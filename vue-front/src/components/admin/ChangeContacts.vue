@@ -9,7 +9,9 @@
 <script setup>
 import { ref } from 'vue';
 import { useCounterStore } from '../../stores/counter';
-
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+const $toast = useToast();
 const props = defineProps({
     email:String
 })
@@ -27,6 +29,10 @@ function formatDate(){
 }
 
 async function changeUsefulNote(){
+    if(contactOne.value == "") {
+        $toast.open({message:"please fill the field", type:"error", position:"top"})
+        return
+    }
     const body = {
         content:contactOne.value.split(" "),
         date:formatDate()
@@ -37,7 +43,13 @@ async function changeUsefulNote(){
             "Authorization":"Bearer " + store.jwt
         },
         body:JSON.stringify(body)
-    }).then((response) => console.log(response))
+    }).then((response) => {
+        if(response.status == 200){
+            $toast.open({message:"success", type:"success", position:"top"})
+        }else{
+            $toast.open({message:"error caused", type:"error", position:"top"})
+        }
+    })
 }
 
 
