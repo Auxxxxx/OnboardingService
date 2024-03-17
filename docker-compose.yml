@@ -2,7 +2,7 @@ version: '2'
 
 services:
   front:
-    image: 'auxxxxx/onboarding_service_vue:202403171144'
+    image: 'auxxxxx/onboarding_service_vue:202403171207'
     ports:
       - "5173:5173"
     container_name: vuefront
@@ -11,7 +11,7 @@ services:
     restart: always
   
   app:
-    image: 'auxxxxx/onboarding_service:202402291753'
+    image: 'auxxxxx/onboarding_service:202403171450'
     build:
       context: ./spring-boot-backend
     ports:

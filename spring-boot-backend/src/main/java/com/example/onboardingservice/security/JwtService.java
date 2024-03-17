@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import java.util.function.Function;
 public class JwtService {
 
     @Value("${security.secret}")
-    private String SECRET_KEY = "24432646294A404E635266556A586E3272357538782F413F442A472D4B615064";
+    private String SECRET_KEY;
 
     public String extractUsername(String jwt) {
         return extractClaim(jwt, Claims::getSubject);
