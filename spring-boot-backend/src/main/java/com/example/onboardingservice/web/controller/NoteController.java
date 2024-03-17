@@ -1,8 +1,10 @@
 package com.example.onboardingservice.web.controller;
 
 import com.example.onboardingservice.exception.JsonTooLongException;
+import com.example.onboardingservice.exception.NoteNotFoundException;
 import com.example.onboardingservice.exception.UserNotFoundException;
 import com.example.onboardingservice.exception.WrongListSize;
+import com.example.onboardingservice.model.Note;
 import com.example.onboardingservice.model.User;
 import com.example.onboardingservice.service.NoteService;
 import com.example.onboardingservice.web.httpData.note.*;
@@ -53,6 +55,39 @@ public class NoteController {
                 .meetingNotes(meetingNotes)
                 .build();
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Get meeting note by id", description = "Returns a meeting note by email and id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fetched successfully"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. A client is trying to get another client's data"),
+            @ApiResponse(responseCode = "400", description = "Bad Request. Request field is null")
+    })
+    @GetMapping("/meeting-notes/{clientEmail}/{noteId}")
+    public ResponseEntity<NoteGetMeetingNoteByIdResponse> getMeetingNoteById(
+            @RequestBody(description = "Client email", required = true)
+            @PathVariable("clientEmail") String clientEmail,
+            @RequestBody(description = "Note id", required = true)
+            @PathVariable("noteId") Long noteId) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (clientEmail == null || clientEmail.isBlank()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        if (!user.getEmail().equals(clientEmail)) {
+            log.error("returning_meeting_note_by_id: " + clientEmail + " by: " + user.getEmail());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        log.info("returning_meeting_note_by_id: " + clientEmail);
+        try {
+            var meetingNote = noteService.findMeetingNoteById(clientEmail, noteId);
+            var response = NoteGetMeetingNoteByIdResponse.builder()
+                    .meetingNote(meetingNote)
+                    .build();
+            return ResponseEntity.ok(response);
+        } catch (NoteNotFoundException e) {
+            log.error("note_not_found: " + clientEmail);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @Operation(summary = "Get useful info", description = "Gets useful info of the client")

@@ -1,6 +1,7 @@
 package com.example.onboardingservice.service;
 
 import com.example.onboardingservice.exception.JsonTooLongException;
+import com.example.onboardingservice.exception.NoteNotFoundException;
 import com.example.onboardingservice.exception.UserNotFoundException;
 import com.example.onboardingservice.exception.WrongListSize;
 import com.example.onboardingservice.model.Client;
@@ -24,6 +25,10 @@ public class NoteService {
 
     public List<Note> listMeetingNotes(String email) {
         return noteRepository.findByRecipientAndNoteType(email, NoteType.MEETING_NOTES);
+    }
+
+    public Note findMeetingNoteById(String email, Long noteId) throws NoteNotFoundException {
+        return noteRepository.findMeetingNoteByRecipientAndId(email, noteId).orElseThrow(NoteNotFoundException::new);
     }
 
     public Note getUsefulInfo(String email) throws JsonTooLongException {
