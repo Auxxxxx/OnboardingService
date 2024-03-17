@@ -26,6 +26,9 @@
 <script setup>
 import { ref } from 'vue';
 import { useCounterStore } from '../stores/counter';
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+const $toast = useToast();
 const emit = defineEmits(['closePopup']);
 const store = useCounterStore()
 const previewUrl = ref("")
@@ -48,10 +51,14 @@ function onFileChange(e) {
  }
 }
 async function loadImage(){
-    console.log(file.value[0])
+    if(!file.value){
+        $toast.open({message:"please put an image", type:"error", position:"top"})
+        return
+    }
+    console.log(file.value)
     const formData = new FormData()
     formData.append("clientEmail", localStorage.getItem("email"))
-    formData.append("files", file.value[0])
+    formData.append("files", file.value)
     await fetch(`${url}/image/media-assets/${localStorage.getItem("email")}`,
         {
             method:"PUT",
@@ -61,7 +68,14 @@ async function loadImage(){
             },
             body:formData
         }
-    ).then((response) => console.log(response))
+    ).then((response) => {
+        if(response.status == 200){
+            $toast.open({message:"success", type:"success", position:"top"})
+        }else{
+            $toast.open({message:"error caused", type:"error", position:"top"})
+        }
+        console.log(response)
+    })
 }
 
 </script>

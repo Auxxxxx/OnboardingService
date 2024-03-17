@@ -34,6 +34,7 @@ async function getUsers(){
 
 onMounted(() => {
     getUsers()
+  
 })
 </script>
 

@@ -13,7 +13,7 @@
                 </li>
                 <li class="nav-item">
                     <img src="../assets/imgs/media-assets-icon.svg" alt="">
-                    <router-link @click="store.navPopup = false" to="/media-assets">Media Asserts</router-link>
+                    <router-link @click="store.navPopup = false" to="/media-assets">Media Assets</router-link>
                 </li>
                 <li class="nav-item">
                     <img src="../assets/imgs/paid-icon.svg" alt="">

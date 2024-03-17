@@ -5,18 +5,18 @@
                 <img src="../assets/imgs/meeting-icon.svg" alt="">
                 <div>
                     <h2>Meeting notes</h2>
-                    <p>notes for meeting</p>
+                    <p>Notes from previous meetings. New appointments.</p>
                 </div>
             </div>
             <NavBar />
         </header>
-        <ul>
-            <li v-for="(note, i) in notes.meetingNotes" :key="i">
+        <ul v-if="notes.meetingNotes">
+            <li @click="gotoPage(note.id)" v-for="(note, i) in notes.meetingNotes" :key="i">
                 <header>
                     <h3>{{ note.header }}</h3>
-                    <p>{{ note.date }}</p>
+                    <p class="note-text">{{ note.date }}</p>
                 </header>
-                <p>{{ note.content[0] }}</p>
+                <p class="note-text"> {{ note.content }}</p>
             </li>
         </ul>
      
@@ -32,17 +32,19 @@ import { useCounterStore } from '../stores/counter';
 import NavBar from '../components/NavBar.vue';
 import BackHome from "../components/BackHome.vue"
 const url = import.meta.env.VITE_BASE_URL
+import { useRouter } from 'vue-router';
 const notes = ref({})
 const store = useCounterStore()
+const router = useRouter()
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 
 const $toast = useToast();
-let instance = $toast.open({message:'You did it!',type:"error", position:"top"});
 
 
-function show(){
 
+function gotoPage(id){
+router.push(`/meeting-notes/meeting-note-page/${localStorage.getItem("email")}/${id}`);
 }
 
 async function getNotes(){
@@ -75,18 +77,25 @@ section{
 
 .header{
     display: flex;
+    gap: 20px;
     justify-content: space-between;
     align-items: center;
+    
 }
 
 .header-title{
     display: flex;
-    align-items: center;
     gap: 20px;
+   
 }
 
 .header-title > img{
     width: 50px;
+}
+
+.header-title > div > h2{
+    color: #0d6efd;
+    font-size: 50px;
 }
 
 ul{
@@ -103,7 +112,7 @@ li{
     border-radius: 15px;
 }
 
-h2,h3,p{
+h2,h3{
     color: #0d6efd;
 }
 
@@ -111,5 +120,9 @@ li > header{
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+}
+
+.note-text{
+    color: #0d6efd;
 }
 </style>

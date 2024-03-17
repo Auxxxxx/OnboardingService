@@ -113,8 +113,15 @@ async function login(){
         localStorage.setItem("email", state.email)
     console.log("cookie saved")
     const expiresIn = new Date();
-      expiresIn.setHours(expiresIn.getHours() + 24);
-      document.cookie = `token=${data.jwt}; Secure; SameSite=Lax; expires=${expiresIn.toUTCString()}`;
+    expiresIn.setHours(expiresIn.getHours() + 24);
+    document.cookie = `token=${data.jwt}; Secure; SameSite=Lax; expires=${expiresIn.toUTCString()}`;
+    if(data.user.role == "MANAGER"){
+        router.push("/admin")
+        setTimeout(() => {
+            router.go()
+        }, 600)
+        return
+    }
       setTimeout(() => router.push("/"),600)
     })
 

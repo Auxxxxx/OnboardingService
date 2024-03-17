@@ -27,9 +27,7 @@ async function postNote(){
     }
     const body = {
         id:null,
-        content:[
-            noteDesc.value,""
-        ],
+        content:noteDesc.value,  
         header:noteHeader.value
     }
     console.log(JSON.stringify(body))

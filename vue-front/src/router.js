@@ -12,6 +12,7 @@ import AdminPage from "./pages/admin/AdminPage.vue"
 import ClientPage from "./pages/admin/ClientPage.vue"
 import OnBoarding from "./pages/OnBoarding.vue"
 import ContactDetails from "./pages/ContactDetails.vue"
+import MeetingNotePage from "./pages/MeetingNotePage.vue"
 
 export const router = createRouter({
     history:createWebHistory(),
@@ -53,6 +54,10 @@ export const router = createRouter({
         {
             path:"/contacts-details",
             component:ContactDetails
+        },
+        {
+            path:"/meeting-notes/meeting-note-page/:email/:id",
+            component:MeetingNotePage
         },
         {
             path: "/admin",
