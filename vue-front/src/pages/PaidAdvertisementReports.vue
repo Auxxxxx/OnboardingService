@@ -1,11 +1,11 @@
 <template>
     <section class="container">
-        <header class="title">
+        <header class="header">
             <div class="header-title">
                 <img src="../assets/imgs/paid-icon.svg" alt="">
                 <div>
-                    <h2>Reports</h2>
-                    <!-- <p>notes for meeting</p> -->
+                    <h2>Paid Advertisement Reports</h2>
+                    <p>Reports from the company to illustrate the impact of our cooperation.</p>
                 </div>
             </div>
             <NavBar />
@@ -64,19 +64,28 @@ section{
     margin-top: 100px;
 }
 
-.title{
+
+.header{
     display: flex;
+    gap: 20px;
     justify-content: space-between;
+    align-items: center;
+    
 }
 
 .header-title{
     display: flex;
-    align-items: center;
     gap: 20px;
+   
 }
 
 .header-title > img{
-    width: 50px;
+    width: 60px;
+}
+
+.header-title > div > h2{
+    color: #0d6efd;
+    font-size: 50px;
 }
 
 .header-title > div > h2{

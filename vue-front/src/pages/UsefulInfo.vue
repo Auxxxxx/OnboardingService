@@ -5,7 +5,7 @@
                 <img src="../assets/imgs/useful-icon.svg" alt="">
                 <div>
                     <h2>Useful Info</h2>
-                    <p>Refer to this page for key insights into the business <br/>for Media Buying purposes</p>
+                    <p>Important things to keep in mind.</p>
                 </div>
             </div>
             <NavBar />

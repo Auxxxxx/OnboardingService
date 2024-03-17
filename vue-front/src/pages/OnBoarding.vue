@@ -120,16 +120,28 @@ async function sendForm(){
 </script>
 
 <style scoped>
-.header {
-  display: flex;
-  justify-content: space-between;
+.header{
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    
 }
 
-.header-title {
-  display: flex;
-  gap: 10px;
+.header-title{
+    display: flex;
+    gap: 20px;
+   
 }
 
+.header-title > img{
+    width: 60px;
+}
+
+.header-title > div > h2{
+    color: #0d6efd;
+    font-size: 50px;
+}
 section {
   margin-top: 100px;
   display: flex;

@@ -4,8 +4,8 @@
             <div class="header-title">
                 <img src="../assets/imgs/contact-icon.svg" alt="">
                 <div>
-                    <h2>Contacts</h2>
-                    <p>Detail information about contacts</p>
+                    <h2>Contact Details</h2>
+                    <p>Detailed information about the contacts to help you keep in touch.</p>
                 </div>
             </div>
             <NavBar />
