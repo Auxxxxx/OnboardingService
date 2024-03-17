@@ -22,9 +22,9 @@
           </div> -->
           <button @click.prevent="regUser">Register</button>
       </form>
-      <Transition>
+      <!-- <Transition>
           <AuthNotify :class="popUpClass" v-if="notifyState == true">{{ popUpText }}</AuthNotify>
-      </Transition>
+      </Transition> -->
   </section>
   </div>
 </template>
@@ -33,6 +33,10 @@
 import { onMounted, reactive, ref } from 'vue';
 import AuthNotify from "../components/AuthNotify.vue"
 import Header from '../components/Header.vue';
+import {useToast} from 'vue-toast-notification';
+const $toast = useToast();
+import 'vue-toast-notification/dist/theme-sugar.css';
+
 const formValue = reactive({
   email:"",
   name:"",
@@ -52,12 +56,14 @@ function dissapearPopup(){
 function userExists(){
     popUpClass.value = "error"
     popUpText.value = " User with such email already exists"
+    $toast.open({message:popUpText.value, type:popUpClass.value, position:"top"})
 }
 
 function successLogin(){
     
     popUpClass.value = "success"
     popUpText.value = "success signed in"
+    $toast.open({message:popUpText.value, type:popUpClass.value, position:"top"})
     return popUpText.value
 }
 
@@ -85,11 +91,9 @@ async function regUser(){
           successLogin()
           setTimeout(() => router.push("/login"),500)
         }
-        notifyState.value = true
-        dissapearPopup()
         return response.json()
   }).then((data) =>{
-    localStorage.setItem("email", formVAlue.email)
+    localStorage.setItem("email", formValue.email)
     console.log("Data1". data)
   })
 

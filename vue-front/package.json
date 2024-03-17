@@ -4,14 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 0.0.0.0 --port 5173",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "pinia": "^2.1.7",
     "vue": "^3.4.19",
-    "vue-router": "4"
+    "vue-router": "4",
+    "vue-toast-notification": "^3"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

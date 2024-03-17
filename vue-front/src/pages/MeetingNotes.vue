@@ -19,8 +19,10 @@
                 <p>{{ note.content[0] }}</p>
             </li>
         </ul>
+     
         <!-- {{ notes }} -->
         <BackHome />
+        <!-- <Toast /> -->
     </section>
 </template>
 
@@ -32,6 +34,16 @@ import BackHome from "../components/BackHome.vue"
 const url = import.meta.env.VITE_BASE_URL
 const notes = ref({})
 const store = useCounterStore()
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
+const $toast = useToast();
+let instance = $toast.open({message:'You did it!',type:"error", position:"top"});
+
+
+function show(){
+
+}
 
 async function getNotes(){
     fetch(`${url}/note/meeting-notes/${localStorage.getItem("email")}`,

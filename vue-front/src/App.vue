@@ -4,6 +4,7 @@ import Navigation from './components/Navigation.vue';
 import { useCounterStore } from './stores/counter';
 import { useRouter } from 'vue-router'; 
 import BackHome from "./components/BackHome.vue"
+
 const store = useCounterStore()
 const router = useRouter()
 onMounted(() => {
