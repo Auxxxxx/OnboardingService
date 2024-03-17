@@ -10,13 +10,13 @@
             </div>
             <NavBar />
         </header>
-        <ul>
-            <li @click="gotoPage(note)" v-for="(note, i) in notes.meetingNotes" :key="i">
+        <ul v-if="notes.meetingNotes">
+            <li @click="gotoPage(note.id)" v-for="(note, i) in notes.meetingNotes" :key="i">
                 <header>
                     <h3>{{ note.header }}</h3>
                     <p class="note-text">{{ note.date }}</p>
                 </header>
-                <p class="note-text"> {{ note.content[0] }}</p>
+                <p class="note-text"> {{ note.content }}</p>
             </li>
         </ul>
      
@@ -43,8 +43,8 @@ const $toast = useToast();
 
 
 
-function gotoPage(note){
-router.push({path:"/meeting-notes/meeting-note-page", query: { note: JSON.stringify(note) }});
+function gotoPage(id){
+router.push(`/meeting-notes/meeting-note-page/${localStorage.getItem("email")}/${id}`);
 }
 
 async function getNotes(){

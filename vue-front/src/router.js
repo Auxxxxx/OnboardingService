@@ -56,7 +56,7 @@ export const router = createRouter({
             component:ContactDetails
         },
         {
-            path:"/meeting-notes/meeting-note-page",
+            path:"/meeting-notes/meeting-note-page/:email/:id",
             component:MeetingNotePage
         },
         {
