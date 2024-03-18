@@ -1,5 +1,6 @@
 package com.example.onboardingservice.web.controller;
 
+import com.example.onboardingservice.exception.DownloadingImagesException;
 import com.example.onboardingservice.model.User;
 import com.example.onboardingservice.service.ImageService;
 import com.example.onboardingservice.web.httpData.image.ImageGetMediaAssetsResponse;
@@ -89,11 +90,37 @@ public class ImageController {
     }
 
     @Secured("MANAGER")
+    @Operation(summary = "Get media assets zipped", description = "Get zip archive with media assets for this client.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fetched successfully"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. Accessible only for MANAGER"),
+            @ApiResponse(responseCode = "400", description = "Bad Request. No client specified"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error. Failed to download objects")
+    })
+    @GetMapping(value = "/media-assets/zipped/{clientEmail}", produces="application/zip")
+    public ResponseEntity<byte[]> getMediaAssetsZipped(
+            @Parameter(description = """
+                    Email of the client who had uploaded the images
+                    """, required = true)
+            @PathVariable("clientEmail") String clientEmail) {
+        if (clientEmail == null || clientEmail.isBlank()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        log.info("fetching_media_assets_zipped: " + clientEmail);
+        try {
+            var mediaAssetsZipped = imageService.getMediaAssetsZipped(clientEmail);
+            return ResponseEntity.ok(mediaAssetsZipped);
+        } catch (DownloadingImagesException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Secured("MANAGER")
     @Operation(summary = "Save paid advertising reports", description = "Load paid advertising reports images into the storage.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Saved successfully"),
             @ApiResponse(responseCode = "403", description = "Forbidden. Accessible only for MANAGER"),
-            @ApiResponse(responseCode = "400", description = "Bad Request. Arguments are not base64 encoded images")
+            @ApiResponse(responseCode = "400", description = "Bad Request. Arguments are not media files")
     })
     @PutMapping("/paid-advertising-reports/{clientEmail}")
     public ResponseEntity<Void> putPaidAdvertisingReports(
@@ -116,7 +143,6 @@ public class ImageController {
         }
     }
 
-    @Secured("CLIENT")
     @Operation(summary = "Get paid advertising reports", description = "Get paid advertising reports for this client.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fetched successfully"),
@@ -144,6 +170,36 @@ public class ImageController {
                 .imageUrls(imageUrls)
                 .build();
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Get paid advertising reports zipped", description = "Get zip archive with paid advertising reports for this client.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fetched successfully"),
+            @ApiResponse(responseCode = "403", description = "Forbidden. A client is trying to access another client's data"),
+            @ApiResponse(responseCode = "400", description = "Bad Request. No client specified"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error. Failed to download objects")
+    })
+    @GetMapping(value = "/paid-advertising-reports/zipped/{clientEmail}", produces="application/zip")
+    public ResponseEntity<byte[]> getPaidAdvertisingReportsZipped(
+            @Parameter(description = """
+                    Email of the client who will receive the reports
+                    """, required = true)
+            @PathVariable("clientEmail") String clientEmail) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (clientEmail == null || clientEmail.isBlank()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        if (!user.getEmail().equals(clientEmail)) {
+            log.error("fetching_paid_advertising_reports_zipped: " + clientEmail + " by: " + user.getEmail());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        log.info("fetching_paid_advertising_reports_zipped: " + clientEmail);
+        try {
+            var paidAdvertisingReportsZipped = imageService.getPaidAdvertisingReportsZipped(clientEmail);
+            return ResponseEntity.ok(paidAdvertisingReportsZipped);
+        } catch (DownloadingImagesException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }
