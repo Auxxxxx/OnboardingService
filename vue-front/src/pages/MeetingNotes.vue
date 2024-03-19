@@ -48,7 +48,7 @@ router.push(`/meeting-notes/meeting-note-page/${localStorage.getItem("email")}/$
 }
 
 async function getNotes(){
-    fetch(`${url}/note/meeting-notes/${localStorage.getItem("email")}`,
+    await fetch(`${url}/note/meeting-notes/${localStorage.getItem("email")}`,
     {
         method:"GET",
         headers:{ 
