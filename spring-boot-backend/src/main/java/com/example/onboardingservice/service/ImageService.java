@@ -104,7 +104,9 @@ public class ImageService {
                     zipOutputStream.write(bytes, 0, length);
                 }
                 objectContent.close();
+                zipOutputStream.closeEntry();
             }
+            zipOutputStream.close();
             return byteArrayOutputStream.toByteArray();
         } catch (IOException e) {
             throw new RuntimeException(e);
