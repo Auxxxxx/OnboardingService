@@ -122,7 +122,8 @@ async function login(){
         }, 600)
         return
     }
-      setTimeout(() => router.push("/"),600)
+      setTimeout(() =>{ router.go()}, 600)
+      router.push("/")
     })
 
 }
