@@ -1,4 +1,4 @@
-№ Web-app for client relationship management
+# №1 Web-app for client relationship management
 
 ![image](https://github.com/user-attachments/assets/1672eb90-94af-4eed-ab45-f98a2de19dae)
 
